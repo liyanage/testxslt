@@ -269,9 +269,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>17</integer>
-									<integer>8</integer>
-									<integer>0</integer>
+									<integer>29</integer>
+									<integer>28</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -290,7 +289,7 @@
 							<real>220</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>90 202 1221 622 0 0 1440 878 </string>
+						<string>90 200 1221 622 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -306,7 +305,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>ragel_xmldeclscanner.h</string>
+								<string>InfoPlist.strings</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -314,9 +313,9 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>ragel_xmldeclscanner.h</string>
+										<string>InfoPlist.strings</string>
 										<key>bookmark</key>
-										<string>1BB501E207CDC8D40015DFDC</string>
+										<string>1BB5020107CDCED30015DFDC</string>
 										<key>history</key>
 										<array>
 											<string>1B896C1507B17E7A00ECFC52</string>
@@ -324,7 +323,6 @@
 											<string>1B7EA28E07B2D82300B881B7</string>
 											<string>1B7EA28F07B2D82300B881B7</string>
 											<string>1B64BBA707C5E1EC0014535B</string>
-											<string>1B64BBA807C5E1EC0014535B</string>
 											<string>1B64BC4B07C6A3070014535B</string>
 											<string>1B64BC8707C6AB200014535B</string>
 											<string>1B64BC8807C6AB200014535B</string>
@@ -354,14 +352,16 @@
 											<string>1B3CBC8F07CBF643008B4FAA</string>
 											<string>1B3CBC9107CBF643008B4FAA</string>
 											<string>1B3CBC9207CBF643008B4FAA</string>
-											<string>1B3CBCDA07CC6A3D008B4FAA</string>
 											<string>1B3CBCDE07CC6A3D008B4FAA</string>
 											<string>1B3CBCDF07CC6A3D008B4FAA</string>
 											<string>1B3CBD0007CCA0BA008B4FAA</string>
 											<string>1B3CBD0107CCA0BA008B4FAA</string>
 											<string>1B3CBD0207CCA0BA008B4FAA</string>
 											<string>1B3CBD0307CCA0BA008B4FAA</string>
-											<string>1B3CBD1107CCA12E008B4FAA</string>
+											<string>1BB501EB07CDCA860015DFDC</string>
+											<string>1BB501EF07CDCABC0015DFDC</string>
+											<string>1BB501F007CDCABC0015DFDC</string>
+											<string>1BB501F107CDCABC0015DFDC</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -409,6 +409,9 @@
 											<string>1B3CBCE707CC6A3D008B4FAA</string>
 											<string>1B3CBCEA07CC6A3D008B4FAA</string>
 											<string>1B3CBCEB07CC6A3D008B4FAA</string>
+											<string>1BB501EC07CDCA860015DFDC</string>
+											<string>1BB501F207CDCABC0015DFDC</string>
+											<string>1BB501F307CDCABC0015DFDC</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -422,7 +425,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {978, 438}}</string>
 								<key>RubberWindowFrame</key>
-								<string>90 202 1221 622 0 0 1440 878 </string>
+								<string>90 200 1221 622 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -442,7 +445,7 @@
 								<key>Frame</key>
 								<string>{{0, 445}, {978, 135}}</string>
 								<key>RubberWindowFrame</key>
-								<string>90 202 1221 622 0 0 1440 878 </string>
+								<string>90 200 1221 622 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -481,7 +484,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>130926804.30970979</real>
+	<real>130928339.76569076</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -501,7 +504,7 @@
 		<string>/Users/liyanage/svn/entropy/TestXSLT/TestXSLT.pbproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>90 202 1221 622 0 0 1440 878 </string>
+	<string>90 200 1221 622 0 0 1440 878 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>
@@ -530,7 +533,7 @@
 										<key>PBXProjectModuleLabel</key>
 										<string>MyDocument.m</string>
 										<key>bookmark</key>
-										<string>1BB501E307CDC8D40015DFDC</string>
+										<string>1BB5020207CDCED30015DFDC</string>
 										<key>history</key>
 										<array>
 											<string>1B3CBD1207CCA12E008B4FAA</string>
@@ -968,7 +971,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C0AD2B3069F1EA900FABCE6</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>
