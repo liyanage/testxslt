@@ -36,7 +36,6 @@
             OUTLETS = {
                 autoSaveCheckbox = NSButton; 
                 autoShowCheckbox = NSButton; 
-                drawerMessageField = NSTextField; 
                 errorDrawer = NSDrawer; 
                 openResultURLButton = NSButton; 
                 paramRemoveButton = NSButton; 

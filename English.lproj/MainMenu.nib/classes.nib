@@ -1,6 +1,11 @@
 {
     IBClasses = (
-        {CLASS = AppDelegate; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = AppDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {prefsWindow = NSPanel; }; 
+            SUPERCLASS = NSObject; 
+        }, 
         {
             CLASS = FindPanelController; 
             LANGUAGE = ObjC; 
