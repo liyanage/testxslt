@@ -129,7 +129,7 @@
 	BOOL resultTabIsVisible = !(xmlTabIsVisible || xsltTabIsVisible || paramTabIsVisible);
 	BOOL resultTabHtmlIsVisible = resultTabIsVisible && [activeResultTabIdentifier isEqualToString:@"htmlResult"];
 	BOOL resultTabXslfoIsVisible = resultTabIsVisible && !resultTabHtmlIsVisible && [activeResultTabIdentifier isEqualToString:@"xslfoResult"];
-	BOOL resultTabTextIsVisible = resultTabIsVisible && !(resultTabHtmlIsVisible || resultTabXslfoIsVisible);
+//	BOOL resultTabTextIsVisible = resultTabIsVisible && !(resultTabHtmlIsVisible || resultTabXslfoIsVisible);
 	
 //	NSLog(@"xml: %d, xslt: %d, param: %d, result: %d, reshtml: %d, resxslfo: %d, restext: %d", xmlTabIsVisible, xsltTabIsVisible, paramTabIsVisible, resultTabIsVisible, resultTabHtmlIsVisible, resultTabXslfoIsVisible, resultTabTextIsVisible);
 	
@@ -303,6 +303,7 @@
 
 	}
 
+	return [super validateMenuItem:menuItem];
 
 }
 
@@ -750,11 +751,11 @@
 	BOOL resultTabIsVisible = !(xmlTabIsVisible || xsltTabIsVisible || paramTabIsVisible);
 	
 	if (xmlTabIsVisible) {
-		return [self saveXmlAs:sender];
+		[self saveXmlAs:sender];
 	} else if (xsltTabIsVisible) {
-		return [self saveXsltAs:sender];
+		[self saveXsltAs:sender];
 	} else if (resultTabIsVisible) {
-		return [self saveResultAs:sender];
+		[self saveResultAs:sender];
 	}
 
 }
@@ -771,11 +772,11 @@
 	BOOL resultTabIsVisible = !(xmlTabIsVisible || xsltTabIsVisible || paramTabIsVisible);
 	
 	if (xmlTabIsVisible) {
-		return [self saveXml:sender];
+		[self saveXml:sender];
 	} else if (xsltTabIsVisible) {
-		return [self saveXslt:sender];
+		[self saveXslt:sender];
 	} else if (resultTabIsVisible) {
-		return [self saveResult:sender];
+		[self saveResult:sender];
 	}
 	
 }
