@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- $id$ -->
+
+<readme>
+<title>Readme for TestXSLT</title>
+
+<author>Written by Marc Liyanage <email>liyanage@access.ch</email></author>
+
+<description>
+<para>TestXSLT is a small tool for experimenting with XSLT in a convenient way
+on Mac OS X. It uses the Sablotron XSL processor from <url>http://www.gingerall.com/charlie/ga/xml/p_sab.xml</url> and the Gnome libxslt processor from <url>http://xmlsoft.org/XSLT/</url>.</para>
+
+<para>The program takes an .xml and an .xsl file and either displays the result of the transformation in an output window or writes it to a file.</para>
+
+<para>You can either edit the XML and XSLT code directly in the program or you can load them from files on disk. Try drag and drop for the latter.</para>
+
+<para>There are some examples included to get you started. The first is this Readme document that you are reading now. It was written and is maintained in XML. I have included two stylesheets which convert the XML input file into an RTF document and into an HTML page. Study the input, the stylesheets and the output files carefully to learn some basics. The stylesheets are commented.</para>
+
+<para>There are also various other example files to get you started with XSLT. Just play around with the files and see what happens...</para>
+
+<para>Comments, feedback and feature suggestions are welcome to the address above.</para>
+
+<para>If you own BBEdit, I suggest that you check out my "BBEdit XSLT Glossary" package, available from my homepage. TestXSLT has been
+optimized to work well together with BBEdit. You can edit and save an XSLT file in BBEdit, switch back to TestXSLT and
+the XSLT code will be updated from disk immediately.</para>
+
+<para>The latest version of this software is available at <url>http://www.entropy.ch/software/macosx/</url></para>
+
+</description>
+
+<requirements>
+Mac OS X 10.2., Safari 1.0 must be installed on your system.
+</requirements>
+
+<history>
+
+<entry>
+	<version>2.7</version>
+	<date>05-AUG-2003</date>
+	<item>Embedded Apple's WebKit/KHTML/Safari HTML rendering engine. This means you can now view the result of a transformation which produces HTML output directly in the "Result" pane of the application, no need to go to an external browser anymore.</item>
+	<item>Now includes the Java Saxon XSLT processor, made possible by the Java/Objective-C bridge. Fun stuff...</item>
+	<item>Added a new, short and interesting example XSLT file. It converts a Safari Bookmarks.plist XML file to an HTML page.</item>
+</entry>
+
+<entry>
+	<version>2.6</version>
+	<date>01-APR-2003</date>
+	<item>When a file used as XML or XSLT source in TestXSLT is modified on disk externally, e.g. in another editor like BBEdit, and TestXSLT is brought back to the front, it will reload the file contents from disk, unless there are local, unsaved changes. In that case, the program will prompt the user if the unsaved changes should be preserved or discarded. This also has the effect that if the same file on disk is loaded into two different document windows and is edited and saved in one of them, the data will be updated in the other windows using the same file when they are brought to the front.</item>
+	<item>Very complex stylesheets with lots of relative file dependencies like the Docbook XSLT kit from <url>http://docbook.sourceforge.net/projects/xsl/</url> now work correctly, but only with the Libxslt processor. Sablotron seems to be broken in this regard, I'm investigating. (The actual changes for Libxslt: Now initializing the XML and XSLT libraries correctly)</item>
+	<item>The XSLT processor type is now selectable via AppleScript. The "Demo Applescript" has been updated to give an example of this new capability. (Thanks to Damien Johnston and Bill Turner for the suggestion.)</item>
+	<item>Fixed a bug where the file path for XML or XSLT source files was only updated when the files were dragged, not when using the "Open" buttons.</item>
+	<item>Fixed incorrect invocation of sheets for "Jump To Line" and "Find" panels. This could lead to strange behavior of the error message drawer.</item>
+	<item>Only of interest to developers: The Project Builder setup has been reorganized quite a bit (All libraries (libiconv, libexpat, libsablot, libxml2, libxslt) are now embedded frameworks, and were updated to the latest releases).</item>
+</entry>
+
+<entry>
+	<version>2.5</version>
+	<date>15-OCT-2002</date>
+	<item>The "Find" machinery is now connected to the system-wide find pasteboard. This means that the current find string is communicated to and from most other Cocoa applications, and some Carbon applications like BBEdit.</item>
+	<item>Relative references in xsl:import and xsl:include statements can now be resolved if the content of the XSLT pane was loaded from or has been saved to a file on disk.</item>
+	<item>The filenames for the XML, XSLT and result panes are now saved in the workset document, along with the content itself.</item>
+</entry>
+
+<entry>
+	<version>2.4</version>
+	<date>26-SEP-2002</date>
+	<item>Fixed bug where clipping files were not treated as such during drag and drop into the text views.</item>
+	<item>Now distributing the demo AppleScript in .sit format because CVS eats it otherwise.</item>
+	<item>Added autocompletion when you type the start of a closing tag (Thanks to Fabio Vena for the suggestion).</item>
+	<item>Added a short flash of the opening tag name on autocompletion.</item>
+	<item>Added a processing time indicator so you can get an idea about the performance impact of changes (Thanks to Michael Wechner for the suggestion).</item>
+	<item>Added "Jump To Line" command.</item>
+	<item>Added Undo support.</item>
+	<item>Added "Find" command.</item>
+	<item>Added Online Help containing the XSLT and XPath specification documents.</item>
+</entry>
+
+<entry>
+	<version>2.3</version>
+	<date>05-AUG-2002</date>
+	<item>Now includes the Gnome Libxslt processor in addition to Sablotron. You can choose which one is used with a popup-menu at the bottom of the window.</item>
+	<item>Added a cool tag-completion feature. Type an opening tag and hit the ESC key and the program will automatically insert the closing tag.</item>
+	<item>Added a small icon in the XML and XSLT panes that indicates if the code you entered is well-formed XML while you type. You can immediately see if the code is correct. Leave the mouse positioned over the icon to get more information in the Tool Tip.</item>
+	<item>Added "Save" function to XML and XSLT panes. This means you can re-save after you saved once with "Save As...", or after importing text with drag-and-drop from a file.</item>
+	<item>Added beep when a transformation fails (Thanks to Severin Klaus for some UI improvement suggestions).</item>
+</entry>
+
+<entry>
+	<version>2.2</version>
+	<date>20-JUL-2002</date>
+	<item>Added drag and drop support for the XML and XSLT panes (Thanks to VersionTracker user ximian420 for the suggestion).</item>
+	<item>Added "auto save" and "auto show" check boxes to the result pane (Thanks to Matthias Aebi for the suggestion).</item>
+	<item>I finally found out how to get at the error messages of the XSLT processor, so errors are now displayed and you do not need to use the Console application any more.</item>
+	<item>Fired up Photoshop and added an icon :-)</item>
+</entry>
+
+<entry>
+	<version>2.1.1</version>
+	<date>06-JUL-2002</date>
+	<item>Bug fix release as 2.1 wouldn't even launch on most machines because of a link mistake.</item>
+</entry>
+
+<entry>
+	<version>2.1</version>
+	<date>06-JUL-2002</date>
+	<item>This version adds AppleScript support, you can now use it to run XSLT transformations in AppleScript.</item>
+</entry>
+
+<entry>
+	<version>2.0</version>
+	<date>10-MAR-2002</date>
+	<item>This is a complete rewrite in from scratch in Objective-C using the Cocoa frameworks on Mac OS X. It has much more features, is no longer a Java application and is now based on a different XSLT processor (Sablotron instead of Xalan).</item>
+	<item>The only thing that's missing are meaningful error messages in the program. You have to open the console to see the error messages.</item>
+</entry>
+
+<entry>
+	<version>1.5</version>
+	<date>12-DEC-2001</date>
+	<item>Improved error reporting. Now prints exact location of errors in input XML and XSL files.</item>
+</entry>
+
+<entry>
+	<version>1.4</version>
+	<date>11-DEC-2001</date>
+	<item>udpated to Xalan-J 2.2_D13</item>
+	<item>Now using JAXP / TrAX APIs so the parser and XSL processor could be switched</item>
+	<item>Included Readme XML and XSL Files</item>
+</entry>
+
+<entry>
+	<version>1.3</version>
+	<date>29-APR-2001</date>
+	<item>added "Choose" buttons so it no longer relies exclusively on DnD</item>
+</entry>
+
+<entry>
+	<version>1.2</version>
+	<date>13-APR-2001</date>
+	<item>Mac OS X-only, added own output window instead of using console</item>
+</entry>
+
+<entry>
+	<version>1.1</version>
+	<date>10-FEB-2001</date>
+	<item>added save to file functionality</item>
+</entry>
+
+<entry>
+	<version>1.0</version>
+	<date>04-FEB-2001</date>
+	<item>first version</item>
+</entry>
+
+
+
+
+</history>
+
+</readme>

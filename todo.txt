@@ -1,0 +1,86 @@
+todo testxslt
+
+- line numbers
+- disable attributes when pasting text into views.
+
+- Alt-ESC: completion and position cursor after inserted end tag
+
+- fop output rendering (-> fop -> quartz)
+- html webkit rendering
+- svg rendering (batik, librsvg?)
+
+
+- scan for all tags, build context menu.
+  - wrap if selection
+  - insert empty pair otherwise, cursor in between
+  - analyze frequence for ranking in context menu.
+  
+- tag completion with opening tag
+  
+- open tag stack, method for getting the stack, method for getting a string
+- completion inserts the topmost open closing tag and pops the stack
+
+  
+- syntax coloring at least for xsl tags
+
+- CVS tags everywhere
+-----------------
+I found a bug in TestXSLT. I work with Spanish and French texts. I am doing my Phd. Thesis at the University of Geneva using XML for Natural Language Processing. I found your program, which works very well. I am happy with it. Nevertheless, I had a little problem, and I found the cause. In my computer I have the names of the directories in French and Spanish. As you know, in both languages we have diacritics for some words (êtes, España, etc.); so, some of my directories have accented words. When I read a XML and a XSLT files to be processed, theres is no problem. But, if I have an import rule (<xsl:import href"..." />) and in the directory tree exists one, or more, subdirectories with accents (ê, á, é, ê, etc.), I get this:
+ 
+     Error on line 4 of your XSLT code:
+     cannot open file ”/Users/myname/Documents/Somedirectory/Accentedcharacter/name.xsl”
+ 
+ Is there a way to avoid this?
+ 
+ I hope this information will be useful for future versions.
+ 
+ Best regards,
+ 
+ 
+ 
+ Antonio Leoni
+-----------------
+
+don't abort on xsl:message (for sure in libxslt, check in sablotron).
+output message in error drawer, but don't abort
+
+-----------------
+
+input file encoding assumes mac, even if ISO.
+need to parse XML decl, use ISO as default otherwise...
+
+-----------------
+
+Processing time...
+-> more precision
+
+-----------------
+
+Another thing: can you add a shell command performed by the app that calls FOP and build pdf or the other supplied formats?
+
+-----------------  
+ICQ Ekelund:
+
+I dont like the format, when I close it and later opening it, it does not remeber wher the xml and xsl file was saved, it only shows the last text I used, I dont whant to tell it all the time wher to save, and if I have two work files open and both use the same xsl file, then if I save in one of them, it doesnt update the other
+
+-> I think I will add a check to the work sheets so that when you bring a window to the front, it will check if the file was modified on disk. then it will reload it from disk if no unsaved changes are present in the file. If there are any, it will probably ask the user what to do...
+
+------------------
+
+
+
+
+
+What I'd like to be able to do, is select my .xml and my .xsl files in the Finder and drag them onto your TestXSLT application icon, have it read both files, putting the contained data into the appropriate tab areas. Make sense?
+
+John Dasher <dash@filemaker.com>
+
+-----------------
+
+I like drag-and-drop, but it'd be nice if I could drag both the xsl and xml files and drop them together on the app, and for it to be smart enough to place them in the proper panes.
+
+Second, if you you could offer tag-completion a la Oxygen (based on the dtd, or at least for it to learn based on the structure of the xml file you give it, with options placed in a contextual menu item or otherwise easily vewiable and accessible), that would be GREAT!
+-----------------
+
+
+

@@ -1,0 +1,129 @@
+<BirdInfo>
+Order is:  TINAMIFORMES
+	Family is:  TINAMIDAE
+              Great Tinamou. Tinamus major
+            Highland Tinamou. Nothocercus
+            Little Tinamou. Crypturellus soui
+            Thicket Tinamou. Crypturellus cinnamomeus
+            Slaty-breasted Tinamou. Crypturellus boucardi
+            Choco Tinamou. Crypturellus kerriae
+        
+
+Order is:  GAVIIFORMES
+	Family is:  GAVIIDAE
+            Red-throated Loon. Gavia stellata
+            Arctic Loon. Gavia arctica
+            Pacific Loon. Gavia pacifica
+            Common Loon. Gavia immer
+            Yellow-billed Loon. Gavia adamsii
+        
+
+Order is:  PODICIPEDIFORMES
+	Family is:  PODICIPEDIDAE
+            Least Grebe. Tachybaptus dominicus
+            Pied-billed Grebe. Podilymbus podiceps
+            Atitlan Grebe. 
+            Horned Grebe. 
+            Red-necked Grebe. 
+            Eared Grebe. 
+            Western Grebe. 
+            Clark's Grebe. 
+             
+        
+
+Order is:  PROCELLARIIFORMES
+	Family is:  DIOMEDEIDAE
+            Yellow-nosed Albatross. (A) Thalassarche chlororhynchos
+            Shy Albatross. (A) Thalassarche cauta
+            Black-browed Albatross. (A) Thalassarche melanophris
+            Light-mantled Albatross. (A) Phoebetria palpebrata
+            Wandering Albatross. (A) Diomedea exulans
+            Laysan Albatross. Phoebastria immutabilis
+            Black-footed Albatross. Phoebastria nigripes
+            Short-tailed Albatross. (N) Phoebastria albatrus
+        
+	Family is:  PROCELLARIIDAE
+            Northern Fulmar. Fulmarus glacialis
+            Kermadec Petrel. (A) Pterodroma neglecta
+            Herald Petrel. (A) Pterodroma arminjoniana
+            Murphy's Petrel. (N) Pterodroma ultima
+            Mottled Petrel. (A) Pterodroma inexpectata
+            Bermuda Petrel. Pterodroma cahow
+            Black-capped Petrel. Pterodroma hasitata
+            Juan Fernandez Petrel. (N) Pterodroma externa
+            Dark-rumped Petrel. Pterodroma phaeopygia
+            White-necked Petrel. (H) Pterodroma cervicalis
+            Bonin Petrel. (H) Pterodroma hypoleuca
+            Black-winged Petrel. (H, A) Pterodroma nigripennis
+            Cook's Petrel. (N) Pterodroma cookii
+            Stejneger's Petrel. (A) Pterodroma longirostris
+            Bulwer's Petrel. (H) Bulweria bulwerii
+            Jouanin's Petrel. (H, A) Bulweria fallax
+            Parkinson's Petrel. (N) Procellaria parkinsoni
+            Streaked Shearwater. (A) Calonectris leucomelas
+            Cory's Shearwater. (N) Calonectris diomedea
+            Pink-footed Shearwater. (N) Puffinus creatopus
+            Flesh-footed Shearwater. (N) Puffinus carneipes
+            Greater Shearwater. (N) Puffinus gravis
+            Wedge-tailed Shearwater. Puffinus pacificus
+            Buller's Shearwater. (N) Puffinus bulleri
+            Sooty Shearwater. (N) Puffinus griseus
+            Short-tailed Shearwater. (N) Puffinus tenuirostris
+            Christmas Shearwater. (H) Puffinus nativitatis
+            Manx Shearwater. Puffinus puffinus
+            Townsend's Shearwater. Puffinus auricularis
+            Black-vented Shearwater. Puffinus opisthomelas
+            Audubon's Shearwater. Puffinus lherminieri
+            Little Shearwater. (A) Puffinus assimilis
+        
+	Family is:  HYDROBATIDAE
+            Wilson's Storm-Petrel. (N) Oceanites oceanicus
+            White-faced Storm-Petrel. (A) Pelagodroma marina
+            European Storm-Petrel. (A) Hydrobates pelagicus
+            Fork-tailed Storm-Petrel. Oceanodroma furcata
+            Leach's Storm-Petrel. Oceanodroma leucorhoa
+            Ashy Storm-Petrel. Oceanodroma homochroa
+            Band-rumped Storm-Petrel. (N) Oceanodroma castro
+            Wedge-rumped Storm-Petrel. (N) Oceanodroma tethys
+            Black Storm-Petrel. Oceanodroma melania
+            Guadalupe Storm-Petrel. Oceanodroma macrodactyla
+            Markham's Storm-Petrel. (A) Oceanodroma markhami
+            Tristram's Storm-Petrel. (H) Oceanodroma tristrami
+            Least Storm-Petrel. Oceanodroma microsoma
+        
+
+Order is:  PELECANIFORMES
+	Family is:  PHAETHONTIDAE
+            White-tailed Tropicbird. Phaethon lepturus
+            Red-billed Tropicbird. Phaethon aethereus
+            Red-tailed Tropicbird. Phaethon rubricauda
+        
+	Family is:  SULIDAE
+            Masked Booby. Sula dactylatra
+            Blue-footed Booby. Sula nebouxii
+            Peruvian Booby. (A) Sula variegata
+            Brown Booby. Sula leucogaster
+            Red-footed Booby. Sula sula
+            Northern Gannet. Morus bassanus
+        
+	Family is:  PELECANIDAE
+            American White Pelican. Pelecanus erythrorhynchos
+            Brown Pelican. Pelecanus occidentalis
+        
+	Family is:  PHALACROCORACIDAE
+            Brandt's Cormorant. Phalacrocorax penicillatus
+            Neotropic Cormorant. Phalacrocorax brasilianus
+            Double-crested Cormorant. Phalacrocorax auritus
+            Great Cormorant. Phalacrocorax carbo
+            Red-faced Cormorant. Phalacrocorax urile
+            Pelagic Cormorant. Phalacrocorax pelagicus
+        
+	Family is:  ANHINGIDAE
+            Anhinga. Anhinga anhinga
+        
+	Family is:  FREGATIDAE
+            Magnificent Frigatebird. Fregata magnificens
+            Great Frigatebird. Fregata minor
+            Lesser Frigatebird. (A) Fregata ariel
+        
+</BirdInfo>

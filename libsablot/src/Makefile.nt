@@ -1,0 +1,107 @@
+# 
+# The contents of this file are subject to the Mozilla Public
+# License Version 1.1 (the "License"); you may not use this file
+# except in compliance with the License. You may obtain a copy of
+# the License at http://www.mozilla.org/MPL/
+# 
+# Software distributed under the License is distributed on an "AS
+# IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+# implied. See the License for the specific language governing
+# rights and limitations under the License.
+# 
+# The Original Code is the Sablotron XSLT Processor.
+# 
+# The Initial Developer of the Original Code is Ginger Alliance Ltd.
+# Portions created by Ginger Alliance are Copyright (C) 2000 Ginger 
+# Alliance Ltd. All Rights Reserved.
+# 
+# Contributor(s): Han Qi
+# 
+# Alternatively, the contents of this file may be used under the
+# terms of the GNU General Public License Version 2 or later (the
+# "GPL"), in which case the provisions of the GPL are applicable 
+# instead of those above.  If you wish to allow use of your 
+# version of this file only under the terms of the GPL and not to
+# allow others to use your version of this file under the MPL,
+# indicate your decision by deleting the provisions above and
+# replace them with the notice and other provisions required by
+# the GPL.  If you do not delete the provisions above, a recipient
+# may use your version of this file under either the MPL or the
+# GPL.
+# 
+
+# SABLOT_DEPTH is passed from the calling makefile
+# EXPAT and EXPAT_LIB are passed from cmdline through calling makefile 
+# so is ICONV which is not mandatory so is transformed to
+# (possibly empty) ICONV_INCLUDE, ICONV_LIB and ICONV_DEFINE
+LIBDIR=$(SABLOT_DEPTH)\lib
+INCLUDEDIR=$(SABLOT_DEPTH)\include
+BINDIR=$(SABLOT_DEPTH)\bin
+
+#common defines
+COMM_DEFINE=/DENABLE_DOM
+
+#define the search paths for javascript
+!IFDEF JS
+JS_INCLUDE=/I$(JS)\include
+JS_LIB=$(JS)\lib\js32.lib
+JS_DEFINE=/DENABLE_JS /DHAVE_JSAPI_H /DXP_PC
+!ENDIF
+
+#define the search paths for iconv
+!IFDEF ICONV
+ICONV_INCLUDE=/I$(ICONV)\include
+#ICONV_LIB=$(ICONV)\src\iconv.lib
+ICONV_LIB=$(ICONV)\lib\iconv.lib
+ICONV_DEFINE=/DHAVE_ICONV_H
+!ENDIF
+
+#debugger defines
+!IFDEF DEBUGGER
+DEBUGGER_DEFINE=/DSABLOT_DEBUGGER
+!ENDIF
+
+SAB_O = arena.obj base.obj context.obj datastr.obj decimal.obj \
+debugger.obj domprovider.obj encoding.obj error.obj expr.obj \
+hash.obj key.obj numbering.obj output.obj parser.obj platform.obj \
+proc.obj sablot.obj sdom.obj situa.obj tree.obj uri.obj utf8.obj \
+vars.obj verts.obj sxpath.obj jsext.obj jsdom.obj
+
+all: sablotron install
+
+sablotron: sablot.dll sabcmd.exe
+
+sablot.dll: $(SAB_O)
+        link -dll -subsystem:windows -out:sablot.dll \
+        $(SAB_O) $(EXPAT)\$(EXPAT_LIB) $(JS_LIB) $(ICONV_LIB)
+
+sabcmd.exe:
+        cl /nologo /MD /DWIN32 /O1 /DNDEBUG $(DEBUGGER_DEFINE) $(COMM_DEFINE) \
+	/D_WINDOWS command\sabcmd.cpp \
+        sablot.lib /I engine -Fesabcmd.exe
+
+$(SAB_O):
+        cl /nologo /Zp4 /MD /W3 /GX /O1 \
+        /D WIN32 /D NDEBUG /D _WINDOWS \
+	$(JS_DEFINE) $(ICONV_DEFINE) $(DEBUGGER_DEFINE) $(COMM_DEFINE)\
+        /I $(INCLUDEDIR) /I $(EXPAT) /I $(EXPAT)\lib \
+        $(JS_INCLUDE) $(ICONV_INCLUDE) \
+        $(CXXFLAGS) -c engine\*.cpp
+
+.PHONY: clean
+clean:
+        del *.obj
+        del *.exp
+        del *.lib
+        del sabcmd.exe
+        del sablot.dll
+
+install:
+        @copy sablot.lib $(LIBDIR)
+        @copy engine\sablot.h $(INCLUDEDIR)
+        @copy engine\shandler.h $(INCLUDEDIR)
+        @copy engine\sdom.h $(INCLUDEDIR)
+        @copy engine\sxpath.h $(INCLUDEDIR)
+        @copy engine\sabdbg.h $(INCLUDEDIR)
+        @copy sablot.dll $(BINDIR)
+        @copy sabcmd.exe $(BINDIR)

@@ -1,0 +1,242 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Readme for TestXSLT v2.7</title>
+    <META name="Author" content="Written by Marc Liyanage ">
+  </head>
+  <body>
+<h1>Readme for TestXSLT v2.7</h1>
+
+<p>
+      <b>
+        <i>Written by Marc Liyanage 
+&lt;<a href="mailto:liyanage@access.ch">liyanage@access.ch</a>&gt;
+</i>
+      </b>
+    </p>
+
+<p> </p>
+    <h2>Description</h2>
+<p>TestXSLT is a small tool for experimenting with XSLT in a convenient way
+on Mac OS X. It uses the Sablotron XSL processor from <a href="http://www.gingerall.com/charlie/ga/xml/p_sab.xml">http://www.gingerall.com/charlie/ga/xml/p_sab.xml</a> and the Gnome libxslt processor from <a href="http://xmlsoft.org/XSLT/">http://xmlsoft.org/XSLT/</a>.</p>
+
+<p>The program takes an .xml and an .xsl file and either displays the result of the transformation in an output window or writes it to a file.</p>
+
+<p>You can either edit the XML and XSLT code directly in the program or you can load them from files on disk. Try drag and drop for the latter.</p>
+
+<p>There are some examples included to get you started. The first is this Readme document that you are reading now. It was written and is maintained in XML. I have included two stylesheets which convert the XML input file into an RTF document and into an HTML page. Study the input, the stylesheets and the output files carefully to learn some basics. The stylesheets are commented.</p>
+
+<p>There are also various other example files to get you started with XSLT. Just play around with the files and see what happens...</p>
+
+<p>Comments, feedback and feature suggestions are welcome to the address above.</p>
+
+<p>If you own BBEdit, I suggest that you check out my "BBEdit XSLT Glossary" package, available from my homepage. TestXSLT has been
+optimized to work well together with BBEdit. You can edit and save an XSLT file in BBEdit, switch back to TestXSLT and
+the XSLT code will be updated from disk immediately.</p>
+
+<p>The latest version of this software is available at <a href="http://www.entropy.ch/software/macosx/">http://www.entropy.ch/software/macosx/</a>
+    </p>
+
+
+
+<p> </p>
+    <h2>Requirements</h2>
+    <p>
+Mac OS X 10.2., Safari 1.0 must be installed on your system.
+</p>
+
+<p> </p>
+    <h2>History</h2>
+    <table border="0" cellspacing="1" cellpadding="1">
+      <tr>
+        <th bgcolor="#cccccc">Date</th>
+        <th bgcolor="#cccccc">Version</th>
+        <th bgcolor="#cccccc">Changes</th>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">05-AUG-2003</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">2.7</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>Embedded Apple's WebKit/KHTML/Safari HTML rendering engine. This means you can now view the result of a transformation which produces HTML output directly in the "Result" pane of the application, no need to go to an external browser anymore.</li>
+            <li>Now includes the Java Saxon XSLT processor, made possible by the Java/Objective-C bridge. Fun stuff...</li>
+            <li>Added a new, short and interesting example XSLT file. It converts a Safari Bookmarks.plist XML file to an HTML page.</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">01-APR-2003</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">2.6</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>When a file used as XML or XSLT source in TestXSLT is modified on disk externally, e.g. in another editor like BBEdit, and TestXSLT is brought back to the front, it will reload the file contents from disk, unless there are local, unsaved changes. In that case, the program will prompt the user if the unsaved changes should be preserved or discarded. This also has the effect that if the same file on disk is loaded into two different document windows and is edited and saved in one of them, the data will be updated in the other windows using the same file when they are brought to the front.</li>
+            <li>Very complex stylesheets with lots of relative file dependencies like the Docbook XSLT kit from <a href="http://docbook.sourceforge.net/projects/xsl/">http://docbook.sourceforge.net/projects/xsl/</a> now work correctly, but only with the Libxslt processor. Sablotron seems to be broken in this regard, I'm investigating. (The actual changes for Libxslt: Now initializing the XML and XSLT libraries correctly)</li>
+            <li>The XSLT processor type is now selectable via AppleScript. The "Demo Applescript" has been updated to give an example of this new capability. (Thanks to Damien Johnston and Bill Turner for the suggestion.)</li>
+            <li>Fixed a bug where the file path for XML or XSLT source files was only updated when the files were dragged, not when using the "Open" buttons.</li>
+            <li>Fixed incorrect invocation of sheets for "Jump To Line" and "Find" panels. This could lead to strange behavior of the error message drawer.</li>
+            <li>Only of interest to developers: The Project Builder setup has been reorganized quite a bit (All libraries (libiconv, libexpat, libsablot, libxml2, libxslt) are now embedded frameworks, and were updated to the latest releases).</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">15-OCT-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">2.5</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>The "Find" machinery is now connected to the system-wide find pasteboard. This means that the current find string is communicated to and from most other Cocoa applications, and some Carbon applications like BBEdit.</li>
+            <li>Relative references in xsl:import and xsl:include statements can now be resolved if the content of the XSLT pane was loaded from or has been saved to a file on disk.</li>
+            <li>The filenames for the XML, XSLT and result panes are now saved in the workset document, along with the content itself.</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">26-SEP-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">2.4</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>Fixed bug where clipping files were not treated as such during drag and drop into the text views.</li>
+            <li>Now distributing the demo AppleScript in .sit format because CVS eats it otherwise.</li>
+            <li>Added autocompletion when you type the start of a closing tag (Thanks to Fabio Vena for the suggestion).</li>
+            <li>Added a short flash of the opening tag name on autocompletion.</li>
+            <li>Added a processing time indicator so you can get an idea about the performance impact of changes (Thanks to Michael Wechner for the suggestion).</li>
+            <li>Added "Jump To Line" command.</li>
+            <li>Added Undo support.</li>
+            <li>Added "Find" command.</li>
+            <li>Added Online Help containing the XSLT and XPath specification documents.</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">05-AUG-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">2.3</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>Now includes the Gnome Libxslt processor in addition to Sablotron. You can choose which one is used with a popup-menu at the bottom of the window.</li>
+            <li>Added a cool tag-completion feature. Type an opening tag and hit the ESC key and the program will automatically insert the closing tag.</li>
+            <li>Added a small icon in the XML and XSLT panes that indicates if the code you entered is well-formed XML while you type. You can immediately see if the code is correct. Leave the mouse positioned over the icon to get more information in the Tool Tip.</li>
+            <li>Added "Save" function to XML and XSLT panes. This means you can re-save after you saved once with "Save As...", or after importing text with drag-and-drop from a file.</li>
+            <li>Added beep when a transformation fails (Thanks to Severin Klaus for some UI improvement suggestions).</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">20-JUL-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">2.2</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>Added drag and drop support for the XML and XSLT panes (Thanks to VersionTracker user ximian420 for the suggestion).</li>
+            <li>Added "auto save" and "auto show" check boxes to the result pane (Thanks to Matthias Aebi for the suggestion).</li>
+            <li>I finally found out how to get at the error messages of the XSLT processor, so errors are now displayed and you do not need to use the Console application any more.</li>
+            <li>Fired up Photoshop and added an icon :-)</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">06-JUL-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">2.1.1</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>Bug fix release as 2.1 wouldn't even launch on most machines because of a link mistake.</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">06-JUL-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">2.1</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>This version adds AppleScript support, you can now use it to run XSLT transformations in AppleScript.</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">10-MAR-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">2.0</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>This is a complete rewrite in from scratch in Objective-C using the Cocoa frameworks on Mac OS X. It has much more features, is no longer a Java application and is now based on a different XSLT processor (Sablotron instead of Xalan).</li>
+            <li>The only thing that's missing are meaningful error messages in the program. You have to open the console to see the error messages.</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">12-DEC-2001</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">1.5</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>Improved error reporting. Now prints exact location of errors in input XML and XSL files.</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">11-DEC-2001</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">1.4</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>udpated to Xalan-J 2.2_D13</li>
+            <li>Now using JAXP / TrAX APIs so the parser and XSL processor could be switched</li>
+            <li>Included Readme XML and XSL Files</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">29-APR-2001</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">1.3</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>added "Choose" buttons so it no longer relies exclusively on DnD</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">13-APR-2001</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">1.2</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>Mac OS X-only, added own output window instead of using console</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">10-FEB-2001</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">1.1</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>added save to file functionality</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">04-FEB-2001</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">1.0</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>first version</li>
+          </ul>
+        </td>
+      </tr>
+
+
+
+
+</table>
+
+<p> </p>
+    <p> </p>
+  </body>
+</html>

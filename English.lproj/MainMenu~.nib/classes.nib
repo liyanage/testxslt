@@ -1,0 +1,86 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {process = id; selectTab = id; }; 
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = FindPanelController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {
+                findNext = id; 
+                findPrevious = id; 
+                openResultURL = id; 
+                process = id; 
+                selectTab = id; 
+                showFindPanel = id; 
+                showJumpToLinePanel = id; 
+                showUnsavedChangesPanel = id; 
+                useSelectionForFind = id; 
+            }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                findNext = id; 
+                findPrevious = id; 
+                loadXml = id; 
+                loadXslt = id; 
+                newParameter = id; 
+                openResultURL = id; 
+                process = id; 
+                removeParameter = id; 
+                saveResult = id; 
+                saveResultAs = id; 
+                saveXml = id; 
+                saveXmlAs = id; 
+                saveXslt = id; 
+                saveXsltAs = id; 
+                selectTab = id; 
+                setProcessorType = id; 
+                showErrorLocation = id; 
+                showFindPanel = id; 
+                showInBrowser = id; 
+                showJumpToLinePanel = id; 
+                useSelectionForFind = id; 
+            }; 
+            CLASS = MyDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                autoSaveCheckbox = NSButton; 
+                autoShowCheckbox = NSButton; 
+                drawerMessageField = NSTextField; 
+                errorDrawer = NSDrawer; 
+                openResultURLButton = NSButton; 
+                paramRemoveButton = NSButton; 
+                parameterTable = NSTableView; 
+                processButton = NSButton; 
+                processingTimeField = NSTextField; 
+                resultView = NSTextView; 
+                saveResultAsButton = NSButton; 
+                saveResultButton = NSButton; 
+                saveResultFilenameField = NSTextField; 
+                saveXmlAsButton = NSButton; 
+                saveXmlButton = NSButton; 
+                saveXmlFilenameField = NSTextField; 
+                saveXsltAsButton = NSButton; 
+                saveXsltButton = NSButton; 
+                saveXsltFilenameField = NSTextField; 
+                tabView = NSTabView; 
+                xmlView = XMLTextView; 
+                xmlWellFormedIcon = NSImageView; 
+                xsltView = XMLTextView; 
+                xsltWellFormedIcon = NSImageView; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }
+    ); 
+    IBVersion = 1; 
+}

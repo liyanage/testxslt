@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
+<plist version="0.9">
+<dict>
+	<key>Name</key>
+	<string>TestXSLT Suite</string>
+	<key>Description</key>
+	<string>XSLT Processing Services</string>
+	<key>Classes</key>
+    <dict>
+        <key>NSApplication</key>
+        <dict>
+            <key>Name</key>
+            <string>application</string>
+            <key>PluralName</key>
+            <string>applications</string>
+            <key>Description</key>
+            <string>The TestXSLT Application</string>
+        </dict>
+        <key>MyDocument</key>
+        <dict>
+            <key>Name</key>
+            <string>Processor</string>
+            <key>PluralName</key>
+            <string>Processors</string>
+            <key>Description</key>
+            <string>A collection of an XML and an XSLT document and optional XSLT parameters</string>
+            <key>Attributes</key>
+            <dict>
+                <key>xmlcode</key>
+                <dict>
+                    <key>Name</key>
+                    <string>XML Code</string>
+                    <key>Description</key>
+                    <string>The XML code to be transformed</string>
+                    <key>Sex</key>
+                    <string>none</string>
+                    <key>Number</key>
+                    <string>singular</string>
+                </dict>
+                <key>xsltcode</key>
+                <dict>
+                    <key>Name</key>
+                    <string>XSLT Code</string>
+                    <key>Description</key>
+                    <string>The XSLT style sheet code for the transformation</string>
+                    <key>Sex</key>
+                    <string>none</string>
+                    <key>Number</key>
+                    <string>singular</string>
+                </dict>
+                <key>result</key>
+                <dict>
+                    <key>Name</key>
+                    <string>Result</string>
+                    <key>Description</key>
+                    <string>The result of the XSLT transformation</string>
+                    <key>Sex</key>
+                    <string>none</string>
+                    <key>Number</key>
+                    <string>singular</string>
+                </dict>
+            </dict>
+        </dict>
+    </dict>
+
+	<key>Commands</key>
+	<dict>
+		<key>NSCoreSuite.Create</key>
+		<dict>
+			<key>Name</key>
+			<string>make</string>
+			<key>Description</key>
+			<string>Create a new Workset.</string>
+			<key>IsVerb</key>
+			<string>YES</string>
+		</dict>
+		<key>SetParam</key>
+		<dict>
+			<key>Name</key>
+			<string>Set Parameter</string>
+			<key>Description</key>
+			<string>Set an XSLT parameter.</string>
+			<key>IsVerb</key>
+			<string>YES</string>
+			<key>Arguments</key>
+			<dict>
+				<key>Name</key>
+				<dict>
+					<key>Name</key>
+					<string>Name</string>
+					<key>Description</key>
+					<string>The name of the XSLT parameter to set.</string>
+					<key>Sex</key>
+					<string>none</string>
+					<key>Number</key>
+					<string>singular</string>
+				</dict>
+				<key>Value</key>
+				<dict>
+					<key>Name</key>
+					<string>Value</string>
+					<key>Description</key>
+					<string>The value to assign to the XSLT parameter.</string>
+					<key>Sex</key>
+					<string>none</string>
+					<key>Number</key>
+					<string>singular</string>
+				</dict>
+			</dict>
+		</dict>
+		<key>ClearParam</key>
+		<dict>
+			<key>Name</key>
+			<string>Clear Parameter</string>
+			<key>Description</key>
+			<string>Remove an XSLT parameter.</string>
+			<key>IsVerb</key>
+			<string>YES</string>
+			<key>Arguments</key>
+			<dict>
+				<key>Name</key>
+				<dict>
+					<key>Name</key>
+					<string>Name</string>
+					<key>Description</key>
+					<string>The name of the XSLT parameter to clear.</string>
+					<key>Sex</key>
+					<string>none</string>
+					<key>Number</key>
+					<string>singular</string>
+				</dict>
+			</dict>
+		</dict>
+		<key>SetProcessorType</key>
+		<dict>
+			<key>Name</key>
+			<string>Set Processor Type</string>
+			<key>Description</key>
+			<string>Choose the XSLT processor engine to be used.</string>
+			<key>IsVerb</key>
+			<string>YES</string>
+			<key>Arguments</key>
+			<dict>
+				<key>Name</key>
+				<dict>
+					<key>Name</key>
+					<string>Name</string>
+					<key>Description</key>
+					<string>The name of the XSLT processor to use ("Libxslt", "Sablotron" or "Saxon").</string>
+					<key>Sex</key>
+					<string>none</string>
+					<key>Number</key>
+					<string>singular</string>
+				</dict>
+			</dict>
+		</dict>
+		<key>Process</key>
+		<dict>
+			<key>Name</key>
+			<string>Process</string>
+			<key>Description</key>
+			<string>Process the XML code with the XSLT stylesheet.</string>
+			<key>IsVerb</key>
+			<string>YES</string>
+		</dict>
+		<key>Export</key>
+		<dict>
+			<key>Name</key>
+			<string>Export</string>
+			<key>Description</key>
+			<string>Save the result of the transformation to a file.</string>
+			<key>IsVerb</key>
+			<string>YES</string>
+			<key>Arguments</key>
+			<dict>
+				<key>File</key>
+				<dict>
+					<key>Name</key>
+					<string>Output File</string>
+					<key>Description</key>
+					<string>The File into which the result should be saved.</string>
+					<key>Sex</key>
+					<string>none</string>
+					<key>Number</key>
+					<string>singular</string>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+
+
+</dict>
+</plist>

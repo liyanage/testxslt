@@ -1,0 +1,18 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {showJumpToLinePanel = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {abortJumpToLine = id; jumpToLine = id; }; 
+            CLASS = JumpToLinePanelController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {lineNumberField = NSTextField; }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

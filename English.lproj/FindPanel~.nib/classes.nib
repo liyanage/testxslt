@@ -1,0 +1,29 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {process = id; selectTab = id; }; 
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {abortFind = id; find = id; findPrevious = id; textChanged = id; }; 
+            CLASS = FindPanelController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                caseInsensitiveCheckbox = NSButton; 
+                findField = NSTextField; 
+                nextButton = NSButton; 
+                previousButton = NSButton; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {openResultURL = id; process = id; selectTab = id; showFindPanel = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
