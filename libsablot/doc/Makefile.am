@@ -1,1 +1,0 @@
-SUBDIRS = apidoc man misc

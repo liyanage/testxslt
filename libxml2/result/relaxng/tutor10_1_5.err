@@ -1,2 +1,0 @@
-RNG validity error: file ./test/relaxng/tutor10_1_5.xml line 1 element foo
-Element foo has wrong namespace: expecting http://www.example.com

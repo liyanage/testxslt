@@ -391,10 +391,8 @@
 				JAVA_ARCHIVE_CLASSES = YES;
 				JAVA_ARCHIVE_TYPE = JAR;
 				JAVA_COMPILER = /usr/bin/javac;
-				JAVA_COMPILER_FLAGS = "";
 				JAVA_SOURCE_SUBDIR = .;
 				LIBRARY_STYLE = STATIC;
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOL_FLAGS = "";
@@ -417,7 +415,6 @@
 			explicitFileType = "compiled.mach-o.dylib";
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			name = JavaUtils;
 			path = JavaUtils.jar;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
