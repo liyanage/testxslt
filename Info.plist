@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>work</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>DocumentType</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>work</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>NSDocumentClass</key>
+			<string>MyDocument</string>
+		</dict>
+	</array>
+	<key>CFBundleExecutable</key>
+	<string>TestXSLT</string>
+	<key>CFBundleGetInfoString</key>
+	<string>TestXSLT 3.0 by Marc Liyanage, http://www.entropy.ch</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>TestXSLT Help</string>
+	<key>CFBundleIconFile</key>
+	<string>TestXSLT.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>ch.entropy.testxslt</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>TestXSLT</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>3.1</string>
+	<key>CFBundleSignature</key>
+	<string>XsLt</string>
+	<key>CFBundleVersion</key>
+	<string>3.1</string>
+	<key>Java</key>
+	<dict>
+		<key>JVMVersion</key>
+		<string>1.4+</string>
+	</dict>
+	<key>NSAppleScriptEnabled</key>
+	<true/>
+	<key>NSJavaNeeded</key>
+	<string>YES</string>
+	<key>NSJavaPath</key>
+	<array>
+		<string>jai_core.jar</string>
+		<string>mlibwrapper_jai.jar</string>
+		<string>jimi-1.0.jar</string>
+		<string>batik.jar</string>
+		<string>xalan.jar</string>
+		<string>saxon8.jar</string>
+		<string>saxon8-sql.jar</string>
+		<string>fop.jar</string>
+		<string>avalon-framework-cvs-20020806.jar</string>
+		<string>jai_codec.jar</string>
+		<string>JavaUtils.jar</string>
+	</array>
+	<key>NSJavaRoot</key>
+	<string>Contents/Resources/Java</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
