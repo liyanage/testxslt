@@ -10,14 +10,31 @@
 
 @implementation AppDelegate
 
-- (void)applicationDidBecomeActive:(NSNotification *)aNotification {
 
-	/* no longer active, now using the windowDidBecomeMain method in the window delegate (MyDocument.m)
-	 */
+- (id)init {
 
-	//	NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
-//	[documents makeObjectsPerformSelector:@selector(checkForExternalModifications)];
+	self = [super init];
+	if (!self) return nil;
+
+	NSString *templateXML = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"template" ofType:@"xml"]];
+	NSString *templateXSLT = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"template" ofType:@"xslt"]];
+	
+    NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
+		@"YES", @"enableWellformedCheck",
+		@"YES", @"enableSyntaxAnalysis",
+		templateXML, @"templateXML",
+		templateXSLT, @"templateXSLT",
+		nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
+	
+	return self;
 	
 }
+
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+	[prefsWindow orderOut:self];
+}
+
 
 @end

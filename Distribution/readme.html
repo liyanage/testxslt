@@ -1,16 +1,16 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Readme for TestXSLT v3.0</title>
+    <title>Readme for TestXSLT v3.1</title>
     <META name="Author" content="Written by Marc Liyanage ">
   </head>
   <body>
-<h1>Readme for TestXSLT v3.0</h1>
+<h1>Readme for TestXSLT v3.1</h1>
 
 <p>
       <b>
         <i>Written by Marc Liyanage 
-&lt;<a href="mailto:liyanage@access.ch">liyanage@access.ch</a>&gt;
+&lt;<a href="mailto:testxslt@entropy.ch">testxslt@entropy.ch</a>&gt;
 </i>
       </b>
     </p>
@@ -42,7 +42,7 @@
 <p> </p>
     <h2>Requirements</h2>
     <p>
-Mac OS X 10.2. and Safari 1.0 must be installed on your system.
+Mac OS X 10.3. and Safari 1.0 must be installed on your system.
 </p>
 
 <p> </p>
@@ -55,7 +55,31 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">17-DEC-2003</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>19-FEB-2005</nobr>
+        </td>
+        <td bgcolor="#eeeeee" valign="top" align="center">3.1</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>Extra special big thanks to the folks at VitalSource (<a href="http://www.vitalsource.com">http://www.vitalsource.com</a>) for their generous donation in support of this release :-)</li>
+            <li>Fixed the most common cause for a crash when quitting the application or closing a document window. The crash still occurs very rarely though.</li>
+            <li>XSL-FO processing works again after it was broken by the Java 1.4.2 update.</li>
+            <li>There's now a preferences dialog, currently with the following options.</li>
+            <li>1.) It allows to disable the syntax analysis which can take a long time with large documents. Note that disabling it also disables automatic closing tag insertion.</li>
+            <li>2.) It allows to disable the wellformedness check. Disabling this stops the little warning icon from appearing.</li>
+            <li>3.) It allows to edit the default text snippets that are inserted into the XML and XSLT text areas of new documents.</li>
+            <li>Because of the way the preferences dialog is implemented (Cocoa Bindings), the program now requires Mac OS X 10.3.</li>
+            <li>The wellformedness check error message (if any) is now visible in the error message drawer, and not only in the tooltip of the little warning icon. You open the drawer by clicking onto the warning icon.</li>
+            <li>Updated the Xalan-J processor to 2.6.</li>
+            <li>Updated the Saxon processor to 8.3, which means you can now experiment with XSLT 2.0 and XQuery.</li>
+          </ul>
+        </td>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>17-DEC-2003</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">3.0</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -69,7 +93,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
 
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">08-SEP-2003</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>08-SEP-2003</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">2.9</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -88,7 +114,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
 
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">17-AUG-2003</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>17-AUG-2003</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">2.8</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -99,7 +127,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">05-AUG-2003</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>05-AUG-2003</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">2.7</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -111,7 +141,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">01-APR-2003</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>01-APR-2003</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">2.6</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -126,7 +158,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">15-OCT-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>15-OCT-2002</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">2.5</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -138,7 +172,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">26-SEP-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>26-SEP-2002</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">2.4</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -156,7 +192,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">05-AUG-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>05-AUG-2002</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">2.3</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -170,7 +208,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">20-JUL-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>20-JUL-2002</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">2.2</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -183,7 +223,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">06-JUL-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>06-JUL-2002</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">2.1.1</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -193,7 +235,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">06-JUL-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>06-JUL-2002</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">2.1</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -203,7 +247,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">10-MAR-2002</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>10-MAR-2002</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">2.0</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -214,7 +260,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">12-DEC-2001</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>12-DEC-2001</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">1.5</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -224,7 +272,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">11-DEC-2001</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>11-DEC-2001</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">1.4</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -236,7 +286,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">29-APR-2001</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>29-APR-2001</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">1.3</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -246,7 +298,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">13-APR-2001</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>13-APR-2001</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">1.2</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -256,7 +310,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">10-FEB-2001</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>10-FEB-2001</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">1.1</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>
@@ -266,7 +322,9 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
       </tr>
 
 <tr>
-        <td bgcolor="#eeeeee" valign="top" align="right">04-FEB-2001</td>
+        <td bgcolor="#eeeeee" valign="top" align="right">
+          <nobr>04-FEB-2001</nobr>
+        </td>
         <td bgcolor="#eeeeee" valign="top" align="center">1.0</td>
         <td bgcolor="#eeeeee" valign="top">
           <ul>

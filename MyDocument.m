@@ -9,7 +9,7 @@
 
 #import "MyDocument.h"
 #import "Workset.h"
-
+#import <Foundation/NSDebug.h>
 
 
 
@@ -17,6 +17,8 @@
 
 - (id)init {
 
+//	NSZombieEnabled = YES;
+	
 	if (self = [super init]) {
 		workset = [[Workset alloc] init];
 		processor = [XSLTProcessorFactory makeProcessorOfType:PROCESSORTYPE_SABLOTRON];
@@ -25,18 +27,14 @@
 		xsltDirty = NO;
 	}
 
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *appDefaults = [NSDictionary
-        dictionaryWithObject:@"YES" forKey:@"AnalyzeCode"];
-	
-    [defaults registerDefaults:appDefaults];
-	
+	defaults = [NSUserDefaults standardUserDefaults];
 	
 	return self;
 }
 
 - (void)dealloc {
 
+	[uiUpdateTimer release];
 	[workset release];
 	[processor release];
 	[wellFormedParser release];
@@ -147,16 +145,20 @@
 		[saveXmlButton setEnabled:[self canSaveXmlNow]];
 		[saveXmlAsButton setEnabled:[self canSaveXmlAsNow]];
 		[xmlTagStackField setStringValue:[xmlView calculateTagStack]];
-	
-		[xmlView checkWellFormed];
-		if ([workset hasXmlCode] && [xmlView hasError]) {
-			[xmlWellFormedIcon setImage:warningIcon];
-			[xmlWellFormedIcon setToolTip:[xmlView valueForKey:@"errorString"]];
-		} else {
-			[xmlWellFormedIcon setImage:nil];
-			[xmlWellFormedIcon setToolTip:nil];
+
+		if ([defaults boolForKey:@"enableWellformedCheck"]) {
+			[xmlView checkWellFormed];
+			if ([workset hasXmlCode] && [xmlView hasError]) {
+				[xmlWellFormedIcon setImage:warningIcon];
+				[xmlWellFormedIcon setToolTip:[xmlView valueForKey:@"errorString"]];
+				[self setValue:[xmlView valueForKey:@"errorString"] forKey:@"drawerMessage"];
+			} else {
+				[xmlWellFormedIcon setImage:nil];
+				[xmlWellFormedIcon setToolTip:nil];
+				[self setValue:nil forKey:@"drawerMessage"];
+			}
 		}
-	
+
 	} else if (xsltTabIsVisible) {
 		[saveXsltFilenameField setObjectValue:[workset xsltFilename]];
 		[saveXsltFilenameField setToolTip:[workset xsltFilename]];
@@ -164,15 +166,19 @@
 		[saveXsltAsButton setEnabled:[self canSaveXsltAsNow]];
 		[xsltTagStackField setStringValue:[xsltView calculateTagStack]];
 
-		[xsltView checkWellFormed];
-		if ([workset hasXsltCode] && [xsltView hasError]) {
-			[xsltWellFormedIcon setImage:warningIcon];
-			[xsltWellFormedIcon setToolTip:[xsltView valueForKey:@"errorString"]];
-		} else {
-			[xsltWellFormedIcon setImage:nil];
-			[xsltWellFormedIcon setToolTip:nil];
+		if ([defaults boolForKey:@"enableWellformedCheck"]) {
+			[xsltView checkWellFormed];
+			if ([workset hasXsltCode] && [xsltView hasError]) {
+				[xsltWellFormedIcon setImage:warningIcon];
+				[xsltWellFormedIcon setToolTip:[xsltView valueForKey:@"errorString"]];
+				[self setValue:[xsltView valueForKey:@"errorString"] forKey:@"drawerMessage"];
+			} else {
+				[xsltWellFormedIcon setImage:nil];
+				[xsltWellFormedIcon setToolTip:nil];
+				[self setValue:nil forKey:@"drawerMessage"];
+			}
 		}
-
+		
 	} else if (paramTabIsVisible) {
 		[paramRemoveButton setEnabled:[parameterTable selectedRow] != -1];
 		[parameterTable reloadData];
@@ -552,7 +558,7 @@
 
 	if (![processor processStrings:[XMLUtils getDataWithEncodingFromString:[workset xmlCode]] withXslt:[XMLUtils getDataWithEncodingFromString:[workset xsltCode]] andParameters:params]) {
 
-		[drawerMessageField setStringValue:[NSString stringWithFormat:@"Error on line %d of your %@ code:\n%@", [processor errorLine], ([processor errorSource] == XSLT_ERROR_SOURCE_XML ? @"XML" : @"XSLT"), [processor errorMessage]]];
+		[self setValue:[NSString stringWithFormat:@"Error on line %d of your %@ code:\n%@", [processor errorLine], ([processor errorSource] == XSLT_ERROR_SOURCE_XML ? @"XML" : @"XSLT"), [processor errorMessage]] forKey:@"drawerMessage"];
 
 		NSBeep();
 		[errorDrawer openOnEdge:NSMinYEdge];
@@ -568,7 +574,7 @@
 		[workset setResultEncoding:[processor resultEncoding]];
 		resultDirty = YES;
 		[self autoSave];
-		[errorDrawer close];
+//		[errorDrawer close];
 		[self selectTabById:RESULT];
 		[processingTimeField setStringValue:[NSString stringWithFormat:@"Time: %ldms", processingTime]];
 	}
@@ -1083,24 +1089,36 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 }
 
+- (void)xslfoRenderThread {
+
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	XSL_FO_Renderer *xfr = [[[XSL_FO_Renderer alloc] init] autorelease];
+	xslfoRendererResultData = [xfr render:[workset result]];
+
+	[pool release];
+	[xslfoRendererLock unlockWithCondition:2];
+	
+}
+
+
 - (IBAction)renderFo:(id)sender {
 
-	XSL_FO_Renderer *xfr = [[XSL_FO_Renderer alloc] init];
-
-	NSData *resultData = [xfr render:[workset result]];
-
-	[xfr release];
-
-	if (!resultData) {
+	xslfoRendererLock = [[[NSConditionLock alloc] initWithCondition:1] autorelease];
+	[NSThread detachNewThreadSelector:@selector(xslfoRenderThread) toTarget:self withObject:nil];
+	[xslfoRendererLock lockWhenCondition:2];
+	[xslfoRendererLock unlock];
+	
+	if (!xslfoRendererResultData) {
 		NSLog(@"Unable to render, NULL result");
 		return;
 	}
 	
-	[resultData retain];
+	[xslfoRendererResultData retain];
 	[pdfData release];
-	pdfData = resultData;
+	pdfData = xslfoRendererResultData;
 	
-	NSImage *pdfImage = [[[NSImage alloc] initWithData:resultData] autorelease];
+	NSImage *pdfImage = [[[NSImage alloc] initWithData:xslfoRendererResultData] autorelease];
 	[pdfImage setBackgroundColor:[NSColor whiteColor]];
 	[pdfImage recache];
 	[pdfImage setCacheMode:NSImageCacheNever];
@@ -1234,11 +1252,21 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 		unsavedChangesPanelController = [[UnsavedChangesPanelController alloc] initWithWindowNibName:@"UnsavedChanges"];
 //		NSLog(@"init unsaved changes panel controller: %@", unsavedChangesPanelController);
 	}
-
-	
-
 	
 }
+
+
+- (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo {
+
+	[uiUpdateTimer invalidate];
+	[super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
+}
+
+
+
+
+
+
 
 
 - (IBAction)showErrorLocation:(id)sender {

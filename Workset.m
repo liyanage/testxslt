@@ -13,16 +13,20 @@
 
 - (id)init {
 	
-	if (self = [super init]) {
-		xmlCode = [[NSString stringWithFormat:@"<text>\nPut your XML code here.\nPut your XSLT code under the XSLT tab.\nThen click on the Process button.\n</text>"] retain];
-		xsltCode = [[NSString stringWithFormat:@"<?xml version='1.0' encoding='iso-8859-1'?>\n\n<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>\n\n<xsl:output method='html' version='1.0' encoding='iso-8859-1' indent='no'/>\n\n</xsl:stylesheet>"] retain];
-		result = [[NSData alloc] init];
-		parameterSet = [[ParameterSet alloc] init];
-		xmlFilename = nil;
-		xsltFilename = nil;
-		resultFilename = nil;
-	}
-//	NSLog(@"Workset init");
+	self = [super init];
+	if (!self) return nil;
+	
+	xmlCode = [[NSUserDefaults standardUserDefaults] stringForKey:@"templateXML"];
+	xsltCode = [[NSUserDefaults standardUserDefaults] stringForKey:@"templateXSLT"];
+	
+//	xmlCode = [[NSString stringWithFormat:@"<text>\nPut your XML code here.\nPut your XSLT code under the XSLT tab.\nThen click on the Process button.\n</text>"] retain];
+//	xsltCode = [[NSString stringWithFormat:@"<?xml version='1.0' encoding='iso-8859-1'?>\n\n<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>\n\n<xsl:output method='html' version='1.0' encoding='iso-8859-1' indent='no'/>\n\n</xsl:stylesheet>"] retain];
+	result = [[NSData alloc] init];
+	parameterSet = [[ParameterSet alloc] init];
+	xmlFilename = nil;
+	xsltFilename = nil;
+	resultFilename = nil;
+
 	return self;
 	
 }

@@ -13,7 +13,7 @@
 \f1\b0\fs24 \
 \
 \f0\b Written by Marc Liyanage 
-\cf2 <liyanage@access.ch>\cf0 
+\cf2 <testxslt@entropy.ch>\cf0 
 \
 
 
@@ -67,7 +67,7 @@ If you need help or would like to comment on the program, there is an online use
 
 \f0\b \ Requirements\
 \f1\b0 
-Mac OS X 10.2. and Safari 1.0 must be installed on your system.
+Mac OS X 10.3. and Safari 1.0 must be installed on your system.
 \
 \
 
@@ -75,6 +75,35 @@ Mac OS X 10.2. and Safari 1.0 must be installed on your system.
 
 \f0\b History
 \f1\b0 \
+
+
+19-FEB-2005 Version 3.1\
+
+- Extra special big thanks to the folks at VitalSource (
+\cf2 http://www.vitalsource.com\cf0 
+) for their generous donation in support of this release :-)\
+
+- Fixed the most common cause for a crash when quitting the application or closing a document window. The crash still occurs very rarely though.\
+
+- XSL-FO processing works again after it was broken by the Java 1.4.2 update.\
+
+- There's now a preferences dialog, currently with the following options.\
+
+- 1.) It allows to disable the syntax analysis which can take a long time with large documents. Note that disabling it also disables automatic closing tag insertion.\
+
+- 2.) It allows to disable the wellformedness check. Disabling this stops the little warning icon from appearing.\
+
+- 3.) It allows to edit the default text snippets that are inserted into the XML and XSLT text areas of new documents.\
+
+- Because of the way the preferences dialog is implemented (Cocoa Bindings), the program now requires Mac OS X 10.3.\
+
+- The wellformedness check error message (if any) is now visible in the error message drawer, and not only in the tooltip of the little warning icon. You open the drawer by clicking onto the warning icon.\
+
+- Updated the Xalan-J processor to 2.6.\
+
+- Updated the Saxon processor to 8.3, which means you can now experiment with XSLT 2.0 and XQuery.\
+
+\
 
 
 17-DEC-2003 Version 3.0\

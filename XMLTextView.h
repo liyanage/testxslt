@@ -24,6 +24,7 @@
 	BOOL error;
 	int errorLine, errorColumn;
 	NSString *errorString;
+	NSUserDefaults *defaults;
 	
 }
 

@@ -87,15 +87,18 @@ enum {
 	IBOutlet NSTextField *xmlTagStackField;
 	IBOutlet NSTextField *xsltTagStackField;
 
-	IBOutlet NSTextField *drawerMessageField;
-	NSData *pdfData;
+	NSData *pdfData, *xslfoRendererResultData;
+	NSConditionLock *xslfoRendererLock;
 
+	NSString *drawerMessage;
+	
 	IBOutlet NSTextField *webViewBaseURL;
 
 	FindPanelController *findPanelController;
 	JumpToLinePanelController *jumpToLinePanelController;
 	UnsavedChangesPanelController *unsavedChangesPanelController;
-	
+
+	NSUserDefaults *defaults;
 }
 
 - (BOOL)canUseSelectionForFindNow;

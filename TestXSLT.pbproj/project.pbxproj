@@ -41354,74 +41354,12 @@
 		};
 		1B5E2F3104F1086300F043CD = {
 			children = (
-				1B5E2F7604F108D200F043CD,
-				1B5E2F7704F108D200F043CD,
-				1B5E2F7804F108D200F043CD,
+				1B64BBA507C5E1710014535B,
 			);
 			isa = PBXGroup;
 			name = "Xalan-J Processor";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		1B5E2F7604F108D200F043CD = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.jar;
-			name = "xml-apis.jar";
-			path = "Xalan-J/xml-apis.jar";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		1B5E2F7704F108D200F043CD = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.jar;
-			name = "xalan-2.4.1.jar";
-			path = "Xalan-J/xalan-2.4.1.jar";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		1B5E2F7804F108D200F043CD = {
-			isa = PBXFileReference;
-			lastKnownFileType = archive.jar;
-			name = "xercesImpl-2.2.1.jar";
-			path = "Xalan-J/xercesImpl-2.2.1.jar";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		1B5E2F7904F108D200F043CD = {
-			fileRef = 1B5E2F7604F108D200F043CD;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		1B5E2F7A04F108D200F043CD = {
-			fileRef = 1B5E2F7704F108D200F043CD;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		1B5E2F7B04F108D200F043CD = {
-			fileRef = 1B5E2F7804F108D200F043CD;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		1B5E2F8304F1093300F043CD = {
-			fileRef = 1B5E2F7604F108D200F043CD;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		1B5E2F8404F1093300F043CD = {
-			fileRef = 1B5E2F7704F108D200F043CD;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		1B5E2F8504F1093300F043CD = {
-			fileRef = 1B5E2F7804F108D200F043CD;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		1B60A6BF04DBD27000ADF3F9 = {
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA;
@@ -41517,6 +41455,48 @@
 			target = 1B60A82C04DBDD3600ADF3F9;
 			targetProxy = 1B60A87404DBDD8100ADF3F9;
 		};
+		1B64BBA507C5E1710014535B = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.jar;
+			name = xalan.jar;
+			path = "Xalan-J/xalan.jar";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1B64BBA607C5E1840014535B = {
+			fileRef = 1B64BBA507C5E1710014535B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1B64BC8507C6AB120014535B = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = template.xml;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1B64BC8607C6AB120014535B = {
+			fileRef = 1B64BC8507C6AB120014535B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1B64BC9307C6AB3D0014535B = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = template.xslt;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1B64BC9407C6AB3E0014535B = {
+			fileRef = 1B64BC9307C6AB3D0014535B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		1B6AEEBE0493442600000102 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -41547,53 +41527,32 @@
 		};
 		1B6AEEC2049344C400000102 = {
 			children = (
-				1B6AEEC30493455900000102,
+				1BE3506107C5D11B00D05BE4,
+				1BE3506207C5D11B00D05BE4,
 			);
 			isa = PBXGroup;
 			name = "Saxon Processor";
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		1B6AEEC30493455900000102 = {
-			includeInIndex = 1;
-			isa = PBXFileReference;
-			lastKnownFileType = archive.jar;
-			name = saxon.jar;
-			path = Saxon/saxon.jar;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		1B6AEEC40493455900000102 = {
-			fileRef = 1B6AEEC30493455900000102;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		1B6AEEC50493458F00000102 = {
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 15;
 			files = (
+				1BE3506D07C5D18700D05BE4,
+				1BE3506E07C5D18700D05BE4,
 				1BC7FDC50507E1B70095D353,
 				1BC7FDC40507E1B40095D353,
 				1BC7FDC20507E1AE0095D353,
 				1BC7FDC30507E1B00095D353,
-				1B6AEEC60493459C00000102,
-				1B5E2F8304F1093300F043CD,
-				1B5E2F8404F1093300F043CD,
-				1B5E2F8504F1093300F043CD,
 				1BBE147904F2B1D1004DDAF6,
 				1BBE147A04F2B1D1004DDAF6,
 				1BBE147B04F2B1D1004DDAF6,
+				1B64BBA607C5E1840014535B,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1B6AEEC60493459C00000102 = {
-			fileRef = 1B6AEEC30493455900000102;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		1B6AEEC80493DF6900000102 = {
 			fileEncoding = 4;
@@ -52965,6 +52924,42 @@
 			settings = {
 			};
 		};
+		1BE3506107C5D11B00D05BE4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.jar;
+			name = "saxon8-sql.jar";
+			path = "Saxon/saxon8-sql.jar";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1BE3506207C5D11B00D05BE4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = archive.jar;
+			name = saxon8.jar;
+			path = Saxon/saxon8.jar;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1BE3506D07C5D18700D05BE4 = {
+			fileRef = 1BE3506107C5D11B00D05BE4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1BE3506E07C5D18700D05BE4 = {
+			fileRef = 1BE3506207C5D11B00D05BE4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1BF5374807C753B400D6EBDB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = readme2fo.xsl;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		1BF7F12304F2BE74007723F5 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -53156,6 +53151,8 @@
 		};
 		2A37F4B8FDCFA73011CA2CEA = {
 			children = (
+				1B64BC9307C6AB3D0014535B,
+				1B64BC8507C6AB120014535B,
 				F7E9761C02EAE5BF01CD68AE,
 				2A37F4B9FDCFA73011CA2CEA,
 				F7AE24140320247101000103,
@@ -53234,7 +53231,6 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "";
 				HEADER_SEARCH_PATHS = libxml2/include;
-				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
@@ -53253,7 +53249,6 @@
 			);
 			isa = PBXApplicationTarget;
 			name = TestXSLT;
-			productInstallPath = "$(HOME)/Applications";
 			productName = TestXSLT;
 			productReference = 1758732AFF379DA111CA2CBB;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
@@ -53289,6 +53284,8 @@
 	<string>TestXSLT Help</string>
 	<key>CFBundleIconFile</key>
 	<string>TestXSLT.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>ch.entropy.testxslt</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -53296,11 +53293,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.0</string>
+	<string>3.1</string>
 	<key>CFBundleSignature</key>
 	<string>XsLt</string>
 	<key>CFBundleVersion</key>
-	<string>3.0</string>
+	<string>3.1</string>
 	<key>Java</key>
 	<dict>
 		<key>JVMVersion</key>
@@ -53316,11 +53313,10 @@
 		<string>mlibwrapper_jai.jar</string>
 		<string>jimi-1.0.jar</string>
 		<string>batik.jar</string>
-		<string>xalan-2.4.1.jar</string>
-		<string>xercesImpl-2.2.1.jar</string>
+		<string>xalan.jar</string>
 		<string>TestXSLT.jar</string>
-		<string>saxon.jar</string>
-		<string>xml-apis.jar</string>
+		<string>saxon8.jar</string>
+		<string>saxon8-sql.jar</string>
 		<string>fop.jar</string>
 		<string>avalon-framework-cvs-20020806.jar</string>
 		<string>jai_codec.jar</string>
@@ -53385,15 +53381,12 @@
 				F7D210D502FA7EE301000103,
 				F739177902FCAAF401000103,
 				1B3BC91504364211006C8631,
-				F7641DCF02FFB2FA01A8A905,
-				F7641DD002FFB2FA01A8A905,
-				F7641DD202FFB2FA01A8A905,
-				F7641DD302FFB2FA01A8A905,
-				F7641DD402FFB2FA01A8A905,
 				F73C8202031598F4010D3857,
 				F7AE24150320247101000103,
 				F71AD9E5032A9B5A01000103,
 				F70DC0BA0334879E01000103,
+				1B64BC8607C6AB120014535B,
+				1B64BC9407C6AB3E0014535B,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -53461,10 +53454,6 @@
 				1B2B20D2042DFDA800000103,
 				1B2B20F0042DFF5200000103,
 				1BB48E5604DC2AA10086FFBB,
-				1B6AEEC40493455900000102,
-				1B5E2F7904F108D200F043CD,
-				1B5E2F7A04F108D200F043CD,
-				1B5E2F7B04F108D200F043CD,
 				1BBE147604F2B1C9004DDAF6,
 				1BBE147704F2B1C9004DDAF6,
 				1BBE147804F2B1C9004DDAF6,
@@ -53505,6 +53494,7 @@
 				DEPLOYMENT_LOCATION = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				INSTALL_MODE_FLAG = "";
 				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
@@ -53785,6 +53775,7 @@
 				F7641DAF02FFB2FA01A8A905,
 				F7641DB002FFB2FA01A8A905,
 				F7641DB102FFB2FA01A8A905,
+				1BF5374807C753B400D6EBDB,
 			);
 			isa = PBXGroup;
 			path = Distribution;
@@ -53829,36 +53820,6 @@
 			path = readme2rtf.xsl;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		F7641DCF02FFB2FA01A8A905 = {
-			fileRef = F7641DAC02FFB2FA01A8A905;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F7641DD002FFB2FA01A8A905 = {
-			fileRef = F7641DAD02FFB2FA01A8A905;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F7641DD202FFB2FA01A8A905 = {
-			fileRef = F7641DAF02FFB2FA01A8A905;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F7641DD302FFB2FA01A8A905 = {
-			fileRef = F7641DB002FFB2FA01A8A905;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F7641DD402FFB2FA01A8A905 = {
-			fileRef = F7641DB102FFB2FA01A8A905;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		F786D09302FB227701000103 = {
 			fileEncoding = 5;

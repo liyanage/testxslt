@@ -17,7 +17,7 @@
 
 	[self setRichText:NO];
 	resultstack = NULL;
-
+	defaults = [NSUserDefaults standardUserDefaults];
 	
 	// register our two input text views to receive file drags
 	//
@@ -76,6 +76,11 @@
 - (void)keyDown:(NSEvent *)event {
 
 	NSRange selectedRange;
+	
+	if (![defaults boolForKey:@"enableSyntaxAnalysis"]) {
+		[super keyDown:event];
+		return;
+	}
 	
 	if ([[event characters] isEqual:@"\033"]) {
 
@@ -238,6 +243,10 @@
 	int i;
 	NSRange selectedRange;
 	NSMutableString *mystack;
+
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"enableSyntaxAnalysis"]) {
+		return @"";
+	}
 	
 	buffer = [[self string] lossyCString];
 	selectedRange = [self selectedRange];

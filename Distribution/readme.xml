@@ -5,7 +5,7 @@
 <readme>
 <title>Readme for TestXSLT</title>
 
-<author>Written by Marc Liyanage <email>liyanage@access.ch</email></author>
+<author>Written by Marc Liyanage <email>testxslt@entropy.ch</email></author>
 
 <description>
 <para>TestXSLT is a free tool for learning, experimenting with and using the XSL language (both the XSLT and the XSL-FO parts) in a convenient way on Mac OS X. It offers several XSLT processors (Sablotron, Gnome LibXSLT, Saxon and Xalan-J) as well as the Apache FOP XSL-FO rendering engine which produces on-screen previews as well as PDF files. For authors of stylesheets which produce HTML, it makes use of the WebKit HTML rendering engine, allowing previews right in the application.</para>
@@ -29,10 +29,26 @@
 </description>
 
 <requirements>
-Mac OS X 10.2. and Safari 1.0 must be installed on your system.
+Mac OS X 10.3. and Safari 1.0 must be installed on your system.
 </requirements>
 
 <history>
+
+<entry>
+	<version>3.1</version>
+	<date>19-FEB-2005</date>
+	<item>Extra special big thanks to the folks at VitalSource (<url>http://www.vitalsource.com</url>) for their generous donation in support of this release :-)</item>
+	<item>Fixed the most common cause for a crash when quitting the application or closing a document window. The crash still occurs very rarely though.</item>
+	<item>XSL-FO processing works again after it was broken by the Java 1.4.2 update.</item>
+	<item>There's now a preferences dialog, currently with the following options.</item>
+	<item>1.) It allows to disable the syntax analysis which can take a long time with large documents. Note that disabling it also disables automatic closing tag insertion.</item>
+	<item>2.) It allows to disable the wellformedness check. Disabling this stops the little warning icon from appearing.</item>
+	<item>3.) It allows to edit the default text snippets that are inserted into the XML and XSLT text areas of new documents.</item>
+	<item>Because of the way the preferences dialog is implemented (Cocoa Bindings), the program now requires Mac OS X 10.3.</item>
+	<item>The wellformedness check error message (if any) is now visible in the error message drawer, and not only in the tooltip of the little warning icon. You open the drawer by clicking onto the warning icon.</item>
+	<item>Updated the Xalan-J processor to 2.6.</item>
+	<item>Updated the Saxon processor to 8.3, which means you can now experiment with XSLT 2.0 and XQuery.</item>
+</entry>
 
 <entry>
 	<version>3.0</version>

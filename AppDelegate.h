@@ -9,7 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 @interface AppDelegate : NSObject
+{
+	IBOutlet NSWindow* prefsWindow;
+}
 
-- (void)applicationDidBecomeActive:(NSNotification *)aNotification;
+- (void)applicationWillTerminate:(NSNotification *)aNotification;
 
 @end

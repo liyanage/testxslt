@@ -21,8 +21,8 @@
 
 - (NSString *) getJAXPProcessorName {
 
-	return @"com.icl.saxon.TransformerFactoryImpl";
-	
+	return @"net.sf.saxon.TransformerFactoryImpl";
+
 }
 
 
