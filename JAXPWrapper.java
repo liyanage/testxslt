@@ -54,7 +54,7 @@ public class JAXPWrapper {
 
 		java.lang.System.setProperty("javax.xml.transform.TransformerFactory", processorClassName);
 		
-		System.err.println("java reached: xml: " + xml + " xsl: " + xslt + " param: " + parameters + " baseuri: " + baseUri);
+		//System.err.println("java reached: xml: " + xml + " xsl: " + xslt + " param: " + parameters + " baseuri: " + baseUri);
 
 		try {
 			

@@ -1,5 +1,10 @@
 todo testxslt
 
+- courier font in result tab / text
+- pdf view window vert. scrollbar start at top
+- if result was saved, use that dir or that path as base url for the WebKit call
+
+
 - line numbers
 
 - Alt-ESC: completion and position cursor after inserted end tag

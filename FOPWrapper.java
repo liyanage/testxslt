@@ -26,8 +26,9 @@ public class FOPWrapper {
 	public NSData convert(NSData foData) throws IOException, FOPException {
         
 		//Construct driver
+        System.setProperty("java.awt.headless", "true");
 		Driver driver = new Driver();
-        
+		
 		//Setup logger
 		Logger logger = new ConsoleLogger(ConsoleLogger.LEVEL_INFO);
 		driver.setLogger(logger);
@@ -59,6 +60,9 @@ public class FOPWrapper {
 			out.close();
 		}
 		
+		if (errorOccurred) {
+			return null;
+		}
 		return new NSData(out.toByteArray());
 		
 	}

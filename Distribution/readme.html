@@ -1,11 +1,11 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Readme for TestXSLT v2.8</title>
+    <title>Readme for TestXSLT v2.9</title>
     <META name="Author" content="Written by Marc Liyanage ">
   </head>
   <body>
-<h1>Readme for TestXSLT v2.8</h1>
+<h1>Readme for TestXSLT v2.9</h1>
 
 <p>
       <b>
@@ -39,7 +39,7 @@
 <p> </p>
     <h2>Requirements</h2>
     <p>
-Mac OS X 10.2., Safari 1.0 must be installed on your system.
+Mac OS X 10.2. and Safari 1.0 must be installed on your system.
 </p>
 
 <p> </p>
@@ -49,6 +49,22 @@ Mac OS X 10.2., Safari 1.0 must be installed on your system.
         <th bgcolor="#cccccc">Date</th>
         <th bgcolor="#cccccc">Version</th>
         <th bgcolor="#cccccc">Changes</th>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">08-SEP-2003</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">2.9</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>The highlight of this release is a new tag scanner, resulting in much smarter tag completion, and a list of the currently open tags at the top of the editor window. Check it out...</li>
+            <li>Reworked the GUI update code, thus improving the general responsiveness and performance of the application.</li>
+            <li>Major internal cleanup regarding encodings. If a dropped/opened file has an XML declaration with encoding information, that will be used, both when reading and when saving out to the file again. Make sure you activate the corresponding option in BBEdit too. If no such declaration exists, the platform default will be used (i.e. Macintosh encoding). Also, the encoding of the result of the transformation is currently assumed to be what's declared in the declaration of the XSLT code. This means you cannot use a different encoding in the xsl:output element.</li>
+            <li>The fixed encoding issues also mean that xsl:include directives referring to file names with non-ascii characters work now, e.g. &lt;xsl:include href="gähn.xsl"/&gt;.</li>
+            <li>Added a new XSLT example, the first one to produce XSL-FO. It converts the readme.xml file to XSL-FO / PDF, so there are now three output formats for the readme.xml file: HTML, XSL-FO / PDF and RTF. As always, this is intended to get you started with learning XSLT and in this case also XSL-FO. An excellent introduction to the FO part is available at <a href="http://www.ibiblio.org/xml/books/bible2/chapters/ch18.html">http://www.ibiblio.org/xml/books/bible2/chapters/ch18.html</a>
+            </li>
+            <li>Fixed a bug which would prevent XSL-FO / PDF rendering to hang the application if images were used in the document.</li>
+          </ul>
+        </td>
       </tr>
 
 <tr>

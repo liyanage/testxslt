@@ -17,12 +17,9 @@
 	FOPWrapper *fw = (FOPWrapper *)[[NSClassFromString(@"FOPWrapper") alloc] init];
 
 	NSData *resultData = [fw convert:foData];
-	
 	// fixme: autorelease on resultData? creation on Java side?
 	
 	[fw release];
-	
-	//NSLog(@"data: %@", resultData);
 	
 	return resultData;
 }

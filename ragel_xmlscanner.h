@@ -20,7 +20,7 @@
 #include <strings.h>
 
 #define STACKDEPTH 600
-#define MAXTAGLENGTH 500
+#define MAXTAGLENGTH 100
 #define DEBUG 0
 
 

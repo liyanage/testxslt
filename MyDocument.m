@@ -982,30 +982,35 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 	NSData *resultData = [xfr render:[workset result]];
 
+	[xfr release];
+
+	if (!resultData) {
+		NSLog(@"Unable to render, NULL result");
+		return;
+	}
+	
 	[resultData retain];
 	[pdfData release];
 	pdfData = resultData;
 	
 	NSImage *pdfImage = [[[NSImage alloc] initWithData:resultData] autorelease];
 	[pdfImage setBackgroundColor:[NSColor whiteColor]];
+	[pdfImage recache];
 	[pdfImage setCacheMode:NSImageCacheNever];
+	
+	NSClipView *clipView = (NSClipView *)[resultImageView superview];
+	NSScrollView *scrollView = (NSScrollView *)[clipView superview];
 	
 	[resultImageView setImage:pdfImage];
 	[resultImageView setFrameSize:[pdfImage size]];
+	[resultImageView display];
 
-	//:[[[pdfImage representations] objectAtIndex:0] bounds]
-	//[resultImageView sizeToFit];
-	
-	//[resultImageView setNeedsDisplay:YES];
-
-	//NSLog(@"image reps: -%@-", [pdfImage representations]);
-	//NSLog(@"count: -%d-", [[[pdfImage representations] objectAtIndex:0] pageCount]);
+	[clipView scrollToPoint:NSMakePoint([resultImageView frame].origin.x, [resultImageView frame].size.height - [clipView frame].size.height + [resultImageView frame].origin.y)];
+	[scrollView reflectScrolledClipView:clipView];
 	
 	pdfPageCount = [[[pdfImage representations] objectAtIndex:0] pageCount];
 	pdfCurrentPage = 0;
 		
-	[xfr release];
-	
 }
 
 
@@ -1085,13 +1090,11 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	NSSize errorDrawerSize;
 
 	[super windowControllerDidLoadNib:aController];
-		
-	[resultImageView setImageAlignment:NSImageAlignTopLeft];
-	//	[resultImageView setImageFrameStyle:NSImageFrameGroove];
+
+	[resultImageView setImageFrameStyle:NSImageFramePhoto];
 	[resultImageView setImageScaling:NSScaleNone];
+	[resultImageView setImageAlignment:NSImageAlignCenter];
 	[resultImageView setEditable:NO];
-		
-	
 	
 	[resultWebView setTextSizeMultiplier:0.9];
 	
@@ -1103,8 +1106,8 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	errorDrawerSize.height = 130;
 	[errorDrawer setContentSize:errorDrawerSize];
 	
-
-	
+	NSFont *computerFont = [NSFont fontWithName:@"Courier" size:12.0];
+	[resultView setFont:computerFont];
 	
 	if (findPanelController == nil) {
 		findPanelController = [[FindPanelController alloc] initWithWindowNibName:@"FindPanel"];

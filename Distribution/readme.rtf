@@ -61,7 +61,7 @@ The latest version of this software is available at
 
 \f0\b \ Requirements\
 \f1\b0 
-Mac OS X 10.2., Safari 1.0 must be installed on your system.
+Mac OS X 10.2. and Safari 1.0 must be installed on your system.
 \
 \
 
@@ -69,6 +69,25 @@ Mac OS X 10.2., Safari 1.0 must be installed on your system.
 
 \f0\b History
 \f1\b0 \
+
+
+08-SEP-2003 Version 2.9\
+
+- The highlight of this release is a new tag scanner, resulting in much smarter tag completion, and a list of the currently open tags at the top of the editor window. Check it out...\
+
+- Reworked the GUI update code, thus improving the general responsiveness and performance of the application.\
+
+- Major internal cleanup regarding encodings. If a dropped/opened file has an XML declaration with encoding information, that will be used, both when reading and when saving out to the file again. Make sure you activate the corresponding option in BBEdit too. If no such declaration exists, the platform default will be used (i.e. Macintosh encoding). Also, the encoding of the result of the transformation is currently assumed to be what's declared in the declaration of the XSLT code. This means you cannot use a different encoding in the xsl:output element.\
+
+- The fixed encoding issues also mean that xsl:include directives referring to file names with non-ascii characters work now, e.g. <xsl:include href="gähn.xsl"/>.\
+
+- Added a new XSLT example, the first one to produce XSL-FO. It converts the readme.xml file to XSL-FO / PDF, so there are now three output formats for the readme.xml file: HTML, XSL-FO / PDF and RTF. As always, this is intended to get you started with learning XSLT and in this case also XSL-FO. An excellent introduction to the FO part is available at 
+\cf2 http://www.ibiblio.org/xml/books/bible2/chapters/ch18.html\cf0 
+\
+
+- Fixed a bug which would prevent XSL-FO / PDF rendering to hang the application if images were used in the document.\
+
+\
 
 
 17-AUG-2003 Version 2.8\
