@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsa PUBLIC "-//LM Garshol//DTD XML Software Autoupdate 1.0//EN//XML" "http://www.garshol.priv.no/download/xsa/xsa.dtd">
+<xsa>
+  <vendor>
+    <name>Daniel Veillard</name>
+    <email>daniel@veillard.com</email>
+    <url>http://veillard.com/</url>
+  </vendor>
+  <product id="libxml2">
+    <name>libxml2</name>
+    <version>2.5.10</version>
+    <last-release> Aug 15 2003</last-release>
+    <info-url>http://xmlsoft.org/</info-url>
+    <changes>A bugfixes only release</changes>
+  </product>
+</xsa>
