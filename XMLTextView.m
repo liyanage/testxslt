@@ -239,7 +239,7 @@
 
 -(NSString *)calculateTagStackAtLocation:(int)location {
 
-	char *buffer;
+	const char *buffer;
 	int i;
 	NSRange selectedRange;
 	NSMutableString *mystack;

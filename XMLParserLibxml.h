@@ -27,7 +27,7 @@ extern void *xmlGenericErrorContext;
 void makeUnixLineFeeds(char *buffer);
 
 - (BOOL)parseData:(NSData *)xmlCode;
-- (BOOL)checkWellFormedData:(NSData *)xmlCode;
+//- (BOOL)checkWellFormedData:(NSData *)xmlCode;
 - (void)setErrorMessage:(NSString *)message;
 - (void)appendErrorMessage:(NSString *)message;
 - (void)markFirstErrorLine;

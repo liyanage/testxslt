@@ -90,7 +90,7 @@
 
 - (void)setResultEncodingFromData:(NSData *)data {
 
-	NSStringEncoding dataencoding = getEncodingFromXmlDecl([data bytes], [data length]);
+	NSStringEncoding dataencoding = getEncodingFromXmlDecl((char *)[data bytes], [data length]);
 
 	if (dataencoding == 0)
 		dataencoding = NSUTF8StringEncoding;

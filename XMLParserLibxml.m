@@ -131,10 +131,10 @@ void makeUnixLineFeeds(char *buffer) {
 	
 }
 
+/*
 
 - (BOOL)checkWellFormedData:(NSData *)xmlCode {
 
-	/*
 	// fixme: using nsdata now, not null-terminated. maybe replace with expat.
 	return YES;
 	char *xmlString = (char *)[xmlCode bytes];
@@ -180,16 +180,16 @@ void makeUnixLineFeeds(char *buffer) {
 		return YES;
 	}
 
-*/
 	 
 }
 
+*/
 
 
 
 - (BOOL)parseData:(NSData *)xmlCode {
 
-	int error = 0;
+//	int error = 0;
 
 //	makeUnixLineFeeds(xmlString);
 

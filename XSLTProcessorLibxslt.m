@@ -38,7 +38,7 @@
 
 	xmlDocPtr resultDoc = NULL;
 	xsltStylesheetPtr stylesheet = NULL;
-	xsltTemplatePtr template = NULL;
+//	xsltTemplatePtr template = NULL;
 
 
 	[self clearError];
