@@ -44,15 +44,12 @@
 
 }
 
+
 - (IBAction)selectTab:(id)sender {
 
 	[self selectTabById:[sender tag]];
 	
 }
-
-
-
-
 
 
 - (IBAction)selectTabById:(int)tabId {
@@ -78,12 +75,12 @@
 			tabName = @"resultTab";
 			break;
 
-
 	}
 
 	[tabView selectTabViewItemWithIdentifier:tabName];
 
 }
+
 
 - (void)textViewDidChangeSelection:(NSNotification *)aNotification {
 	[self updateUI];
@@ -96,8 +93,6 @@
 
 	[self doUpdateUI];
 }
-
-
 
 
 - (void)updateUI {
@@ -114,14 +109,13 @@
 	
 }
 
+
 - (void)uiUpdateTimerTarget:(NSTimer *)timer {
 
 	[self doUpdateUI];
 	[timer release];
 	uiUpdateTimer = nil;
 }
-
-
 
 
 - (void)doUpdateUI {
@@ -237,7 +231,6 @@
 		imageViewUpToDate = YES;
 	}
 }
-
 
 
 - (BOOL)canProcessNow {
