@@ -249,7 +249,8 @@
 		1B3BC839043618A6006C8631 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			path = UnsavedChanges.nib;
+			name = English;
+			path = English.lproj/UnsavedChanges.nib;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -711,9 +712,9 @@
 				1B3CBC4807CBF598008B4FAA,
 				1B3CBC4907CBF598008B4FAA,
 				1B3CBC4A07CBF598008B4FAA,
-				1B3CBC4C07CBF598008B4FAA,
+				1BB501E107CDC8C50015DFDC,
 				1B3CBC4D07CBF598008B4FAA,
-				1B3CBC4E07CBF598008B4FAA,
+				1BB501DF07CDC8B30015DFDC,
 				1B3CBC4F07CBF598008B4FAA,
 				1B3CBC5007CBF598008B4FAA,
 				1B3CBC5107CBF598008B4FAA,
@@ -777,20 +778,8 @@
 			settings = {
 			};
 		};
-		1B3CBC4C07CBF598008B4FAA = {
-			fileRef = 1B3BC839043618A6006C8631;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		1B3CBC4D07CBF598008B4FAA = {
 			fileRef = F73C8200031598F4010D3857;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		1B3CBC4E07CBF598008B4FAA = {
-			fileRef = F7AE24140320247101000103;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1376,6 +1365,36 @@
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
+		1BB501DE07CDC8B30015DFDC = {
+			children = (
+				F7AE24140320247101000103,
+			);
+			isa = PBXVariantGroup;
+			name = JumpToLine.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1BB501DF07CDC8B30015DFDC = {
+			fileRef = 1BB501DE07CDC8B30015DFDC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1BB501E007CDC8C50015DFDC = {
+			children = (
+				1B3BC839043618A6006C8631,
+			);
+			isa = PBXVariantGroup;
+			name = UnsavedChanges.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1BB501E107CDC8C50015DFDC = {
+			fileRef = 1BB501E007CDC8C50015DFDC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		1BB569F404E3010E0099E21C = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1729,10 +1748,10 @@
 				1B64BC8507C6AB120014535B,
 				F7E9761C02EAE5BF01CD68AE,
 				2A37F4B9FDCFA73011CA2CEA,
-				F7AE24140320247101000103,
+				1BB501DE07CDC8B30015DFDC,
 				2A37F4B6FDCFA73011CA2CEA,
 				2A37F4B4FDCFA73011CA2CEA,
-				1B3BC839043618A6006C8631,
+				1BB501E007CDC8C50015DFDC,
 				F73C8200031598F4010D3857,
 				F7984B7002D626B50156A887,
 				F7BEF93502D6273601F46A01,
@@ -2094,7 +2113,8 @@
 		F7AE24140320247101000103 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			path = JumpToLine.nib;
+			name = English;
+			path = English.lproj/JumpToLine.nib;
 			refType = 4;
 			sourceTree = "<group>";
 		};
