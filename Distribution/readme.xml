@@ -35,6 +35,13 @@ Mac OS X 10.3. and Safari 1.0 must be installed on your system.
 <history>
 
 <entry>
+	<version>3.2</version>
+	<date>24-FEB-2005</date>
+	<item>Updated libxml2, libxslt, libexpat and Sablotron Libraries to the most recent versions.</item>
+	<item>Changed the way these libraries are included in the project, which removes tons of unused files from the distribution.</item>
+</entry>
+
+<entry>
 	<version>3.1</version>
 	<date>19-FEB-2005</date>
 	<item>Extra special big thanks to the folks at VitalSource (<url>http://www.vitalsource.com</url>) for their generous donation in support of this release :-)</item>

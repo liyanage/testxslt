@@ -113,7 +113,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.c;
-			path = test_ragel_xmlscanner.c;
+			name = test_ragel_xmlscanner.c;
+			path = src/test_ragel_xmlscanner.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -206,7 +207,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = ragel_xmlscanner.h;
+			name = ragel_xmlscanner.h;
+			path = src/ragel_xmlscanner.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -214,7 +216,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.c;
-			path = ragel_xmlscanner.c;
+			name = ragel_xmlscanner.c;
+			path = src/ragel_xmlscanner.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -222,7 +225,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.c;
-			path = ragel_xmlscanner_out.c;
+			name = ragel_xmlscanner_out.c;
+			path = src/ragel_xmlscanner_out.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -242,7 +246,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.java;
-			path = JAXPWrapper.java;
+			name = JAXPWrapper.java;
+			path = "src-java/JAXPWrapper.java";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -258,7 +263,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = UnsavedChangesPanelController.h;
+			name = UnsavedChangesPanelController.h;
+			path = src/UnsavedChangesPanelController.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -266,7 +272,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = UnsavedChangesPanelController.m;
+			name = UnsavedChangesPanelController.m;
+			path = src/UnsavedChangesPanelController.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -274,7 +281,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = AppDelegate.h;
+			name = AppDelegate.h;
+			path = src/AppDelegate.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -283,7 +291,8 @@
 			indentWidth = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = AppDelegate.m;
+			name = AppDelegate.m;
+			path = src/AppDelegate.m;
 			refType = 4;
 			sourceTree = "<group>";
 			usesTabs = 1;
@@ -504,7 +513,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = "build/libs/inst/include/libxml2 build/libs/inst/include";
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = /Users/liyanage/cvs/entropy/TestXSLT/build/libs;
+				LIBRARY_SEARCH_PATHS = build/libs;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = TestXSLT;
@@ -708,7 +717,6 @@
 				1B3CBC4407CBF598008B4FAA,
 				1B3CBC4507CBF598008B4FAA,
 				1B3CBC4607CBF598008B4FAA,
-				1B3CBC4707CBF598008B4FAA,
 				1B3CBC4807CBF598008B4FAA,
 				1B3CBC4907CBF598008B4FAA,
 				1B3CBC4A07CBF598008B4FAA,
@@ -750,12 +758,6 @@
 		};
 		1B3CBC4607CBF598008B4FAA = {
 			fileRef = F7BEF93502D6273601F46A01;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		1B3CBC4707CBF598008B4FAA = {
-			fileRef = F7E9761A02EAE49801CD68AE;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1219,7 +1221,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = XSLTProcessorJAXPBase.h;
+			name = XSLTProcessorJAXPBase.h;
+			path = src/XSLTProcessorJAXPBase.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1227,7 +1230,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = XSLTProcessorJAXPBase.m;
+			name = XSLTProcessorJAXPBase.m;
+			path = src/XSLTProcessorJAXPBase.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1235,7 +1239,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = XSLTProcessorXalan_J.h;
+			name = XSLTProcessorXalan_J.h;
+			path = src/XSLTProcessorXalan_J.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1243,7 +1248,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = XSLTProcessorXalan_J.m;
+			name = XSLTProcessorXalan_J.m;
+			path = src/XSLTProcessorXalan_J.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1286,7 +1292,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = XSLTProcessorSaxon.h;
+			name = XSLTProcessorSaxon.h;
+			path = src/XSLTProcessorSaxon.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1294,7 +1301,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = XSLTProcessorSaxon.m;
+			name = XSLTProcessorSaxon.m;
+			path = src/XSLTProcessorSaxon.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1313,7 +1321,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.java;
-			path = StringErrorListener.java;
+			name = StringErrorListener.java;
+			path = "src-java/StringErrorListener.java";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1399,7 +1408,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.java;
-			path = FOPWrapper.java;
+			name = FOPWrapper.java;
+			path = "src-java/FOPWrapper.java";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1458,7 +1468,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.c;
-			path = ragel_xmldeclscanner.c;
+			name = ragel_xmldeclscanner.c;
+			path = src/ragel_xmldeclscanner.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1466,7 +1477,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = ragel_xmldeclscanner.h;
+			name = ragel_xmldeclscanner.h;
+			path = src/ragel_xmldeclscanner.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1480,7 +1492,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.c;
-			path = ragel_xmldeclscanner_out.c;
+			name = ragel_xmldeclscanner_out.c;
+			path = src/ragel_xmldeclscanner_out.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1494,7 +1507,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = XMLUtils.h;
+			name = XMLUtils.h;
+			path = src/XMLUtils.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1502,7 +1516,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = XMLUtils.m;
+			name = XMLUtils.m;
+			path = src/XMLUtils.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1542,7 +1557,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = TabViewDraggingCategory.h;
+			name = TabViewDraggingCategory.h;
+			path = src/TabViewDraggingCategory.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1550,7 +1566,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = TabViewDraggingCategory.m;
+			name = TabViewDraggingCategory.m;
+			path = src/TabViewDraggingCategory.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1584,7 +1601,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = XSL_FO_Renderer.h;
+			name = XSL_FO_Renderer.h;
+			path = src/XSL_FO_Renderer.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1592,7 +1610,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = XSL_FO_Renderer.m;
+			name = XSL_FO_Renderer.m;
+			path = src/XSL_FO_Renderer.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1675,7 +1694,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = MyDocument.m;
+			name = MyDocument.m;
+			path = src/MyDocument.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1683,7 +1703,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = MyDocument.h;
+			name = MyDocument.h;
+			path = src/MyDocument.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1701,7 +1722,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = main.m;
+			name = main.m;
+			path = src/main.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1756,7 +1778,6 @@
 				F7984B7002D626B50156A887,
 				F7BEF93502D6273601F46A01,
 				089C165FFE840EACC02AAC07,
-				F7E9761A02EAE49801CD68AE,
 				F7D210D302FA755701000103,
 				F70DC0B90334879E01000103,
 			);
@@ -1864,7 +1885,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = Workset.h;
+			name = Workset.h;
+			path = src/Workset.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1872,7 +1894,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = Workset.m;
+			name = Workset.m;
+			path = src/Workset.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1880,7 +1903,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = ParameterSet.h;
+			name = ParameterSet.h;
+			path = src/ParameterSet.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1888,7 +1912,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = ParameterSet.m;
+			name = ParameterSet.m;
+			path = src/ParameterSet.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1963,7 +1988,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = FindPanelController.h;
+			name = FindPanelController.h;
+			path = src/FindPanelController.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1971,7 +1997,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = FindPanelController.m;
+			name = FindPanelController.m;
+			path = src/FindPanelController.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1987,7 +2014,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = XMLParserLibxml.h;
+			name = XMLParserLibxml.h;
+			path = src/XMLParserLibxml.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1995,7 +2023,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = XMLParserLibxml.m;
+			name = XMLParserLibxml.m;
+			path = src/XMLParserLibxml.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2021,7 +2050,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = DragDestinationTextView.h;
+			name = DragDestinationTextView.h;
+			path = src/DragDestinationTextView.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2029,7 +2059,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = DragDestinationTextView.m;
+			name = DragDestinationTextView.m;
+			path = src/DragDestinationTextView.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2091,7 +2122,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = XMLTextView.h;
+			name = XMLTextView.h;
+			path = src/XMLTextView.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2099,7 +2131,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = XMLTextView.m;
+			name = XMLTextView.m;
+			path = src/XMLTextView.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2122,7 +2155,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = JumpToLinePanelController.h;
+			name = JumpToLinePanelController.h;
+			path = src/JumpToLinePanelController.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2130,7 +2164,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = JumpToLinePanelController.m;
+			name = JumpToLinePanelController.m;
+			path = src/JumpToLinePanelController.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2164,7 +2199,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = XSLTProcessor.h;
+			name = XSLTProcessor.h;
+			path = src/XSLTProcessor.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2172,7 +2208,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = XSLTProcessor.m;
+			name = XSLTProcessor.m;
+			path = src/XSLTProcessor.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2180,7 +2217,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = XSLTProcessorSablotron.h;
+			name = XSLTProcessorSablotron.h;
+			path = src/XSLTProcessorSablotron.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2188,7 +2226,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = XSLTProcessorSablotron.m;
+			name = XSLTProcessorSablotron.m;
+			path = src/XSLTProcessorSablotron.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2196,7 +2235,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = XSLTProcessorLibxslt.h;
+			name = XSLTProcessorLibxslt.h;
+			path = src/XSLTProcessorLibxslt.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2204,7 +2244,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = XSLTProcessorLibxslt.m;
+			name = XSLTProcessorLibxslt.m;
+			path = src/XSLTProcessorLibxslt.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2212,7 +2253,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = XSLTProcessorFactory.h;
+			name = XSLTProcessorFactory.h;
+			path = src/XSLTProcessorFactory.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2220,14 +2262,16 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = XSLTProcessorFactory.m;
+			name = XSLTProcessorFactory.m;
+			path = src/XSLTProcessorFactory.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		F7D210D302FA755701000103 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
-			path = WarningIcon.tif;
+			name = WarningIcon.tif;
+			path = artwork/WarningIcon.tif;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2235,7 +2279,8 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = NSApplicationScriptingCategory.m;
+			name = NSApplicationScriptingCategory.m;
+			path = src/NSApplicationScriptingCategory.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2243,21 +2288,16 @@
 			fileEncoding = 5;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = NSApplicationScriptingCategory.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		F7E9761A02EAE49801CD68AE = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.tiff;
-			path = TestXSLT.tif;
+			name = NSApplicationScriptingCategory.h;
+			path = src/NSApplicationScriptingCategory.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		F7E9761C02EAE5BF01CD68AE = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
-			path = TestXSLT.icns;
+			name = TestXSLT.icns;
+			path = artwork/TestXSLT.icns;
 			refType = 4;
 			sourceTree = "<group>";
 		};

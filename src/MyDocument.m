@@ -34,6 +34,7 @@
 
 - (void)dealloc {
 
+	[uiUpdateTimer invalidate];
 	[uiUpdateTimer release];
 	[workset release];
 	[processor release];
