@@ -90,6 +90,8 @@ enum {
 	IBOutlet NSTextField *drawerMessageField;
 	NSData *pdfData;
 
+	IBOutlet NSTextField *webViewBaseURL;
+
 	FindPanelController *findPanelController;
 	JumpToLinePanelController *jumpToLinePanelController;
 	UnsavedChangesPanelController *unsavedChangesPanelController;
@@ -150,12 +152,22 @@ enum {
 - (IBAction)process:(id)sender;
 - (IBAction)loadXml:(id)sender;
 - (IBAction)loadXslt:(id)sender;
+
+- (BOOL)canSaveXmlAsNow;
+- (BOOL)canSaveXmlNow;
+- (BOOL)canSaveXsltAsNow;
+- (BOOL)canSaveXsltNow;
+- (BOOL)canSaveResultAsNow;
+- (BOOL)canSaveResultNow;
+
 - (IBAction)saveResultAs:(id)sender;
 - (IBAction)saveResult:(id)sender;
 - (IBAction)saveXmlAs:(id)sender;
 - (IBAction)saveXml:(id)sender;
 - (IBAction)saveXsltAs:(id)sender;
 - (IBAction)saveXslt:(id)sender;
+- (IBAction)saveCurrentAs:(id)sender;
+- (IBAction)saveCurrent:(id)sender;
 - (IBAction)newParameter:(id)sender;
 - (IBAction)removeParameter:(id)sender;
 - (IBAction)openResultURL:(id)sender;

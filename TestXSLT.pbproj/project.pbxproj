@@ -53066,6 +53066,34 @@
 			settings = {
 			};
 		};
+		1BDE2ED4054C28BB00D5B2E9 = {
+			expectedFileType = sourcecode.c.h;
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = TabViewDraggingCategory.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1BDE2ED5054C28BB00D5B2E9 = {
+			expectedFileType = sourcecode.c.objc;
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = TabViewDraggingCategory.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1BDE2ED6054C28BB00D5B2E9 = {
+			fileRef = 1BDE2ED4054C28BB00D5B2E9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1BDE2ED7054C28BB00D5B2E9 = {
+			fileRef = 1BDE2ED5054C28BB00D5B2E9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		1BF7F12304F2BE74007723F5 = {
 			expectedFileType = sourcecode.c.h;
 			fileEncoding = 4;
@@ -53176,6 +53204,8 @@
 				F7AE2417032024D601000103,
 				1B3BC83B0436364A006C8631,
 				1B3BC83C0436364A006C8631,
+				1BDE2ED4054C28BB00D5B2E9,
+				1BDE2ED5054C28BB00D5B2E9,
 			);
 			isa = PBXGroup;
 			name = "View/Controller Classes";
@@ -53385,7 +53415,7 @@
 	<key>CFBundleExecutable</key>
 	<string>TestXSLT</string>
 	<key>CFBundleGetInfoString</key>
-	<string>TestXSLT 2.9 by Marc Liyanage, http://www.entropy.ch</string>
+	<string>TestXSLT 3.0 by Marc Liyanage, http://www.entropy.ch</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>TestXSLT Help</string>
 	<key>CFBundleIconFile</key>
@@ -53397,11 +53427,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.9</string>
+	<string>3.0</string>
 	<key>CFBundleSignature</key>
 	<string>XsLt</string>
 	<key>CFBundleVersion</key>
-	<string>2.9</string>
+	<string>3.0</string>
 	<key>Java</key>
 	<dict>
 		<key>JVMVersion</key>
@@ -53461,6 +53491,7 @@
 				1B17499D04FEB2BE00E5CBC3,
 				1BD3D5CB05015C8400FF9835,
 				1BD3D6580501681E00FF9835,
+				1BDE2ED6054C28BB00D5B2E9,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -53526,6 +53557,7 @@
 				1B1749C404FEB65B00E5CBC3,
 				1BD3D610050160EC00FF9835,
 				1BD3D6590501681E00FF9835,
+				1BDE2ED7054C28BB00D5B2E9,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

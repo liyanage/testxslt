@@ -63,6 +63,7 @@
                 saveXsltButton = NSButton; 
                 saveXsltFilenameField = NSTextField; 
                 tabView = NSTabView; 
+                webViewBaseURL = NSTextField; 
                 xmlTagStackField = NSTextField; 
                 xmlView = XMLTextView; 
                 xmlWellFormedIcon = NSImageView; 

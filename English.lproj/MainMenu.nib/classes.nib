@@ -12,6 +12,8 @@
                 findPrevious = id; 
                 openResultURL = id; 
                 process = id; 
+                saveCurrent = id; 
+                saveCurrentAs = id; 
                 selectTab = id; 
                 showFindPanel = id; 
                 showJumpToLinePanel = id; 

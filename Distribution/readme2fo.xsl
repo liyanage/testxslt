@@ -7,8 +7,6 @@
 	<xsl:output method="xml" indent="yes" encoding="UTF-8" />
 	<xsl:param name="version" />
 
-
-
 	<!-- This template matches the root element of the readme document and emits the page
          master definitions -->
 	<xsl:template match='readme'>

@@ -25,6 +25,11 @@
 		xsltDirty = NO;
 	}
 
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *appDefaults = [NSDictionary
+        dictionaryWithObject:@"YES" forKey:@"AnalyzeCode"];
+	
+    [defaults registerDefaults:appDefaults];
 	
 	
 	return self;
@@ -108,6 +113,7 @@
 
 	[uiUpdateTimer retain];
 
+	
 }
 
 - (void)uiUpdateTimerTarget:(NSTimer *)timer {
@@ -116,6 +122,7 @@
 	[timer release];
 	uiUpdateTimer = nil;
 }
+
 
 
 
@@ -137,8 +144,8 @@
 	if (xmlTabIsVisible) {
 		[saveXmlFilenameField setObjectValue:[workset xmlFilename]];
 		[saveXmlFilenameField setToolTip:[workset xmlFilename]];
-		[saveXmlButton setEnabled:[workset hasXmlFilename] && xmlDirty];
-		[saveXmlAsButton setEnabled:[workset hasXmlCode]];
+		[saveXmlButton setEnabled:[self canSaveXmlNow]];
+		[saveXmlAsButton setEnabled:[self canSaveXmlAsNow]];
 		[xmlTagStackField setStringValue:[xmlView calculateTagStack]];
 	
 		[xmlView checkWellFormed];
@@ -153,8 +160,8 @@
 	} else if (xsltTabIsVisible) {
 		[saveXsltFilenameField setObjectValue:[workset xsltFilename]];
 		[saveXsltFilenameField setToolTip:[workset xsltFilename]];
-		[saveXsltButton setEnabled:[workset hasXsltFilename] && xsltDirty];
-		[saveXsltAsButton setEnabled:[workset hasXsltCode]];
+		[saveXsltButton setEnabled:[self canSaveXsltNow]];
+		[saveXsltAsButton setEnabled:[self canSaveXsltAsNow]];
 		[xsltTagStackField setStringValue:[xsltView calculateTagStack]];
 
 		[xsltView checkWellFormed];
@@ -170,8 +177,8 @@
 		[paramRemoveButton setEnabled:[parameterTable selectedRow] != -1];
 		[parameterTable reloadData];
 	} else if (resultTabIsVisible) {
-		[saveResultAsButton setEnabled:[workset hasResult]];
-		[saveResultButton setEnabled:[workset hasResultFilename] && resultDirty];
+		[saveResultAsButton setEnabled:[self canSaveResultAsNow]];
+		[saveResultButton setEnabled:[self canSaveResultNow]];
 		[autoSaveCheckbox setEnabled:[workset hasResultFilename]];
 		[openResultURLButton setEnabled:[workset hasResultFilename]];
 		[autoShowCheckbox setEnabled:[openResultURLButton isEnabled]];
@@ -210,7 +217,9 @@
 - (void)updateResultWebView {
 	if (!webViewUpToDate) {
 		WebFrame *mainFrame = [resultWebView mainFrame];
-		[mainFrame loadHTMLString:[workset stringResult] baseURL:nil];
+//		[mainFrame loadHTMLString:[workset stringResult] baseURL:nil];
+		[mainFrame loadHTMLString:[workset stringResult] baseURL:[NSURL URLWithString:[webViewBaseURL stringValue]]];
+//		[mainFrame loadHTMLString:[workset stringResult] baseURL:[NSURL URLWithString:@"file:///Users/liyanage/Sites/primavera/images/x"]];
 		webViewUpToDate = YES;
 	}
 }
@@ -235,6 +244,13 @@
 
 //	NSLog(@"validate: %@, tag: %d", menuItem, [menuItem tag]);
 
+	NSString *activeTabIdentifier = [[tabView selectedTabViewItem] identifier];
+	BOOL xmlTabIsVisible = [activeTabIdentifier isEqualToString:@"xmlTab"];
+	BOOL xsltTabIsVisible = !xmlTabIsVisible && [activeTabIdentifier isEqualToString:@"xsltTab"];
+	BOOL paramTabIsVisible = !(xmlTabIsVisible || xsltTabIsVisible) && [activeTabIdentifier isEqualToString:@"parametersTab"];
+	BOOL resultTabIsVisible = !(xmlTabIsVisible || xsltTabIsVisible || paramTabIsVisible);
+
+	
 	switch ([menuItem tag]) {
 
 		case 10:	// Process
@@ -262,6 +278,25 @@
 			return [self canJumpToLineNow];
 			break;
 			
+		case 17:	// Save Current Pane
+			if (xmlTabIsVisible) {
+				return [self canSaveXmlNow];
+			} else if (xsltTabIsVisible) {
+				return [self canSaveXsltNow];
+			} else if (resultTabIsVisible) {
+				return [self canSaveResultNow];
+			}
+			break;
+			
+		case 18:	// Save Current Pane As...
+			if (xmlTabIsVisible) {
+				return [self canSaveXmlAsNow];
+			} else if (xsltTabIsVisible) {
+				return [self canSaveXsltAsNow];
+			} else if (resultTabIsVisible) {
+				return [self canSaveResultAsNow];
+			}
+			break;
 			
 		default:
 			return YES;
@@ -599,6 +634,34 @@
 
 
 
+
+- (BOOL)canSaveXmlAsNow {
+	return [workset hasXmlCode];
+}
+
+- (BOOL)canSaveXmlNow {
+	return [workset hasXmlFilename] && xmlDirty;
+}
+
+- (BOOL)canSaveXsltAsNow {
+	return [workset hasXsltCode];
+}
+
+- (BOOL)canSaveXsltNow {
+	return [workset hasXsltFilename] && xsltDirty;
+}
+
+- (BOOL)canSaveResultAsNow {
+	return [workset hasResult];
+}
+
+- (BOOL)canSaveResultNow {
+	return [workset hasResultFilename] && resultDirty;
+}
+
+
+
+
 - (IBAction)saveXmlAs:(id)sender {
 
 	NSSavePanel *panel = [NSSavePanel savePanel];
@@ -677,6 +740,50 @@
 	[self autoShow];
 	
 }
+
+
+- (IBAction)saveCurrentAs:(id)sender {
+	
+	NSString *activeTabIdentifier = [[tabView selectedTabViewItem] identifier];
+	BOOL xmlTabIsVisible = [activeTabIdentifier isEqualToString:@"xmlTab"];
+	BOOL xsltTabIsVisible = !xmlTabIsVisible && [activeTabIdentifier isEqualToString:@"xsltTab"];
+	BOOL paramTabIsVisible = !(xmlTabIsVisible || xsltTabIsVisible) && [activeTabIdentifier isEqualToString:@"parametersTab"];
+	BOOL resultTabIsVisible = !(xmlTabIsVisible || xsltTabIsVisible || paramTabIsVisible);
+	
+	if (xmlTabIsVisible) {
+		return [self saveXmlAs:sender];
+	} else if (xsltTabIsVisible) {
+		return [self saveXsltAs:sender];
+	} else if (resultTabIsVisible) {
+		return [self saveResultAs:sender];
+	}
+
+}
+
+
+
+
+- (IBAction)saveCurrent:(id)sender {
+
+	NSString *activeTabIdentifier = [[tabView selectedTabViewItem] identifier];
+	BOOL xmlTabIsVisible = [activeTabIdentifier isEqualToString:@"xmlTab"];
+	BOOL xsltTabIsVisible = !xmlTabIsVisible && [activeTabIdentifier isEqualToString:@"xsltTab"];
+	BOOL paramTabIsVisible = !(xmlTabIsVisible || xsltTabIsVisible) && [activeTabIdentifier isEqualToString:@"parametersTab"];
+	BOOL resultTabIsVisible = !(xmlTabIsVisible || xsltTabIsVisible || paramTabIsVisible);
+	
+	if (xmlTabIsVisible) {
+		return [self saveXml:sender];
+	} else if (xsltTabIsVisible) {
+		return [self saveXslt:sender];
+	} else if (resultTabIsVisible) {
+		return [self saveResult:sender];
+	}
+	
+}
+
+
+
+
 
 
 - (IBAction)openResultURL:(id)sender {
@@ -1066,7 +1173,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 - (void)resizeWebView {
 	
-	[[[resultWebView mainFrame] frameView] setFrame:[resultWebView frame]];
+//	[[[resultWebView mainFrame] frameView] setFrame:[resultWebView frame]];
 	[resultWebView setNeedsDisplay:YES];
 
 }
@@ -1108,6 +1215,10 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	
 	NSFont *computerFont = [NSFont fontWithName:@"Courier" size:12.0];
 	[resultView setFont:computerFont];
+
+	[tabView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+
+	
 	
 	if (findPanelController == nil) {
 		findPanelController = [[FindPanelController alloc] initWithWindowNibName:@"FindPanel"];
