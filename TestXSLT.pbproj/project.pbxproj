@@ -1264,16 +1264,18 @@
 			);
 			isa = PBXGroup;
 			name = "Xalan-J Processor";
+			path = "";
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		1B64BBA507C5E1710014535B = {
+			includeInIndex = 0;
 			isa = PBXFileReference;
 			lastKnownFileType = archive.jar;
 			name = xalan.jar;
-			path = "Xalan-J/xalan.jar";
-			refType = 4;
-			sourceTree = "<group>";
+			path = "libs/Xalan-J/xalan.jar";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		1B64BC8507C6AB120014535B = {
 			fileEncoding = 4;
@@ -1314,6 +1316,7 @@
 			);
 			isa = PBXGroup;
 			name = "Saxon Processor";
+			path = "";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1393,7 +1396,7 @@
 			);
 			isa = PBXGroup;
 			name = FOP;
-			path = Distribution;
+			path = libs/FOP;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1401,7 +1404,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.jar;
 			name = "avalon-framework-cvs-20020806.jar";
-			path = "FOP/avalon-framework-cvs-20020806.jar";
+			path = "libs/FOP/avalon-framework-cvs-20020806.jar";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -1409,7 +1412,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.jar;
 			name = batik.jar;
-			path = FOP/batik.jar;
+			path = libs/FOP/batik.jar;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -1417,7 +1420,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.jar;
 			name = fop.jar;
-			path = FOP/fop.jar;
+			path = libs/FOP/fop.jar;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -1488,7 +1491,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.jar;
 			name = jai_codec.jar;
-			path = FOP/jai_codec.jar;
+			path = libs/FOP/jai_codec.jar;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -1496,7 +1499,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.jar;
 			name = jai_core.jar;
-			path = FOP/jai_core.jar;
+			path = libs/FOP/jai_core.jar;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -1504,7 +1507,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.jar;
 			name = "jimi-1.0.jar";
-			path = "FOP/jimi-1.0.jar";
+			path = "libs/FOP/jimi-1.0.jar";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -1512,7 +1515,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = archive.jar;
 			name = mlibwrapper_jai.jar;
-			path = FOP/mlibwrapper_jai.jar;
+			path = libs/FOP/mlibwrapper_jai.jar;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -1533,18 +1536,20 @@
 			sourceTree = "<group>";
 		};
 		1BE3506107C5D11B00D05BE4 = {
+			includeInIndex = 0;
 			isa = PBXFileReference;
 			lastKnownFileType = archive.jar;
 			name = "saxon8-sql.jar";
-			path = "Saxon/saxon8-sql.jar";
+			path = "libs/Saxon/saxon8-sql.jar";
 			refType = 4;
 			sourceTree = "<group>";
 		};
 		1BE3506207C5D11B00D05BE4 = {
+			includeInIndex = 0;
 			isa = PBXFileReference;
 			lastKnownFileType = archive.jar;
 			name = saxon8.jar;
-			path = Saxon/saxon8.jar;
+			path = libs/Saxon/saxon8.jar;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1607,9 +1612,6 @@
 				F5F178320260CC3601267658,
 				1B02A8AB04FFD5B600D27002,
 				1B23468104DEB03A0050A2ED,
-				1B5E2F3104F1086300F043CD,
-				1B6AEEC2049344C400000102,
-				1BBE146104F29D71004DDAF6,
 				2A37F4AFFDCFA73011CA2CEA,
 				F7641DA602FFB2FA01A8A905,
 				2A37F4B8FDCFA73011CA2CEA,
@@ -1765,6 +1767,9 @@
 		};
 		2A37F4C3FDCFA73011CA2CEA = {
 			children = (
+				1BBE146104F29D71004DDAF6,
+				1B5E2F3104F1086300F043CD,
+				1B6AEEC2049344C400000102,
 				1B3CBAE107CBDCB3008B4FAA,
 				1058C7A6FEA54F5311CA2CBB,
 				1058C7A8FEA54F5311CA2CBB,

@@ -262,19 +262,11 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>2A37F4AAFDCFA73011CA2CEA</string>
-								<string>1B02A8AB04FFD5B600D27002</string>
-								<string>2A37F4B8FDCFA73011CA2CEA</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
-							<array>
-								<array>
-									<integer>11</integer>
-									<integer>4</integer>
-									<integer>0</integer>
-								</array>
-							</array>
+							<array/>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
 							<string>{{0, 0}, {220, 562}}</string>
 						</dict>
@@ -317,7 +309,7 @@
 										<key>PBXProjectModuleLabel</key>
 										<string>ragel_xmldeclscanner.h</string>
 										<key>bookmark</key>
-										<string>1BB501CF07CDC56A0015DFDC</string>
+										<string>1BB501DC07CDC8740015DFDC</string>
 										<key>history</key>
 										<array>
 											<string>1B896C1507B17E7A00ECFC52</string>
@@ -482,7 +474,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>130925930.66648188</real>
+	<real>130926708.31782258</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -531,7 +523,7 @@
 										<key>PBXProjectModuleLabel</key>
 										<string>MyDocument.m</string>
 										<key>bookmark</key>
-										<string>1BB501D007CDC56A0015DFDC</string>
+										<string>1BB501DD07CDC8740015DFDC</string>
 										<key>history</key>
 										<array>
 											<string>1B3CBD1207CCA12E008B4FAA</string>

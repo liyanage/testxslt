@@ -1306,6 +1306,46 @@
 		vrLen = 0;
 		vrLoc = 0;
 	};
+	1BB501DA07CDC7890015DFDC = {
+		fRef = 1BD3D5C705015C8400FF9835;
+		isa = PBXTextBookmark;
+		name = "ragel_xmldeclscanner.h: getEncodingFromXmlDecl";
+		rLen = 0;
+		rLoc = 468;
+		rType = 0;
+		vrLen = 381;
+		vrLoc = 392;
+	};
+	1BB501DB07CDC7890015DFDC = {
+		fRef = 2A37F4ACFDCFA73011CA2CEA;
+		isa = PBXTextBookmark;
+		name = "xmlWellFormedIcon setToolTip:[xmlView valueForKey:@\"errorString\"]];\n\t\t\t\t[";
+		rLen = 73;
+		rLoc = 3665;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	1BB501DC07CDC8740015DFDC = {
+		fRef = 1BD3D5C705015C8400FF9835;
+		isa = PBXTextBookmark;
+		name = "ragel_xmldeclscanner.h: getEncodingFromXmlDecl";
+		rLen = 0;
+		rLoc = 468;
+		rType = 0;
+		vrLen = 381;
+		vrLoc = 392;
+	};
+	1BB501DD07CDC8740015DFDC = {
+		fRef = 2A37F4ACFDCFA73011CA2CEA;
+		isa = PBXTextBookmark;
+		name = "xmlWellFormedIcon setToolTip:[xmlView valueForKey:@\"errorString\"]];\n\t\t\t\t[";
+		rLen = 73;
+		rLoc = 3665;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
 	1BB569F404E3010E0099E21C = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {826, 1568}}";
@@ -2716,6 +2756,10 @@
 			1BB501CE07CDC5540015DFDC = 1BB501CE07CDC5540015DFDC;
 			1BB501CF07CDC56A0015DFDC = 1BB501CF07CDC56A0015DFDC;
 			1BB501D007CDC56A0015DFDC = 1BB501D007CDC56A0015DFDC;
+			1BB501DA07CDC7890015DFDC = 1BB501DA07CDC7890015DFDC;
+			1BB501DB07CDC7890015DFDC = 1BB501DB07CDC7890015DFDC;
+			1BB501DC07CDC8740015DFDC = 1BB501DC07CDC8740015DFDC;
+			1BB501DD07CDC8740015DFDC = 1BB501DD07CDC8740015DFDC;
 			1BE3507607C5D1FF00D05BE4 = 1BE3507607C5D1FF00D05BE4;
 			1BF536FC07C74BC400D6EBDB = 1BF536FC07C74BC400D6EBDB;
 			1BF5370307C74C8200D6EBDB = 1BF5370307C74C8200D6EBDB;
