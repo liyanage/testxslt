@@ -38,6 +38,8 @@
 #include <libxml/HTMLtree.h>
 #endif
 
+int __xmlRegisterCallbacks = 0;
+
 xmlNsPtr xmlNewReconciliedNs(xmlDocPtr doc, xmlNodePtr tree, xmlNsPtr ns);
 
 /************************************************************************
@@ -121,6 +123,154 @@ xmlGetParameterEntityFromDtd(xmlDtdPtr dtd, const xmlChar *name) {
 	/* return(xmlGetEntityFromTable(table, name)); */
     }
     return(NULL);
+}
+
+/************************************************************************
+ *									*
+ *			QName handling helper				*
+ *									*
+ ************************************************************************/
+
+/**
+ * xmlBuildQName:
+ * @ncname:  the Name
+ * @prefix:  the prefix
+ * @memory:  preallocated memory
+ * @len:  preallocated memory length
+ *
+ * Builds the QName @prefix:@ncname in @memory if there is enough space
+ * and prefix is not NULL nor empty, otherwise allocate a new string.
+ * If prefix is NULL or empty it returns ncname.
+ *
+ * Returns the new string which must be freed by the caller if different from
+ *         @memory and @ncname or NULL in case of error
+ */
+xmlChar *
+xmlBuildQName(const xmlChar *ncname, const xmlChar *prefix,
+	      xmlChar *memory, int len) {
+    int lenn, lenp;
+    xmlChar *ret;
+
+    if ((ncname == NULL) || (*ncname == 0)) return(NULL);
+    if ((prefix == NULL) || (*prefix == 0)) return((xmlChar *) ncname);
+
+    lenn = strlen((char *) ncname);
+    lenp = strlen((char *) prefix);
+
+    if ((memory == NULL) || (len < lenn + lenp + 2)) {
+	ret = (xmlChar *) xmlMallocAtomic(lenn + lenp + 2);
+	if (ret == NULL) return(NULL);
+    } else {
+	ret = memory;
+    }
+    memcpy(&ret[0], prefix, lenp);
+    ret[lenp] = ':';
+    memcpy(&ret[lenp + 1], ncname, lenn);
+    ret[lenn + lenp + 1] = 0;
+    return(ret);
+}
+
+/**
+ * xmlSplitQName2:
+ * @name:  the full QName
+ * @prefix:  a xmlChar ** 
+ *
+ * parse an XML qualified name string
+ *
+ * [NS 5] QName ::= (Prefix ':')? LocalPart
+ *
+ * [NS 6] Prefix ::= NCName
+ *
+ * [NS 7] LocalPart ::= NCName
+ *
+ * Returns NULL if not a QName, otherwise the local part, and prefix
+ *   is updated to get the Prefix if any.
+ */
+
+xmlChar *
+xmlSplitQName2(const xmlChar *name, xmlChar **prefix) {
+    int len = 0;
+    xmlChar *ret = NULL;
+
+    *prefix = NULL;
+    if (name == NULL) return(NULL);
+
+#ifndef XML_XML_NAMESPACE
+    /* xml: prefix is not really a namespace */
+    if ((name[0] == 'x') && (name[1] == 'm') &&
+        (name[2] == 'l') && (name[3] == ':'))
+	return(NULL);
+#endif
+
+    /* nasty but valid */
+    if (name[0] == ':')
+	return(NULL);
+
+    /*
+     * we are not trying to validate but just to cut, and yes it will
+     * work even if this is as set of UTF-8 encoded chars
+     */
+    while ((name[len] != 0) && (name[len] != ':')) 
+	len++;
+    
+    if (name[len] == 0)
+	return(NULL);
+
+    *prefix = xmlStrndup(name, len);
+    if (*prefix == NULL) {
+	xmlGenericError(xmlGenericErrorContext,
+		"xmlSplitQName2 : out of memory!\n");
+	return(NULL);
+    }
+    ret = xmlStrdup(&name[len + 1]);
+    if (ret == NULL) {
+	xmlGenericError(xmlGenericErrorContext,
+		"xmlSplitQName2 : out of memory!\n");
+	if (*prefix != NULL) {
+	    xmlFree(*prefix);
+	    *prefix = NULL;
+	}
+	return(NULL);
+    }
+
+    return(ret);
+}
+
+/**
+ * xmlSplitQName3:
+ * @name:  the full QName
+ * @len: an int *
+ *
+ * parse an XML qualified name string,i
+ *
+ * returns NULL if it is not a Qualified Name, otherwise, update len
+ *         with the lenght in byte of the prefix and return a pointer
+ */
+
+const xmlChar *
+xmlSplitQName3(const xmlChar *name, int *len) {
+    int l = 0;
+
+    if (name == NULL) return(NULL);
+    if (len == NULL) return(NULL);
+
+    /* nasty but valid */
+    if (name[0] == ':')
+	return(NULL);
+
+    /*
+     * we are not trying to validate but just to cut, and yes it will
+     * work even if this is as set of UTF-8 encoded chars
+     */
+    while ((name[l] != 0) && (name[l] != ':')) 
+	l++;
+    
+    if (name[l] == 0)
+	return(NULL);
+
+    *len = l;
+
+    return(&name[l+1]);
 }
 
 /************************************************************************
@@ -648,7 +798,7 @@ xmlNewDtd(xmlDocPtr doc, const xmlChar *name,
 	doc->extSubset = cur;
     cur->doc = doc;
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue((xmlNodePtr)cur);
     return(cur);
 }
@@ -758,7 +908,7 @@ xmlCreateIntSubset(xmlDocPtr doc, const xmlChar *name,
 	}
     }
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue((xmlNodePtr)cur);
     return(cur);
 }
@@ -779,7 +929,7 @@ xmlFreeDtd(xmlDtdPtr cur) {
 	return;
     }
 
-    if (xmlDeregisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlDeregisterNodeDefaultValue))
 	xmlDeregisterNodeDefaultValue((xmlNodePtr)cur);
 
     if (cur->children != NULL) {
@@ -791,7 +941,7 @@ xmlFreeDtd(xmlDtdPtr cur) {
 	 */
         while (c != NULL) {
 	    next = c->next;
-	    if (c->type == XML_COMMENT_NODE) {
+	    if ((c->type == XML_COMMENT_NODE) || (c->type == XML_PI_NODE)) {
 		xmlUnlinkNode(c);
 		xmlFreeNode(c);
 	    }
@@ -848,9 +998,14 @@ xmlNewDoc(const xmlChar *version) {
     cur->standalone = -1;
     cur->compression = -1; /* not initialized */
     cur->doc = cur;
+    /*
+     * The in memory encoding is always UTF8
+     * This field will never change and would
+     * be obsolete if not for binary compatibility.
+     */
     cur->charset = XML_CHAR_ENCODING_UTF8;
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue((xmlNodePtr)cur);
     return(cur);
 }
@@ -873,7 +1028,7 @@ xmlFreeDoc(xmlDocPtr cur) {
 	return;
     }
 
-    if (xmlDeregisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlDeregisterNodeDefaultValue))
 	xmlDeregisterNodeDefaultValue((xmlNodePtr)cur);
 
     /*
@@ -1456,7 +1611,7 @@ xmlNewProp(xmlNodePtr node, const xmlChar *name, const xmlChar *value) {
 	}
     }
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue((xmlNodePtr)cur);
     return(cur);
 }
@@ -1536,7 +1691,7 @@ xmlNewNsProp(xmlNodePtr node, xmlNsPtr ns, const xmlChar *name,
 	}
     }
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue((xmlNodePtr)cur);
     return(cur);
 }
@@ -1572,6 +1727,7 @@ xmlNewNsPropEatName(xmlNodePtr node, xmlNsPtr ns, xmlChar *name,
     if (cur == NULL) {
         xmlGenericError(xmlGenericErrorContext,
 		"xmlNewNsPropEatName : malloc failed\n");
+        xmlFree(name);
 	return(NULL);
     }
     memset(cur, 0, sizeof(xmlAttr));
@@ -1616,7 +1772,7 @@ xmlNewNsPropEatName(xmlNodePtr node, xmlNsPtr ns, xmlChar *name,
 	}
     }
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue((xmlNodePtr)cur);
     return(cur);
 }
@@ -1671,7 +1827,7 @@ xmlNewDocProp(xmlDocPtr doc, const xmlChar *name, const xmlChar *value) {
 	}
     }
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue((xmlNodePtr)cur);
     return(cur);
 }
@@ -1715,7 +1871,7 @@ xmlFreeProp(xmlAttrPtr cur) {
 	return;
     }
 
-    if (xmlDeregisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlDeregisterNodeDefaultValue))
 	xmlDeregisterNodeDefaultValue((xmlNodePtr)cur);
 
     /* Check for ID removal -> leading to invalid references ! */
@@ -1816,7 +1972,7 @@ xmlNewPI(const xmlChar *name, const xmlChar *content) {
 	cur->content = xmlStrdup(content);
     }
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue((xmlNodePtr)cur);
     return(cur);
 }
@@ -1857,7 +2013,7 @@ xmlNewNode(xmlNsPtr ns, const xmlChar *name) {
     cur->name = xmlStrdup(name);
     cur->ns = ns;
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue(cur);
     return(cur);
 }
@@ -1890,6 +2046,7 @@ xmlNewNodeEatName(xmlNsPtr ns, xmlChar *name) {
     if (cur == NULL) {
         xmlGenericError(xmlGenericErrorContext,
 		"xmlNewNode : malloc failed\n");
+        xmlFree(name);
 	return(NULL);
     }
     memset(cur, 0, sizeof(xmlNode));
@@ -1898,7 +2055,7 @@ xmlNewNodeEatName(xmlNsPtr ns, xmlChar *name) {
     cur->name = name;
     cur->ns = ns;
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue((xmlNodePtr)cur);
     return(cur);
 }
@@ -2022,7 +2179,7 @@ xmlNewDocFragment(xmlDocPtr doc) {
 
     cur->doc = doc;
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue(cur);
     return(cur);
 }
@@ -2055,7 +2212,7 @@ xmlNewText(const xmlChar *content) {
 	cur->content = xmlStrdup(content);
     }
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue(cur);
     return(cur);
 }
@@ -2158,7 +2315,7 @@ xmlNewCharRef(xmlDocPtr doc, const xmlChar *name) {
     } else
 	cur->name = xmlStrdup(name);
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue(cur);
     return(cur);
 }
@@ -2212,7 +2369,7 @@ xmlNewReference(xmlDocPtr doc, const xmlChar *name) {
 	cur->last = (xmlNodePtr) ent;
     }
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue(cur);
     return(cur);
 }
@@ -2263,7 +2420,7 @@ xmlNewTextLen(const xmlChar *content, int len) {
 	cur->content = xmlStrndup(content, len);
     }
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue(cur);
     return(cur);
 }
@@ -2315,7 +2472,7 @@ xmlNewComment(const xmlChar *content) {
 	cur->content = xmlStrdup(content);
     }
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue(cur);
     return(cur);
 }
@@ -2350,7 +2507,7 @@ xmlNewCDataBlock(xmlDocPtr doc, const xmlChar *content, int len) {
 	cur->content = xmlStrndup(content, len);
     }
 
-    if (xmlRegisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	xmlRegisterNodeDefaultValue(cur);
     return(cur);
 }
@@ -2967,12 +3124,20 @@ xmlFreeNodeList(xmlNodePtr cur) {
 	xmlFreeNsList((xmlNsPtr) cur);
 	return;
     }
+    if ((cur->type == XML_DOCUMENT_NODE) ||
+#ifdef LIBXML_DOCB_ENABLED
+	(cur->type == XML_DOCB_DOCUMENT_NODE) ||
+#endif
+	(cur->type == XML_HTML_DOCUMENT_NODE)) {
+	xmlFreeDoc((xmlDocPtr) cur);
+	return;
+    }
     while (cur != NULL) {
         next = cur->next;
 	/* unroll to speed up freeing the document */
 	if (cur->type != XML_DTD_NODE) {
 
-	    if (xmlDeregisterNodeDefaultValue)
+	    if ((__xmlRegisterCallbacks) && (xmlDeregisterNodeDefaultValue))
 		xmlDeregisterNodeDefaultValue(cur);
 
 	    if ((cur->children != NULL) &&
@@ -3057,7 +3222,7 @@ xmlFreeNode(xmlNodePtr cur) {
 	return;
     }
 
-    if (xmlDeregisterNodeDefaultValue)
+    if ((__xmlRegisterCallbacks) && (xmlDeregisterNodeDefaultValue))
 	xmlDeregisterNodeDefaultValue(cur);
 
     if ((cur->children != NULL) &&
@@ -3127,10 +3292,12 @@ xmlUnlinkNode(xmlNodePtr cur) {
     if (cur->type == XML_DTD_NODE) {
 	xmlDocPtr doc;
 	doc = cur->doc;
-	if (doc->intSubset == (xmlDtdPtr) cur)
-	    doc->intSubset = NULL;
-	if (doc->extSubset == (xmlDtdPtr) cur)
-	    doc->extSubset = NULL;
+	if (doc != NULL) {
+	    if (doc->intSubset == (xmlDtdPtr) cur)
+		doc->intSubset = NULL;
+	    if (doc->extSubset == (xmlDtdPtr) cur)
+		doc->extSubset = NULL;
+	}
     }
     if (cur->parent != NULL) {
 	xmlNodePtr parent;
@@ -3526,7 +3693,7 @@ xmlStaticCopyNode(const xmlNodePtr node, xmlDocPtr doc, xmlNodePtr parent,
 	 * in case ret does get coalesced in xmlAddChild
 	 * the deregister-node callback is called; so we register ret now already
 	 */
-	if (xmlRegisterNodeDefaultValue)
+	if ((__xmlRegisterCallbacks) && (xmlRegisterNodeDefaultValue))
 	    xmlRegisterNodeDefaultValue((xmlNodePtr)ret);
 
         tmp = xmlAddChild(parent, ret);
@@ -3873,10 +4040,10 @@ xmlGetNodePath(xmlNodePtr node)
         return (NULL);
 
     buf_len = 500;
-    buffer = (xmlChar *) xmlMalloc(buf_len * sizeof(xmlChar));
+    buffer = (xmlChar *) xmlMallocAtomic(buf_len * sizeof(xmlChar));
     if (buffer == NULL)
         return (NULL);
-    buf = (xmlChar *) xmlMalloc(buf_len * sizeof(xmlChar));
+    buf = (xmlChar *) xmlMallocAtomic(buf_len * sizeof(xmlChar));
     if (buf == NULL) {
         xmlFree(buffer);
         return (NULL);
@@ -3907,6 +4074,7 @@ xmlGetNodePath(xmlNodePtr node)
 
             /*
              * Thumbler index computation
+	     * TODO: the ocurence test seems bogus for namespaced names
              */
             tmp = cur->prev;
             while (tmp != NULL) {
@@ -4592,17 +4760,39 @@ xmlNodeGetContent(xmlNodePtr cur)
                 return (ret);
             }
         case XML_ENTITY_NODE:
-        case XML_DOCUMENT_NODE:
-        case XML_HTML_DOCUMENT_NODE:
         case XML_DOCUMENT_TYPE_NODE:
         case XML_NOTATION_NODE:
         case XML_DTD_NODE:
         case XML_XINCLUDE_START:
         case XML_XINCLUDE_END:
+            return (NULL);
+        case XML_DOCUMENT_NODE:
 #ifdef LIBXML_DOCB_ENABLED
         case XML_DOCB_DOCUMENT_NODE:
 #endif
-            return (NULL);
+        case XML_HTML_DOCUMENT_NODE: {
+            xmlChar *tmp;
+	    xmlChar *res = NULL;
+
+	    cur = cur->children;
+	    while (cur!= NULL) {
+		if ((cur->type == XML_ELEMENT_NODE) ||
+		    (cur->type == XML_TEXT_NODE) ||
+		    (cur->type == XML_CDATA_SECTION_NODE)) {
+		    tmp = xmlNodeGetContent(cur);
+		    if (tmp != NULL) {
+			if (res == NULL)
+			    res = tmp;
+			else {
+			    res = xmlStrcat(res, tmp);
+			    xmlFree(tmp);
+			}
+		    }
+		}
+		cur = cur->next;
+	    }
+	    return(res);
+	}
         case XML_NAMESPACE_DECL: {
 	    xmlChar *tmp;
 
@@ -5412,7 +5602,9 @@ xmlHasProp(xmlNodePtr node, const xmlChar *name) {
 	    attrDecl = xmlGetDtdAttrDesc(doc->intSubset, node->name, name);
 	    if ((attrDecl == NULL) && (doc->extSubset != NULL))
 		attrDecl = xmlGetDtdAttrDesc(doc->extSubset, node->name, name);
-	    if (attrDecl != NULL)
+            if ((attrDecl != NULL) && (attrDecl->defaultValue != NULL))
+              /* return attribute declaration only if a default value is given
+                 (that includes #FIXED declarations) */
 		return((xmlAttrPtr) attrDecl);
 	}
     }
@@ -5553,7 +5745,9 @@ xmlGetProp(xmlNodePtr node, const xmlChar *name) {
 	    attrDecl = xmlGetDtdAttrDesc(doc->intSubset, node->name, name);
 	    if ((attrDecl == NULL) && (doc->extSubset != NULL))
 		attrDecl = xmlGetDtdAttrDesc(doc->extSubset, node->name, name);
-	    if (attrDecl != NULL)
+            if ((attrDecl != NULL) && (attrDecl->defaultValue != NULL))
+              /* return attribute declaration only if a default value is given
+                 (that includes #FIXED declarations) */
 		return(xmlStrdup(attrDecl->defaultValue));
 	}
     }
@@ -5608,7 +5802,9 @@ xmlGetNoNsProp(xmlNodePtr node, const xmlChar *name) {
 	    attrDecl = xmlGetDtdAttrDesc(doc->intSubset, node->name, name);
 	    if ((attrDecl == NULL) && (doc->extSubset != NULL))
 		attrDecl = xmlGetDtdAttrDesc(doc->extSubset, node->name, name);
-	    if (attrDecl != NULL)
+            if ((attrDecl != NULL) && (attrDecl->defaultValue != NULL))
+              /* return attribute declaration only if a default value is given
+                 (that includes #FIXED declarations) */
 		return(xmlStrdup(attrDecl->defaultValue));
 	}
     }
@@ -5918,11 +6114,13 @@ xmlIsBlankNode(xmlNodePtr node) {
  * @len:  @content length
  * 
  * Concat the given string at the end of the existing node content
+ *
+ * Returns -1 in case of error, 0 otherwise
  */
 
-void
+int
 xmlTextConcat(xmlNodePtr node, const xmlChar *content, int len) {
-    if (node == NULL) return;
+    if (node == NULL) return(-1);
 
     if ((node->type != XML_TEXT_NODE) &&
         (node->type != XML_CDATA_SECTION_NODE)) {
@@ -5930,9 +6128,12 @@ xmlTextConcat(xmlNodePtr node, const xmlChar *content, int len) {
 	xmlGenericError(xmlGenericErrorContext,
 		"xmlTextConcat: node is not text nor CDATA\n");
 #endif
-        return;
+        return(-1);
     }
     node->content = xmlStrncat(node->content, content, len);
+    if (node->content == NULL)
+        return(-1);
+    return(0);
 }
 
 /************************************************************************
@@ -5960,7 +6161,7 @@ xmlBufferCreate(void) {
     ret->use = 0;
     ret->size = xmlDefaultBufferSize;
     ret->alloc = xmlBufferAllocScheme;
-    ret->content = (xmlChar *) xmlMalloc(ret->size * sizeof(xmlChar));
+    ret->content = (xmlChar *) xmlMallocAtomic(ret->size * sizeof(xmlChar));
     if (ret->content == NULL) {
 	xmlGenericError(xmlGenericErrorContext,
 		"xmlBufferCreate : out of memory!\n");
@@ -5992,7 +6193,7 @@ xmlBufferCreateSize(size_t size) {
     ret->alloc = xmlBufferAllocScheme;
     ret->size = (size ? size+2 : 0);         /* +1 for ending null */
     if (ret->size){
-        ret->content = (xmlChar *) xmlMalloc(ret->size * sizeof(xmlChar));
+        ret->content = (xmlChar *) xmlMallocAtomic(ret->size * sizeof(xmlChar));
         if (ret->content == NULL) {
             xmlGenericError(xmlGenericErrorContext,
 		    "xmlBufferCreate : out of memory!\n");
@@ -6211,7 +6412,7 @@ xmlBufferResize(xmlBufferPtr buf, unsigned int size)
     }
 
     if (buf->content == NULL)
-	rebuf = (xmlChar *) xmlMalloc(newSize * sizeof(xmlChar));
+	rebuf = (xmlChar *) xmlMallocAtomic(newSize * sizeof(xmlChar));
     else
 	rebuf = (xmlChar *) xmlRealloc(buf->content, 
 				       newSize * sizeof(xmlChar));
@@ -6406,16 +6607,36 @@ xmlBufferWriteChar(xmlBufferPtr buf, const char *string) {
  */
 void
 xmlBufferWriteQuotedString(xmlBufferPtr buf, const xmlChar *string) {
-    if (xmlStrchr(string, '"')) {
+    const xmlChar *cur, *base;
+    if (xmlStrchr(string, '\"')) {
         if (xmlStrchr(string, '\'')) {
 #ifdef DEBUG_BUFFER
 	    xmlGenericError(xmlGenericErrorContext,
  "xmlBufferWriteQuotedString: string contains quote and double-quotes !\n");
 #endif
+	    xmlBufferCCat(buf, "\"");
+            base = cur = string;
+            while(*cur != 0){
+                if(*cur == '"'){
+                    if (base != cur)
+                        xmlBufferAdd(buf, base, cur - base);
+                    xmlBufferAdd(buf, BAD_CAST "&quot;", 6);
+                    cur++;
+                    base = cur;
+                }
+                else {
+                    cur++;
+                }
+            }
+            if (base != cur)
+                xmlBufferAdd(buf, base, cur - base);
+	    xmlBufferCCat(buf, "\"");
 	}
-        xmlBufferCCat(buf, "'");
-        xmlBufferCat(buf, string);
-        xmlBufferCCat(buf, "'");
+        else{
+	    xmlBufferCCat(buf, "\'");
+            xmlBufferCat(buf, string);
+	    xmlBufferCCat(buf, "\'");
+        }
     } else {
         xmlBufferCCat(buf, "\"");
         xmlBufferCat(buf, string);
@@ -6610,6 +6831,8 @@ xmlNodeDump(xmlBufferPtr buf, xmlDocPtr doc, xmlNodePtr cur, int level,
     int ret;
     xmlOutputBufferPtr outbuf;
 
+    xmlInitParser();
+
     if (cur == NULL) {
 #ifdef DEBUG_TREE
         xmlGenericError(xmlGenericErrorContext,
@@ -6657,6 +6880,8 @@ void
 xmlElemDump(FILE * f, xmlDocPtr doc, xmlNodePtr cur)
 {
     xmlOutputBufferPtr outbuf;
+
+    xmlInitParser();
 
     if (cur == NULL) {
 #ifdef DEBUG_TREE
@@ -6993,6 +7218,10 @@ xmlNodeDumpOutputInternal(xmlOutputBufferPtr buf, xmlDocPtr doc,
         xmlOutputBufferWriteString(buf, "]]>");
 	return;
     }
+    if (cur->type == XML_ATTRIBUTE_NODE) {
+	xmlAttrDumpOutput(buf,doc, (xmlAttrPtr) cur,encoding);
+	return;
+    }
     if (cur->type == XML_NAMESPACE_DECL) {
 	xmlNsDumpOutput(buf, (xmlNsPtr) cur);
 	return;
@@ -7077,7 +7306,11 @@ xmlNodeDumpOutput(xmlOutputBufferPtr buf, xmlDocPtr doc, xmlNodePtr cur,
 #ifdef LIBXML_HTML_ENABLED
     xmlDtdPtr dtd;
     int is_xhtml = 0;
+#endif
 
+    xmlInitParser();
+
+#ifdef LIBXML_HTML_ENABLED
     dtd = xmlGetIntSubset(doc);
     if (dtd != NULL) {
         is_xhtml = xmlIsXHTML(dtd->SystemID, dtd->ExternalID);
@@ -7119,6 +7352,8 @@ xmlDocContentDumpOutput(xmlOutputBufferPtr buf, xmlDocPtr cur,
     xmlDtdPtr dtd;
     int is_xhtml = 0;
 #endif
+
+    xmlInitParser();
 
     xmlOutputBufferWriteString(buf, "<?xml version=");
     if (cur->version != NULL) 
@@ -7667,7 +7902,6 @@ xmlDocDumpFormatMemoryEnc(xmlDocPtr out_doc, xmlChar **doc_txt_ptr,
 		int format) {
     int                         dummy = 0;
 
-    xmlCharEncoding             doc_charset;
     xmlOutputBufferPtr          out_buff = NULL;
     xmlCharEncodingHandlerPtr   conv_hdlr = NULL;
 
@@ -7700,15 +7934,7 @@ xmlDocDumpFormatMemoryEnc(xmlDocPtr out_doc, xmlChar **doc_txt_ptr,
     if (txt_encoding == NULL)
 	txt_encoding = (const char *) out_doc->encoding;
     if (txt_encoding != NULL) {
-        doc_charset = xmlParseCharEncoding(txt_encoding);
-
-        if (out_doc->charset != XML_CHAR_ENCODING_UTF8) {
-            xmlGenericError(xmlGenericErrorContext,
-                    "xmlDocDumpFormatMemoryEnc: Source document not in UTF8\n");
-            return;
-
-        } else if (doc_charset != XML_CHAR_ENCODING_UTF8) {
-            conv_hdlr = xmlFindCharEncodingHandler(txt_encoding);
+		conv_hdlr = xmlFindCharEncodingHandler(txt_encoding);
             if ( conv_hdlr == NULL ) {
                 xmlGenericError(xmlGenericErrorContext,
                                 "%s:  %s %s '%s'\n",
@@ -7719,7 +7945,6 @@ xmlDocDumpFormatMemoryEnc(xmlDocPtr out_doc, xmlChar **doc_txt_ptr,
                 return;
             }
         }
-    }
 
     if ((out_buff = xmlAllocOutputBuffer(conv_hdlr)) == NULL ) {
         xmlGenericError(xmlGenericErrorContext,
@@ -7883,23 +8108,12 @@ xmlDocFormatDump(FILE *f, xmlDocPtr cur, int format) {
     encoding = (const char *) cur->encoding;
 
     if (encoding != NULL) {
-	xmlCharEncoding enc;
-
-	enc = xmlParseCharEncoding(encoding);
-
-	if (cur->charset != XML_CHAR_ENCODING_UTF8) {
-	    xmlGenericError(xmlGenericErrorContext,
-		    "xmlDocDump: document not in UTF8\n");
-	    return(-1);
-	}
-	if (enc != XML_CHAR_ENCODING_UTF8) {
-	    handler = xmlFindCharEncodingHandler(encoding);
+		handler = xmlFindCharEncodingHandler(encoding);
 	    if (handler == NULL) {
 		xmlFree((char *) cur->encoding);
 		cur->encoding = NULL;
 	    }
 	}
-    }
     buf = xmlOutputBufferCreateFile(f, handler);
     if (buf == NULL) return(-1);
     xmlDocContentDumpOutput(buf, cur, NULL, format);
@@ -7983,7 +8197,6 @@ xmlSaveFormatFileEnc( const char * filename, xmlDocPtr cur,
 			const char * encoding, int format ) {
     xmlOutputBufferPtr buf;
     xmlCharEncodingHandlerPtr handler = NULL;
-    xmlCharEncoding enc;
     int ret;
 
     if (cur == NULL)
@@ -7994,17 +8207,9 @@ xmlSaveFormatFileEnc( const char * filename, xmlDocPtr cur,
 
     if (encoding != NULL) {
 
-	enc = xmlParseCharEncoding(encoding);
-	if (cur->charset != XML_CHAR_ENCODING_UTF8) {
-	    xmlGenericError(xmlGenericErrorContext,
-		    "xmlSaveFormatFileEnc: document not in UTF8\n");
-	    return(-1);
-	}
-	if (enc != XML_CHAR_ENCODING_UTF8) {
 	    handler = xmlFindCharEncodingHandler(encoding);
 	    if (handler == NULL)
 		return(-1);
-	}
     }
 
 #ifdef HAVE_ZLIB_H

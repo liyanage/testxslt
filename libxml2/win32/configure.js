@@ -28,7 +28,7 @@ var verMinor;
 var verMicro;
 /* Libxml features. */
 var withTrio = false;
-var withThreads = "no";
+var withThreads = "native";
 var withFtp = true;
 var withHttp = true;
 var withHtml = true;
@@ -39,6 +39,7 @@ var withXpath = true;
 var withXptr = true;
 var withXinclude = true;
 var withIconv = true;
+var withIso8859x = false;
 var withZlib = false;
 var withDebug = true;
 var withMemDebug = false;
@@ -105,6 +106,7 @@ function usage()
 	txt += "  xptr:       Enable XPointer support (" + (withXptr? "yes" : "no")  + ")\n";
 	txt += "  xinclude:   Enable XInclude support (" + (withXinclude? "yes" : "no")  + ")\n";
 	txt += "  iconv:      Enable iconv support (" + (withIconv? "yes" : "no")  + ")\n";
+	txt += "  iso8859x:   Enable ISO8859X support (" + (withIso8859x? "yes" : "no")  + ")\n";
 	txt += "  zlib:       Enable zlib support (" + (withZlib? "yes" : "no")  + ")\n";
 	txt += "  xml_debug:  Enable XML debbugging module (" + (withDebug? "yes" : "no")  + ")\n";
 	txt += "  mem_debug:  Enable memory debugger (" + (withMemDebug? "yes" : "no")  + ")\n";
@@ -112,7 +114,7 @@ function usage()
 	txt += "  schemas:    Enable XML Schema support (" + (withSchemas? "yes" : "no")  + ")\n";
 	txt += "  python:     Build Python bindings (" + (withPython? "yes" : "no")  + ")\n";
 	txt += "\nWin32 build options, default value given in parentheses:\n\n";
-	txt += "  compiler:   Compiler to be used [msvc|mingw] (" + compiler + ")\n";
+	txt += "  compiler:   Compiler to be used [msvc|mingw|bcb] (" + compiler + ")\n";
 	txt += "  debug:      Build unoptimised debug executables (" + (buildDebug? "yes" : "no")  + ")\n";
 	txt += "  static:     Link xmllint statically to libxml2 (" + (buildStatic? "yes" : "no")  + ")\n";
 	txt += "  prefix:     Base directory for the installation (" + buildPrefix + ")\n";
@@ -143,6 +145,8 @@ function discoverVersion()
 		versionFile = ".\\config.msvc";
 	else if (compiler == "mingw")
 		versionFile = ".\\config.mingw";
+	else if (compiler == "bcb")
+		versionFile = ".\\config.bcb";
 	vf = fso.CreateTextFile(versionFile, true);
 	vf.WriteLine("# " + versionFile);
 	vf.WriteLine("# This file is generated automatically by " + WScript.ScriptName + ".");
@@ -177,6 +181,7 @@ function discoverVersion()
 	vf.WriteLine("WITH_XPTR=" + (withXptr? "1" : "0"));
 	vf.WriteLine("WITH_XINCLUDE=" + (withXinclude? "1" : "0"));
 	vf.WriteLine("WITH_ICONV=" + (withIconv? "1" : "0"));
+	vf.WriteLine("WITH_ISO8859X=" + (withIso8859x? "1" : "0"));
 	vf.WriteLine("WITH_ZLIB=" + (withZlib? "1" : "0"));
 	vf.WriteLine("WITH_DEBUG=" + (withDebug? "1" : "0"));
 	vf.WriteLine("WITH_MEM_DEBUG=" + (withMemDebug? "1" : "0"));
@@ -196,6 +201,9 @@ function discoverVersion()
 	} else if (compiler == "mingw") {
 		vf.WriteLine("INCLUDE+=;" + buildInclude);
 		vf.WriteLine("LIB+=;" + buildLib);
+	} else if (compiler == "bcb") {
+		vf.WriteLine("INCLUDE=" + buildInclude);
+		vf.WriteLine("LIB=" + buildLib);
 	}
 	vf.Close();
 }
@@ -241,6 +249,8 @@ function configureLibxml()
 			of.WriteLine(s.replace(/\@WITH_XINCLUDE\@/, withXinclude? "1" : "0"));
 		} else if (s.search(/\@WITH_ICONV\@/) != -1) {
 			of.WriteLine(s.replace(/\@WITH_ICONV\@/, withIconv? "1" : "0"));
+		} else if (s.search(/\@WITH_ISO8859X\@/) != -1) {
+			of.WriteLine(s.replace(/\@WITH_ISO8859X\@/, withIso8859x? "1" : "0"));
 		} else if (s.search(/\@WITH_ZLIB\@/) != -1) {
 			of.WriteLine(s.replace(/\@WITH_ZLIB\@/, withZlib? "1" : "0"));
 		} else if (s.search(/\@WITH_DEBUG\@/) != -1) {
@@ -274,6 +284,8 @@ function configureLibxmlPy()
 				verMajor + "." + verMinor + "." + verMicro));
 		} else if (s.search(/\@prefix\@/) != -1) {
 			of.WriteLine(s.replace(/\@prefix\@/, buildPrefix));
+		} else if (s.search(/\@WITH_THREADS\@/) != -1) {
+			of.WriteLine(s.replace(/\@WITH_THREADS\@/, withThreads == "no"? "0" : "1"));
 		} else
 			of.WriteLine(ln);
 	}
@@ -334,6 +346,7 @@ function genReadme(bname, ver, file)
 	f.Close();
 }
 
+
 /*
  * main(),
  * Execution begins here.
@@ -371,6 +384,8 @@ for (i = 0; (i < WScript.Arguments.length) && (error == 0); i++) {
 			withXinclude = strToBool(arg.substring(opt.length + 1, arg.length));
 		else if (opt == "iconv")
 			withIconv = strToBool(arg.substring(opt.length + 1, arg.length));
+		else if (opt == "iso8859x")
+			withIso8859x = strToBool(arg.substring(opt.length + 1, arg.length));
 		else if (opt == "zlib")
 			withZlib = strToBool(arg.substring(opt.length + 1, arg.length));
 		else if (opt == "xml_debug")
@@ -417,9 +432,11 @@ for (i = 0; (i < WScript.Arguments.length) && (error == 0); i++) {
 			usage();
 			WScript.Quit(0);
 		}
+
 	} else
 		error = 1;
 }
+
 
 // If we fail here, it is because the user supplied an unrecognised argument.
 if (error != 0) {
@@ -427,12 +444,14 @@ if (error != 0) {
 	WScript.Quit(error);
 }
 
+
 // Discover the version.
 discoverVersion();
 if (error != 0) {
 	WScript.Echo("Version discovery failed, aborting.");
 	WScript.Quit(error);
 }
+
 WScript.Echo(baseName + " version: " + verMajor + "." + verMinor + "." + verMicro);
 
 // Configure libxml.
@@ -441,20 +460,23 @@ if (error != 0) {
 	WScript.Echo("Configuration failed, aborting.");
 	WScript.Quit(error);
 }
+
 if (withPython == true) {
 	configureLibxmlPy();
 	if (error != 0) {
 		WScript.Echo("Configuration failed, aborting.");
 		WScript.Quit(error);
 	}
-}
 
+}
 
 // Create the makefile.
 var fso = new ActiveXObject("Scripting.FileSystemObject");
 var makefile = ".\\Makefile.msvc";
 if (compiler == "mingw")
 	makefile = ".\\Makefile.mingw";
+else if (compiler == "bcb")
+	makefile = ".\\Makefile.bcb";
 fso.CopyFile(makefile, ".\\Makefile", true);
 WScript.Echo("Created Makefile.");
 
@@ -473,6 +495,7 @@ txtOut += "     XPath support: " + boolToStr(withXpath) + "\n";
 txtOut += "  XPointer support: " + boolToStr(withXptr) + "\n";
 txtOut += "  XInclude support: " + boolToStr(withXinclude) + "\n";
 txtOut += "     iconv support: " + boolToStr(withIconv) + "\n";
+txtOut += "  iso8859x support: " + boolToStr(withIso8859x) + "\n";
 txtOut += "      zlib support: " + boolToStr(withZlib) + "\n";
 txtOut += "  Debugging module: " + boolToStr(withDebug) + "\n";
 txtOut += "  Memory debugging: " + boolToStr(withMemDebug) + "\n";
@@ -494,4 +517,5 @@ txtOut += "      Include path: " + buildInclude + "\n";
 txtOut += "          Lib path: " + buildLib + "\n";
 WScript.Echo(txtOut);
 
-// Done.
+//
+

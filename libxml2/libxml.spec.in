@@ -61,32 +61,17 @@ at parse time or later once the document has been modified.
 
 %build
 %configure
+#
+# Note: it seems that this may break on older version of Red Hat,
+#       and that replacing the following line with just "make" can
+#       fix the problem
+#
 make LIBTOOL=/usr/bin/libtool
 
 %install
 rm -fr %{buildroot}
 
 %makeinstall
-
-#
-# this is a bit ugly but tries to generate the bindings for all versions
-# of python installed
-#
-for i in %{prefix}/include/python*
-do
-    py_version=`echo $i | sed "s+%{prefix}/include/python++"`
-    if test -x %{prefix}/bin/python$py_version
-    then
-        echo generating bindings for Python $py_version
-      (cd python ; make clean ; \
-         make PYTHON="%{prefix}/bin/python$py_version" \
-            PYTHON_INCLUDES="%{prefix}/include/python$py_version" \
-            PYTHON_VERSION="$py_version"; \
-%makeinstall PYTHON="%{prefix}/bin/python$py_version" \
-            PYTHON_INCLUDES="%{prefix}/include/python$py_version" \
-            PYTHON_VERSION="$py_version" )
-    fi
-done
 
 %clean
 rm -fr %{buildroot}

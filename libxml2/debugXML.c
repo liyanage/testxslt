@@ -29,6 +29,7 @@
 #include <libxml/xmlerror.h>
 #include <libxml/globals.h>
 #include <libxml/xpathInternals.h>
+#include <libxml/uri.h>
 
 /**
  * xmlDebugDumpString:
@@ -1200,11 +1201,11 @@ xmlLsOneNode(FILE *output, xmlNodePtr node) {
     switch (node->type) {
 	case XML_ELEMENT_NODE:
 	    if (node->name != NULL)
-		fprintf(output, "%s", node->name);
+		fprintf(output, "%s", (const char *) node->name);
 	    break;
 	case XML_ATTRIBUTE_NODE:
 	    if (node->name != NULL)
-		fprintf(output, "%s", node->name);
+		fprintf(output, "%s", (const char *) node->name);
 	    break;
 	case XML_TEXT_NODE:
 	    if (node->content != NULL) {
@@ -1215,15 +1216,15 @@ xmlLsOneNode(FILE *output, xmlNodePtr node) {
 	    break;
 	case XML_ENTITY_REF_NODE:
 	    if (node->name != NULL)
-		fprintf(output, "%s", node->name);
+		fprintf(output, "%s", (const char *) node->name);
 	    break;
 	case XML_ENTITY_NODE:
 	    if (node->name != NULL)
-		fprintf(output, "%s", node->name);
+		fprintf(output, "%s", (const char *) node->name);
 	    break;
 	case XML_PI_NODE:
 	    if (node->name != NULL)
-		fprintf(output, "%s", node->name);
+		fprintf(output, "%s", (const char *) node->name);
 	    break;
 	case XML_COMMENT_NODE:
 	    break;
@@ -1248,7 +1249,7 @@ xmlLsOneNode(FILE *output, xmlNodePtr node) {
 	}
 	default:
 	    if (node->name != NULL)
-		fprintf(output, "%s", node->name);
+		fprintf(output, "%s", (const char *) node->name);
     }
     fprintf(output, "\n");
 }
@@ -1754,7 +1755,7 @@ xmlShellLoad(xmlShellCtxtPtr ctxt, char *filename,
 #ifdef LIBXML_XPATH_ENABLED
         ctxt->pctxt = xmlXPathNewContext(doc);
 #endif /* LIBXML_XPATH_ENABLED */
-        ctxt->filename = (char *) xmlStrdup((xmlChar *) filename);
+        ctxt->filename = (char *) xmlCanonicPath((xmlChar *) filename);
     } else
         return (-1);
     return (0);
@@ -2103,7 +2104,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
     while (1) {
         if (ctxt->node == (xmlNodePtr) ctxt->doc)
             snprintf(prompt, sizeof(prompt), "%s > ", "/");
-        else if (ctxt->node->name)
+        else if ((ctxt->node != NULL) && (ctxt->node->name))
             snprintf(prompt, sizeof(prompt), "%s > ", ctxt->node->name);
         else
             snprintf(prompt, sizeof(prompt), "? > ");
@@ -2328,6 +2329,13 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
                             if (list->nodesetval != NULL) {
 				if (list->nodesetval->nodeNr == 1) {
 				    ctxt->node = list->nodesetval->nodeTab[0];
+				    if ((ctxt->node != NULL) &&
+				        (ctxt->node->type ==
+					 XML_NAMESPACE_DECL)) {
+					xmlGenericError(xmlGenericErrorContext,
+						    "cannot cd to namespace\n");
+					ctxt->node = NULL;
+				    }
 				} else
 				    xmlGenericError(xmlGenericErrorContext,
 						    "%s is a %d Node Set\n",

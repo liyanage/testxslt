@@ -12,7 +12,6 @@
 
 /*
  * TODOs:
- *   - provide an API to expand part of the tree
  *   - provide an API to preserve part of the tree
  *   - Streaming XInclude support
  *   - validation against a provided DTD
@@ -36,6 +35,7 @@
 #include <libxml/xmlmemory.h>
 #include <libxml/xmlIO.h>
 #include <libxml/xmlreader.h>
+#include <libxml/relaxng.h>
 
 /* #define DEBUG_CALLBACKS */
 /* #define DEBUG_READER */
@@ -56,6 +56,7 @@
 #define DUMP_READER
 #endif
 
+#define CHUNK_SIZE 512
 /************************************************************************
  *									*
  *	The parser: maps the Text Reader API on top of the existing	*
@@ -82,11 +83,19 @@ typedef enum {
     XML_TEXTREADER_END= 2,
     XML_TEXTREADER_EMPTY= 3,
     XML_TEXTREADER_BACKTRACK= 4,
-    XML_TEXTREADER_DONE= 5
+    XML_TEXTREADER_DONE= 5,
+    XML_TEXTREADER_ERROR= 6
 } xmlTextReaderState;
+
+typedef enum {
+    XML_TEXTREADER_NOT_VALIDATE = 0,
+    XML_TEXTREADER_VALIDATE_DTD = 1,
+    XML_TEXTREADER_VALIDATE_RNG = 2
+} xmlTextReaderValidate;
 
 struct _xmlTextReader {
     int				mode;	/* the parsing mode */
+    xmlTextReaderValidate       validate;/* is there any validation */
     int				allocs;	/* what structure were deallocated */
     xmlTextReaderState		state;
     xmlParserCtxtPtr		ctxt;	/* the parser context */
@@ -112,6 +121,14 @@ struct _xmlTextReader {
     /* error handling */
     xmlTextReaderErrorFunc errorFunc;    /* callback function */
     void                  *errorFuncArg; /* callback function user argument */
+
+#ifdef LIBXML_SCHEMAS_ENABLED
+    /* Handling of RelaxNG validation */
+    xmlRelaxNGPtr          rngSchemas;   /* The Relax NG schemas */
+    xmlRelaxNGValidCtxtPtr rngValidCtxt; /* The Relax NG validation context */
+    int                  rngValidErrors; /* The number of errors detected */
+    xmlNodePtr             rngFullNode;  /* the node if RNG not progressive */
+#endif
 };
 
 static const char *xmlTextReaderIsEmpty = "This element is empty";
@@ -218,17 +235,12 @@ static void
 xmlTextReaderStartElement(void *ctx, const xmlChar *fullname,
 	                  const xmlChar **atts) {
     xmlParserCtxtPtr ctxt = (xmlParserCtxtPtr) ctx;
-    xmlParserCtxtPtr origctxt;
     xmlTextReaderPtr reader = ctxt->_private;
 
 #ifdef DEBUG_CALLBACKS
     printf("xmlTextReaderStartElement(%s)\n", fullname);
 #endif
     if ((reader != NULL) && (reader->startElement != NULL)) {
-	/*
-	 * when processing an entity, the context may have been changed
-	 */
-	origctxt = reader->ctxt;
 	reader->startElement(ctx, fullname, atts);
 	if ((ctxt->node != NULL) && (ctxt->input != NULL) &&
 	    (ctxt->input->cur != NULL) && (ctxt->input->cur[0] == '/') &&
@@ -249,18 +261,12 @@ xmlTextReaderStartElement(void *ctx, const xmlChar *fullname,
 static void
 xmlTextReaderEndElement(void *ctx, const xmlChar *fullname) {
     xmlParserCtxtPtr ctxt = (xmlParserCtxtPtr) ctx;
-    xmlParserCtxtPtr origctxt;
     xmlTextReaderPtr reader = ctxt->_private;
 
 #ifdef DEBUG_CALLBACKS
     printf("xmlTextReaderEndElement(%s)\n", fullname);
 #endif
     if ((reader != NULL) && (reader->endElement != NULL)) {
-	/*
-	 * when processing an entity, the context may have been changed
-	 */
-	origctxt = reader->ctxt;
-
 	reader->endElement(ctx, fullname);
     }
 }
@@ -277,7 +283,6 @@ static void
 xmlTextReaderCharacters(void *ctx, const xmlChar *ch, int len)
 {
     xmlParserCtxtPtr ctxt = (xmlParserCtxtPtr) ctx;
-    xmlParserCtxtPtr origctxt;
     xmlTextReaderPtr reader = ctxt->_private;
 
 #ifdef DEBUG_CALLBACKS
@@ -285,10 +290,6 @@ xmlTextReaderCharacters(void *ctx, const xmlChar *ch, int len)
 #endif
     if ((reader != NULL) && (reader->characters != NULL)) {
 	reader->characters(ctx, ch, len);
-	/*
-	 * when processing an entity, the context may have been changed
-	 */
-	origctxt = reader->ctxt;
     }
 }
 
@@ -325,10 +326,9 @@ xmlTextReaderCDataBlock(void *ctx, const xmlChar *ch, int len)
  */
 static int
 xmlTextReaderPushData(xmlTextReaderPtr reader) {
-    unsigned int cur = reader->cur;
     xmlBufferPtr inbuf;
-    int val;
-    int oldstate;
+    int val, s;
+    xmlTextReaderState oldstate;
 
     if ((reader->input == NULL) || (reader->input->buffer == NULL))
 	return(-1);
@@ -336,8 +336,9 @@ xmlTextReaderPushData(xmlTextReaderPtr reader) {
     oldstate = reader->state;
     reader->state = XML_TEXTREADER_NONE;
     inbuf = reader->input->buffer;
+
     while (reader->state == XML_TEXTREADER_NONE) {
-	if (cur >= inbuf->use) {
+	if (inbuf->use < reader->cur + CHUNK_SIZE) {
 	    /*
 	     * Refill the buffer unless we are at the end of the stream
 	     */
@@ -350,47 +351,39 @@ xmlTextReaderPushData(xmlTextReaderPtr reader) {
 			(reader->ctxt->myDoc != NULL))
 			return(val);
 		}
+
 	    } else 
 		break;
 	}
 	/*
-	 * parse by block of 512 bytes
+	 * parse by block of CHUNK_SIZE bytes, various tests show that
+	 * it's the best tradeoff at least on a 1.2GH Duron
 	 */
-	if ((cur >= reader->cur + 512) || (cur >= inbuf->use)) {
-	    if (cur < inbuf->use)
-		cur = cur + 1;
+	if (inbuf->use >= reader->cur + CHUNK_SIZE) {
 	    val = xmlParseChunk(reader->ctxt,
 		          (const char *) &inbuf->content[reader->cur],
-			  cur - reader->cur, 0);
+			  CHUNK_SIZE, 0);
+	    reader->cur += CHUNK_SIZE;
 	    if (val != 0)
 		return(-1);
-	    reader->cur = cur;
-	    break;
 	} else {
-	    cur = cur + 1;
-
-	    /*
-	     * One may have to force a flush at some point when parsing really
-	     * large CDATA sections
-	     */
-	    if ((cur - reader->cur > 4096) && (reader->base == 0) &&
-		(reader->mode == XML_TEXTREADER_MODE_INTERACTIVE)) {
-		cur = cur + 1;
-		val = xmlParseChunk(reader->ctxt,
-			      (const char *) &inbuf->content[reader->cur],
-			      cur - reader->cur, 0);
-		if (val != 0)
-		    return(-1);
-		reader->cur = cur;
-	    }
+	    s = inbuf->use - reader->cur;
+	    val = xmlParseChunk(reader->ctxt,
+		          (const char *) &inbuf->content[reader->cur],
+			  s, 0);
+	    reader->cur += s;
+	    if (val != 0)
+		return(-1);
+	    break;
 	}
     }
+
     /*
      * Discard the consumed input when needed and possible
      */
     if (reader->mode == XML_TEXTREADER_MODE_INTERACTIVE) {
-	if ((reader->cur >= 4096) && (reader->base == 0)) {
-	    val = xmlBufferShrink(inbuf, cur);
+	if (reader->cur >= 4096) {
+	    val = xmlBufferShrink(inbuf, reader->cur);
 	    if (val >= 0) {
 		reader->cur -= val;
 	    }
@@ -401,13 +394,15 @@ xmlTextReaderPushData(xmlTextReaderPtr reader) {
      * At the end of the stream signal that the work is done to the Push
      * parser.
      */
-    if (reader->mode == XML_TEXTREADER_MODE_EOF) {
+    else if (reader->mode == XML_TEXTREADER_MODE_EOF) {
 	if (reader->mode != XML_TEXTREADER_DONE) {
+	    s = inbuf->use - reader->cur;
 	    val = xmlParseChunk(reader->ctxt,
 		    (const char *) &inbuf->content[reader->cur], 
-		    cur - reader->cur, 1);
-	    reader->cur = cur;
+		    s, 1);
+	    reader->cur = inbuf->use;
 	    reader->mode = XML_TEXTREADER_DONE;
+	    if (val != 0) return(-1);
 	}
     }
     reader->state = oldstate;
@@ -425,22 +420,84 @@ xmlTextReaderValidatePush(xmlTextReaderPtr reader) {
 #ifdef LIBXML_REGEXP_ENABLED
     xmlNodePtr node = reader->node;
 
-    if ((node->ns == NULL) || (node->ns->prefix == NULL)) {
-	reader->ctxt->valid &= xmlValidatePushElement(&reader->ctxt->vctxt,
-				reader->ctxt->myDoc, node, node->name);
-    } else {
-	xmlChar *qname;
+    if ((reader->validate == XML_TEXTREADER_VALIDATE_DTD) &&
+        (reader->ctxt != NULL) && (reader->ctxt->validate == 1)) {
+	if ((node->ns == NULL) || (node->ns->prefix == NULL)) {
+	    reader->ctxt->valid &= xmlValidatePushElement(&reader->ctxt->vctxt,
+				    reader->ctxt->myDoc, node, node->name);
+	} else {
+	    /* TODO use the BuildQName interface */
+	    xmlChar *qname;
 
-	qname = xmlStrdup(node->ns->prefix);
-	qname = xmlStrcat(qname, BAD_CAST ":");
-	qname = xmlStrcat(qname, node->name);
-	reader->ctxt->valid &= xmlValidatePushElement(&reader->ctxt->vctxt,
-				reader->ctxt->myDoc, node, qname);
-	if (qname != NULL)
-	    xmlFree(qname);
+	    qname = xmlStrdup(node->ns->prefix);
+	    qname = xmlStrcat(qname, BAD_CAST ":");
+	    qname = xmlStrcat(qname, node->name);
+	    reader->ctxt->valid &= xmlValidatePushElement(&reader->ctxt->vctxt,
+				    reader->ctxt->myDoc, node, qname);
+	    if (qname != NULL)
+		xmlFree(qname);
+	}
+#ifdef LIBXML_SCHEMAS_ENABLED
+    } else if ((reader->validate == XML_TEXTREADER_VALIDATE_RNG) &&
+               (reader->rngValidCtxt != NULL)) {
+	int ret;
+
+	if (reader->rngFullNode != NULL) return;
+	ret = xmlRelaxNGValidatePushElement(reader->rngValidCtxt,
+	                                    reader->ctxt->myDoc,
+					    node);
+	if (ret == 0) {
+	    /*
+	     * this element requires a full tree
+	     */
+	    node = xmlTextReaderExpand(reader);
+	    if (node == NULL) {
+printf("Expand failed !\n");
+	        ret = -1;
+	    } else {
+		ret = xmlRelaxNGValidateFullElement(reader->rngValidCtxt,
+						    reader->ctxt->myDoc,
+						    node);
+		reader->rngFullNode = node;
+	    }
+	}
+	if (ret != 1)
+	    reader->rngValidErrors++;
+#endif
     }
 #endif /* LIBXML_REGEXP_ENABLED */
 }
+
+/**
+ * xmlTextReaderValidateCData:
+ * @reader:  the xmlTextReaderPtr used
+ * @data:  pointer to the CData
+ * @len:  lenght of the CData block in bytes.
+ *
+ * Push some CData for validation
+ */
+static void
+xmlTextReaderValidateCData(xmlTextReaderPtr reader,
+                           const xmlChar *data, int len) {
+#ifdef LIBXML_REGEXP_ENABLED
+    if ((reader->validate == XML_TEXTREADER_VALIDATE_DTD) &&
+        (reader->ctxt != NULL) && (reader->ctxt->validate == 1)) {
+	reader->ctxt->valid &= xmlValidatePushCData(&reader->ctxt->vctxt,
+	                                            data, len);
+#ifdef LIBXML_SCHEMAS_ENABLED
+    } else if ((reader->validate == XML_TEXTREADER_VALIDATE_RNG) &&
+               (reader->rngValidCtxt != NULL)) {
+	int ret;
+
+	if (reader->rngFullNode != NULL) return;
+	ret = xmlRelaxNGValidatePushCData(reader->rngValidCtxt, data, len);
+	if (ret != 1)
+	    reader->rngValidErrors++;
+#endif
+    }
+#endif /* LIBXML_REGEXP_ENABLED */
+}
+
 /**
  * xmlTextReaderValidatePop:
  * @reader:  the xmlTextReaderPtr used
@@ -452,19 +509,39 @@ xmlTextReaderValidatePop(xmlTextReaderPtr reader) {
 #ifdef LIBXML_REGEXP_ENABLED
     xmlNodePtr node = reader->node;
 
-    if ((node->ns == NULL) || (node->ns->prefix == NULL)) {
-	reader->ctxt->valid &= xmlValidatePopElement(&reader->ctxt->vctxt,
-				reader->ctxt->myDoc, node, node->name);
-    } else {
-	xmlChar *qname;
+    if ((reader->validate == XML_TEXTREADER_VALIDATE_DTD) &&
+        (reader->ctxt != NULL) && (reader->ctxt->validate == 1)) {
+	if ((node->ns == NULL) || (node->ns->prefix == NULL)) {
+	    reader->ctxt->valid &= xmlValidatePopElement(&reader->ctxt->vctxt,
+				    reader->ctxt->myDoc, node, node->name);
+	} else {
+	    /* TODO use the BuildQName interface */
+	    xmlChar *qname;
 
-	qname = xmlStrdup(node->ns->prefix);
-	qname = xmlStrcat(qname, BAD_CAST ":");
-	qname = xmlStrcat(qname, node->name);
-	reader->ctxt->valid &= xmlValidatePopElement(&reader->ctxt->vctxt,
-				reader->ctxt->myDoc, node, qname);
-	if (qname != NULL)
-	    xmlFree(qname);
+	    qname = xmlStrdup(node->ns->prefix);
+	    qname = xmlStrcat(qname, BAD_CAST ":");
+	    qname = xmlStrcat(qname, node->name);
+	    reader->ctxt->valid &= xmlValidatePopElement(&reader->ctxt->vctxt,
+				    reader->ctxt->myDoc, node, qname);
+	    if (qname != NULL)
+		xmlFree(qname);
+	}
+#ifdef LIBXML_SCHEMAS_ENABLED
+    } else if ((reader->validate == XML_TEXTREADER_VALIDATE_RNG) &&
+               (reader->rngValidCtxt != NULL)) {
+	int ret;
+
+	if (reader->rngFullNode != NULL) {
+	    if (node == reader->rngFullNode) 
+	        reader->rngFullNode = NULL;
+	    return;
+	}
+	ret = xmlRelaxNGValidatePopElement(reader->rngValidCtxt,
+	                                   reader->ctxt->myDoc,
+					   node);
+	if (ret != 1)
+	    reader->rngValidErrors++;
+#endif
     }
 #endif /* LIBXML_REGEXP_ENABLED */
 }
@@ -514,8 +591,8 @@ xmlTextReaderValidateEntity(xmlTextReaderPtr reader) {
 	    xmlTextReaderValidatePush(reader);
 	} else if ((node->type == XML_TEXT_NODE) ||
 		   (node->type == XML_CDATA_SECTION_NODE)) {
-	    ctxt->valid &= xmlValidatePushCData(&ctxt->vctxt,
-			      node->content, xmlStrlen(node->content));
+            xmlTextReaderValidateCData(reader, node->content,
+	                               xmlStrlen(node->content));
 	}
 
 	/*
@@ -524,6 +601,8 @@ xmlTextReaderValidateEntity(xmlTextReaderPtr reader) {
 	if (node->children != NULL) {
 	    node = node->children;
 	    continue;
+	} else if (node->type == XML_ELEMENT_NODE) {
+	    xmlTextReaderValidatePop(reader);
 	}
 	if (node->next != NULL) {
 	    node = node->next;
@@ -551,6 +630,58 @@ xmlTextReaderValidateEntity(xmlTextReaderPtr reader) {
 #endif /* LIBXML_REGEXP_ENABLED */
 }
 
+
+/**
+ * xmlTextReaderGetSuccessor:
+ * @cur:  the current node
+ *
+ * Get the successor of a node if available.
+ *
+ * Returns the successor node or NULL
+ */
+static xmlNodePtr
+xmlTextReaderGetSuccessor(xmlNodePtr cur) {
+    if (cur == NULL) return(NULL) ; /* ERROR */
+    if (cur->next != NULL) return(cur->next) ;
+    do {
+        cur = cur->parent;
+        if (cur == NULL) return(NULL);
+        if (cur->next != NULL) return(cur->next);
+    } while (cur != NULL);
+    return(cur);
+}
+
+/**
+ * xmlTextReaderDoExpand:
+ * @reader:  the xmlTextReaderPtr used
+ *
+ * Makes sure that the current node is fully read as well as all its
+ * descendant. It means the full DOM subtree must be available at the
+ * end of the call.
+ *
+ * Returns 1 if the node was expanded successfully, 0 if there is no more
+ *          nodes to read, or -1 in case of error
+ */
+static int
+xmlTextReaderDoExpand(xmlTextReaderPtr reader) {
+    int val;
+
+    if ((reader == NULL) || (reader->node == NULL) || (reader->ctxt == NULL))
+        return(-1);
+
+    do {
+        if (xmlTextReaderGetSuccessor(reader->node) != NULL)
+	    return(1);
+	if (reader->ctxt->nodeNr <= reader->depth)
+	    return(1);
+	if (reader->mode == XML_TEXTREADER_MODE_EOF)
+	    return(1);
+	val = xmlTextReaderPushData(reader);
+	if (val < 0)
+	    return(-1);
+    } while(reader->mode != XML_TEXTREADER_MODE_EOF);
+    return(1);
+}
 
 /**
  * xmlTextReaderRead:
@@ -598,7 +729,11 @@ xmlTextReaderRead(xmlTextReaderPtr reader) {
 		return(-1);
 	    reader->state = XML_TEXTREADER_ELEMENT;
 	} else {
-	    reader->node = reader->ctxt->nodeTab[0];
+	    if (reader->ctxt->myDoc != NULL) {
+		reader->node = reader->ctxt->myDoc->children;
+	    }
+	    if (reader->node == NULL)
+		reader->node = reader->ctxt->nodeTab[0];
 	    reader->state = XML_TEXTREADER_ELEMENT;
 	}
 	reader->depth = 0;
@@ -614,17 +749,20 @@ get_next_node:
      * that the parser didn't finished or that we arent at the end
      * of stream, continue processing.
      */
-    while (((oldstate == XML_TEXTREADER_BACKTRACK) ||
+    while ((reader->node->next == NULL) &&
+	   (reader->ctxt->nodeNr == olddepth) &&
+           ((oldstate == XML_TEXTREADER_BACKTRACK) ||
             (reader->node->children == NULL) ||
 	    (reader->node->type == XML_ENTITY_REF_NODE) ||
+	    ((reader->node->children != NULL) &&
+	     (reader->node->children->type == XML_TEXT_NODE) &&
+	     (reader->node->children->next == NULL)) ||
 	    (reader->node->type == XML_DTD_NODE) ||
 	    (reader->node->type == XML_DOCUMENT_NODE) ||
 	    (reader->node->type == XML_HTML_DOCUMENT_NODE)) &&
-	   (reader->node->next == NULL) &&
 	   ((reader->ctxt->node == NULL) ||
 	    (reader->ctxt->node == reader->node) ||
 	    (reader->ctxt->node == reader->node->parent)) &&
-	   (reader->ctxt->nodeNr == olddepth) &&
 	   (reader->ctxt->instate != XML_PARSER_EOF)) {
 	val = xmlTextReaderPushData(reader);
 	if (val < 0)
@@ -650,7 +788,7 @@ get_next_node:
 	    reader->state = XML_TEXTREADER_END;
 	    goto node_found;
 	}
-	if ((reader->ctxt->validate) &&
+	if ((reader->validate) &&
 	    (reader->node->type == XML_ELEMENT_NODE))
 	    xmlTextReaderValidatePop(reader);
 	reader->node = reader->node->next;
@@ -675,7 +813,7 @@ get_next_node:
 	reader->state = XML_TEXTREADER_END;
 	goto node_found;
     }
-    if ((reader->ctxt->validate) && (reader->node->type == XML_ELEMENT_NODE))
+    if ((reader->validate) && (reader->node->type == XML_ELEMENT_NODE))
 	xmlTextReaderValidatePop(reader);
     reader->node = reader->node->parent;
     if ((reader->node == NULL) ||
@@ -708,6 +846,15 @@ node_found:
     DUMP_READER
 
     /*
+     * If we are in the middle of a piece of CDATA make sure it's finished
+     */
+    if ((reader->node != NULL) &&
+        ((reader->node->type == XML_TEXT_NODE) ||
+	 (reader->node->type == XML_CDATA_SECTION_NODE))) {
+            xmlTextReaderExpand(reader);
+    }
+
+    /*
      * Handle entities enter and exit when in entity replacement mode
      */
     if ((reader->node != NULL) &&
@@ -731,7 +878,7 @@ node_found:
 	}
     } else if ((reader->node != NULL) &&
 	       (reader->node->type == XML_ENTITY_REF_NODE) &&
-	       (reader->ctxt != NULL) && (reader->ctxt->validate == 1)) {
+	       (reader->ctxt != NULL) && (reader->validate)) {
 	xmlTextReaderValidateEntity(reader);
     }
     if ((reader->node != NULL) &&
@@ -742,9 +889,8 @@ node_found:
         goto get_next_node;
     }
 #ifdef LIBXML_REGEXP_ENABLED
-    if ((reader->ctxt->validate) && (reader->node != NULL)) {
+    if ((reader->validate) && (reader->node != NULL)) {
 	xmlNodePtr node = reader->node;
-	xmlParserCtxtPtr ctxt = reader->ctxt;
 
 	if ((node->type == XML_ELEMENT_NODE) && 
             ((reader->state != XML_TEXTREADER_END) &&
@@ -752,13 +898,14 @@ node_found:
 	    xmlTextReaderValidatePush(reader);
 	} else if ((node->type == XML_TEXT_NODE) ||
 		   (node->type == XML_CDATA_SECTION_NODE)) {
-	    ctxt->valid &= xmlValidatePushCData(&ctxt->vctxt,
-			      node->content, xmlStrlen(node->content));
+            xmlTextReaderValidateCData(reader, node->content,
+	                               xmlStrlen(node->content));
 	}
     }
 #endif /* LIBXML_REGEXP_ENABLED */
     return(1);
 node_end:
+    reader->mode = XML_TEXTREADER_DONE;
     return(0);
 }
 
@@ -778,6 +925,57 @@ xmlTextReaderReadState(xmlTextReaderPtr reader) {
 }
 
 /**
+ * xmlTextReaderExpand:
+ * @reader:  the xmlTextReaderPtr used
+ *
+ * Reads the contents of the current node and the full subtree. It then makes
+ * the subtree available until the next xmlTextReaderRead() call
+ *
+ * Returns a node pointer valid until the next xmlTextReaderRead() call
+ *         or NULL in case of error.
+ */
+xmlNodePtr
+xmlTextReaderExpand(xmlTextReaderPtr reader) {
+    if ((reader == NULL) || (reader->node == NULL) || (reader->ctxt == NULL))
+        return(NULL);
+    if (xmlTextReaderDoExpand(reader) < 0)
+        return(NULL);
+    return(reader->node);
+}
+
+/**
+ * xmlTextReaderNext:
+ * @reader:  the xmlTextReaderPtr used
+ *
+ * Skip to the node following the current one in document order while
+ * avoiding the subtree if any.
+ *
+ * Returns 1 if the node was read successfully, 0 if there is no more
+ *          nodes to read, or -1 in case of error
+ */
+int
+xmlTextReaderNext(xmlTextReaderPtr reader) {
+    int ret;
+    xmlNodePtr cur;
+
+    if (reader == NULL)
+	return(-1);
+    cur = reader->node;
+    if ((cur == NULL) || (cur->type != XML_ELEMENT_NODE))
+        return(xmlTextReaderRead(reader));
+    if (reader->state == XML_TEXTREADER_END)
+        return(xmlTextReaderRead(reader));
+    if (cur->_private == (void *)xmlTextReaderIsEmpty)
+        return(xmlTextReaderRead(reader));
+    do {
+        ret = xmlTextReaderRead(reader);
+	if (ret != 1)
+	    return(ret);
+    } while (reader->node != cur);
+    return(xmlTextReaderRead(reader));
+}
+
+/**
  * xmlTextReaderReadInnerXml:
  * @reader:  the xmlTextReaderPtr used
  *
@@ -788,7 +986,7 @@ xmlTextReaderReadState(xmlTextReaderPtr reader) {
  *         string must be deallocated by the caller.
  */
 xmlChar *
-xmlTextReaderReadInnerXml(xmlTextReaderPtr reader) {
+xmlTextReaderReadInnerXml(xmlTextReaderPtr reader ATTRIBUTE_UNUSED) {
     TODO
     return(NULL);
 }
@@ -804,7 +1002,7 @@ xmlTextReaderReadInnerXml(xmlTextReaderPtr reader) {
  *         string must be deallocated by the caller.
  */
 xmlChar *
-xmlTextReaderReadOuterXml(xmlTextReaderPtr reader) {
+xmlTextReaderReadOuterXml(xmlTextReaderPtr reader ATTRIBUTE_UNUSED) {
     TODO
     return(NULL);
 }
@@ -820,7 +1018,7 @@ xmlTextReaderReadOuterXml(xmlTextReaderPtr reader) {
  *         The string must be deallocated by the caller.
  */
 xmlChar *
-xmlTextReaderReadString(xmlTextReaderPtr reader) {
+xmlTextReaderReadString(xmlTextReaderPtr reader ATTRIBUTE_UNUSED) {
     TODO
     return(NULL);
 }
@@ -944,11 +1142,17 @@ xmlNewTextReader(xmlParserInputBufferPtr input, const char *URI) {
 	ret->base = 0;
 	ret->cur = 0;
     }
+    if (ret->ctxt == NULL) {
+        xmlGenericError(xmlGenericErrorContext,
+		"xmlNewTextReader : malloc failed\n");
+	xmlFree(ret->sax);
+	xmlFree(ret);
+	return(NULL);
+    }
     ret->ctxt->_private = ret;
     ret->ctxt->linenumbers = 1;
     ret->allocs = XML_TEXTREADER_CTXT;
     return(ret);
-
 }
 
 /**
@@ -993,6 +1197,16 @@ void
 xmlFreeTextReader(xmlTextReaderPtr reader) {
     if (reader == NULL)
 	return;
+#ifdef LIBXML_SCHEMAS_ENABLED
+    if (reader->rngSchemas != NULL) {
+	xmlRelaxNGFree(reader->rngSchemas);
+	reader->rngSchemas = NULL;
+    }
+    if (reader->rngValidCtxt != NULL) {
+	xmlRelaxNGFreeValidCtxt(reader->rngValidCtxt);
+	reader->rngValidCtxt = NULL;
+    }
+#endif
     if (reader->ctxt != NULL) {
 	if (reader->ctxt->myDoc != NULL) {
 	    xmlFreeDoc(reader->ctxt->myDoc);
@@ -1658,10 +1872,11 @@ xmlTextReaderAttributeCount(xmlTextReaderPtr reader) {
 int
 xmlTextReaderNodeType(xmlTextReaderPtr reader) {
     xmlNodePtr node;
+    
     if (reader == NULL)
 	return(-1);
     if (reader->node == NULL)
-	return(0);
+	return(XML_READER_TYPE_NONE);
     if (reader->curnode != NULL)
 	node = reader->curnode;
     else
@@ -1670,43 +1885,50 @@ xmlTextReaderNodeType(xmlTextReaderPtr reader) {
         case XML_ELEMENT_NODE:
 	    if ((reader->state == XML_TEXTREADER_END) ||
 		(reader->state == XML_TEXTREADER_BACKTRACK))
-		return(15);
-	    return(1);
+		return(XML_READER_TYPE_END_ELEMENT);
+	    return(XML_READER_TYPE_ELEMENT);
         case XML_NAMESPACE_DECL:
         case XML_ATTRIBUTE_NODE:
-	    return(2);
+	    return(XML_READER_TYPE_ATTRIBUTE);
         case XML_TEXT_NODE:
-	    return(3); /* TODO: SignificantWhitespace == 14 Whitespace == 13 */
+	    if (xmlIsBlankNode(reader->node)) {
+		if (xmlNodeGetSpacePreserve(reader->node))
+		    return(XML_READER_TYPE_SIGNIFICANT_WHITESPACE);
+		else
+		    return(XML_READER_TYPE_WHITESPACE);
+	    } else {
+		return(XML_READER_TYPE_TEXT);
+	    }
         case XML_CDATA_SECTION_NODE:
-	    return(4);
+	    return(XML_READER_TYPE_CDATA);
         case XML_ENTITY_REF_NODE:
-	    return(5);
+	    return(XML_READER_TYPE_ENTITY_REFERENCE);
         case XML_ENTITY_NODE:
-	    return(6);
+	    return(XML_READER_TYPE_ENTITY);
         case XML_PI_NODE:
-	    return(7);
+	    return(XML_READER_TYPE_PROCESSING_INSTRUCTION);
         case XML_COMMENT_NODE:
-	    return(8);
+	    return(XML_READER_TYPE_COMMENT);
         case XML_DOCUMENT_NODE:
         case XML_HTML_DOCUMENT_NODE:
 #ifdef LIBXML_DOCB_ENABLED
         case XML_DOCB_DOCUMENT_NODE:
 #endif
-	    return(9);
+	    return(XML_READER_TYPE_DOCUMENT);
         case XML_DOCUMENT_FRAG_NODE:
-	    return(11);
+	    return(XML_READER_TYPE_DOCUMENT_FRAGMENT);
         case XML_NOTATION_NODE:
-	    return(12);
+	    return(XML_READER_TYPE_NOTATION);
         case XML_DOCUMENT_TYPE_NODE:
         case XML_DTD_NODE:
-	    return(10);
+	    return(XML_READER_TYPE_DOCUMENT_TYPE);
 
         case XML_ELEMENT_DECL:
         case XML_ATTRIBUTE_DECL:
         case XML_ENTITY_DECL:
         case XML_XINCLUDE_START:
         case XML_XINCLUDE_END:
-	    return(0);
+	    return(XML_READER_TYPE_NONE);
     }
     return(-1);
 }
@@ -1865,7 +2087,7 @@ xmlTextReaderPrefix(xmlTextReaderPtr reader) {
     if ((node->type != XML_ELEMENT_NODE) &&
 	(node->type != XML_ATTRIBUTE_NODE))
 	return(NULL);
-    if ((node->ns != NULL) || (node->ns->prefix != NULL))
+    if ((node->ns != NULL) && (node->ns->prefix != NULL))
 	return(xmlStrdup(node->ns->prefix));
     return(NULL);
 }
@@ -1989,9 +2211,10 @@ xmlTextReaderHasValue(xmlTextReaderPtr reader) {
         case XML_CDATA_SECTION_NODE:
         case XML_PI_NODE:
         case XML_COMMENT_NODE:
+        case XML_NAMESPACE_DECL:
 	    return(1);
 	default:
-	    return(0);
+	    break;
     }
     return(0);
 }
@@ -2037,7 +2260,7 @@ xmlTextReaderValue(xmlTextReaderPtr reader) {
             if (node->content != NULL)
                 return (xmlStrdup(node->content));
 	default:
-	    return(NULL);
+	    break;
     }
     return(NULL);
 }
@@ -2160,6 +2383,7 @@ xmlTextReaderSetParserProp(xmlTextReaderPtr reader, int prop, int value) {
         case XML_PARSER_VALIDATE:
 	    if (value != 0) {
 		ctxt->validate = 1;
+		reader->validate = XML_TEXTREADER_VALIDATE_DTD;
 	    } else {
 		ctxt->validate = 0;
 	    }
@@ -2203,7 +2427,7 @@ xmlTextReaderGetParserProp(xmlTextReaderPtr reader, int prop) {
 		return(1);
 	    return(0);
         case XML_PARSER_VALIDATE:
-	    return(ctxt->validate);
+	    return(reader->validate);
 	case XML_PARSER_SUBST_ENTITIES:
 	    return(ctxt->replaceEntities);
     }
@@ -2248,6 +2472,126 @@ xmlTextReaderCurrentDoc(xmlTextReaderPtr reader) {
     return(reader->ctxt->myDoc);
 }
 
+#ifdef LIBXML_SCHEMAS_ENABLED
+/**
+ * xmlTextReaderRelaxNGSetSchema:
+ * @reader:  the xmlTextReaderPtr used
+ * @schema:  a precompiled RelaxNG schema
+ *
+ * Use RelaxNG to validate the document as it is processed.
+ * Activation is only possible before the first Read().
+ * if @schema is NULL, then RelaxNG validation is desactivated.
+ @ The @schema should not be freed until the reader is deallocated
+ * or its use has been deactivated.
+ *
+ * Returns 0 in case the RelaxNG validation could be (des)activated and
+ *         -1 in case of error.
+ */
+int
+xmlTextReaderRelaxNGSetSchema(xmlTextReaderPtr reader, xmlRelaxNGPtr schema) {
+    if (schema == NULL) {
+        if (reader->rngSchemas != NULL) {
+	    xmlRelaxNGFree(reader->rngSchemas);
+	    reader->rngSchemas = NULL;
+	}
+        if (reader->rngValidCtxt != NULL) {
+	    xmlRelaxNGFreeValidCtxt(reader->rngValidCtxt);
+	    reader->rngValidCtxt = NULL;
+        }
+	return(0);
+    }
+    if (reader->mode != XML_TEXTREADER_MODE_INITIAL)
+	return(-1);
+    if (reader->rngSchemas != NULL) {
+	xmlRelaxNGFree(reader->rngSchemas);
+	reader->rngSchemas = NULL;
+    }
+    if (reader->rngValidCtxt != NULL) {
+	xmlRelaxNGFreeValidCtxt(reader->rngValidCtxt);
+	reader->rngValidCtxt = NULL;
+    }
+    reader->rngValidCtxt = xmlRelaxNGNewValidCtxt(schema);
+    if (reader->rngValidCtxt == NULL)
+        return(-1);
+    if (reader->errorFunc != NULL) {
+	xmlRelaxNGSetValidErrors(reader->rngValidCtxt,
+			 (xmlRelaxNGValidityErrorFunc)reader->errorFunc,
+			 (xmlRelaxNGValidityWarningFunc) reader->errorFunc,
+			 reader->errorFuncArg);
+    }
+    reader->rngValidErrors = 0;
+    reader->rngFullNode = NULL;
+    reader->validate = XML_TEXTREADER_VALIDATE_RNG;
+    return(0);
+}
+
+/**
+ * xmlTextReaderRelaxNGValidate:
+ * @reader:  the xmlTextReaderPtr used
+ * @rng:  the path to a RelaxNG schema or NULL
+ *
+ * Use RelaxNG to validate the document as it is processed.
+ * Activation is only possible before the first Read().
+ * if @rng is NULL, then RelaxNG validation is desactivated.
+ *
+ * Returns 0 in case the RelaxNG validation could be (des)activated and
+ *         -1 in case of error.
+ */
+int
+xmlTextReaderRelaxNGValidate(xmlTextReaderPtr reader, const char *rng) {
+    xmlRelaxNGParserCtxtPtr ctxt;
+
+    if (reader == NULL)
+        return(-1);
+    
+    if (rng == NULL) {
+        if (reader->rngSchemas != NULL) {
+	    xmlRelaxNGFree(reader->rngSchemas);
+	    reader->rngSchemas = NULL;
+	}
+        if (reader->rngValidCtxt != NULL) {
+	    xmlRelaxNGFreeValidCtxt(reader->rngValidCtxt);
+	    reader->rngValidCtxt = NULL;
+        }
+	return(0);
+    }
+    if (reader->mode != XML_TEXTREADER_MODE_INITIAL)
+	return(-1);
+    if (reader->rngSchemas != NULL) {
+	xmlRelaxNGFree(reader->rngSchemas);
+	reader->rngSchemas = NULL;
+    }
+    if (reader->rngValidCtxt != NULL) {
+	xmlRelaxNGFreeValidCtxt(reader->rngValidCtxt);
+	reader->rngValidCtxt = NULL;
+    }
+    ctxt = xmlRelaxNGNewParserCtxt(rng);
+    if (reader->errorFunc != NULL) {
+	xmlRelaxNGSetParserErrors(ctxt,
+			 (xmlRelaxNGValidityErrorFunc) reader->errorFunc,
+			 (xmlRelaxNGValidityWarningFunc) reader->errorFunc,
+			 reader->errorFuncArg);
+    }
+    reader->rngSchemas = xmlRelaxNGParse(ctxt);
+    xmlRelaxNGFreeParserCtxt(ctxt);
+    if (reader->rngSchemas == NULL)
+        return(-1);
+    reader->rngValidCtxt = xmlRelaxNGNewValidCtxt(reader->rngSchemas);
+    if (reader->rngValidCtxt == NULL)
+        return(-1);
+    if (reader->errorFunc != NULL) {
+	xmlRelaxNGSetValidErrors(reader->rngValidCtxt,
+			 (xmlRelaxNGValidityErrorFunc)reader->errorFunc,
+			 (xmlRelaxNGValidityWarningFunc) reader->errorFunc,
+			 reader->errorFuncArg);
+    }
+    reader->rngValidErrors = 0;
+    reader->rngFullNode = NULL;
+    reader->validate = XML_TEXTREADER_VALIDATE_RNG;
+    return(0);
+}
+#endif
+
 /************************************************************************
  *									*
  *			Error Handling Extensions                       *
@@ -2262,7 +2606,7 @@ xmlTextReaderBuildMessage(const char *msg, va_list ap) {
     char *larger;
     char *str;
 
-    str = (char *) xmlMalloc(150);
+    str = (char *) xmlMallocAtomic(150);
     if (str == NULL) {
 	xmlGenericError(xmlGenericErrorContext, "xmlMalloc failed !\n");
         return NULL;
@@ -2347,7 +2691,7 @@ xmlTextReaderLocatorBaseURI(xmlTextReaderLocatorPtr locator) {
 	if ((input->filename == NULL) && (ctx->inputNr > 1))
 	    input = ctx->inputTab[ctx->inputNr - 2];
 	if (input != NULL) {
-	    ret = xmlStrdup(input->filename);
+	    ret = xmlStrdup(BAD_CAST input->filename);
 	} 
 	else {
 	    ret = NULL;
@@ -2464,6 +2808,27 @@ xmlTextReaderSetErrorHandler(xmlTextReaderPtr reader,
 }
 
 /**
+ * xmlTextReaderIsValid:
+ * @reader:  the xmlTextReaderPtr used
+ *
+ * Retrieve the validity status from the parser context
+ *
+ * Returns the flag value 1 if valid, 0 if no, and -1 in case of error
+ */
+int
+xmlTextReaderIsValid(xmlTextReaderPtr reader) {
+    if (reader == NULL) return(-1);
+#ifdef LIBXML_SCHEMAS_ENABLED
+    if (reader->validate == XML_TEXTREADER_VALIDATE_RNG)
+        return(reader->rngValidErrors == 0);
+#endif
+    if ((reader->validate == XML_TEXTREADER_VALIDATE_DTD) &&
+        (reader->ctxt != NULL))
+	return(reader->ctxt->valid);
+    return(0);
+}
+
+/**
  * xmlTextReaderGetErrorHandler:
  * @reader:  the xmlTextReaderPtr used
  * @f:	the callback function or NULL is no callback has been registered
@@ -2506,7 +2871,7 @@ xmlBase64Decode(const unsigned char *in, unsigned long *inlen,
     unsigned long inmax;		/* size of in[] */
     unsigned long outmax;		/* size of out[] */
     unsigned char cur;			/* the current value read from in[] */
-    unsigned char intmp[3], outtmp[4];	/* temporary buffers for the convert */
+    unsigned char intmp[4], outtmp[4];	/* temporary buffers for the convert */
     int nbintmp;			/* number of byte in intmp[] */
     int is_ignore;			/* cur should be ignored */
     int is_end = 0;			/* the end of the base64 was found */

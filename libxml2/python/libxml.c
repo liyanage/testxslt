@@ -27,6 +27,9 @@
 
 #if (defined(_MSC_VER) || defined(__MINGW32__)) && !defined(vsnprintf)
 #define vsnprintf(b,c,f,a) _vsnprintf(b,c,f,a)
+#elif defined(WITH_TRIO)
+#include "trio.h"
+#define vsnprintf trio_vsnprintf
 #endif
 
 /* #define DEBUG */
@@ -55,10 +58,12 @@ void initlibxml2mod(void);
  *									*
  ************************************************************************/
 
+#if 0
 extern void xmlMemFree(void *ptr);
 extern void *xmlMemMalloc(size_t size);
 extern void *xmlMemRealloc(void *ptr, size_t size);
 extern char *xmlMemoryStrdup(const char *str);
+#endif
 
 static int libxmlMemoryDebugActivated = 0;
 static long libxmlMemoryAllocatedBase = 0;
@@ -464,7 +469,7 @@ pythonExternalEntityLoader(const char *URL, const char *ID,
 	    if (result == NULL) {
 		Py_DECREF(ret);
 	    } else if (URL != NULL) {
-		result->filename = xmlStrdup(URL);
+		result->filename = (char *) xmlStrdup((const xmlChar *)URL);
 		result->directory = xmlParserGetDirectory((const char *) URL);
 	    }
 	}
@@ -1264,9 +1269,10 @@ libxml_xmlErrorInitialize(void)
     printf("libxml_xmlErrorInitialize() called\n");
 #endif
     xmlSetGenericErrorFunc(NULL, libxml_xmlErrorFuncHandler);
+    xmlThrDefSetGenericErrorFunc(NULL, libxml_xmlErrorFuncHandler);
 }
 
-PyObject *
+static PyObject *
 libxml_xmlRegisterErrorHandler(ATTRIBUTE_UNUSED PyObject * self,
                                PyObject * args)
 {
@@ -1388,7 +1394,7 @@ libxml_xmlParserCtxtValidityWarningFuncHandler(void *ctx, const char *msg, ...)
     va_end(ap);
 }
 
-PyObject *
+static PyObject *
 libxml_xmlParserCtxtSetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) 
 {
     PyObject *py_retval;
@@ -1439,7 +1445,7 @@ libxml_xmlParserCtxtSetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *a
     return(py_retval);
 }
 
-PyObject *
+static PyObject *
 libxml_xmlParserCtxtGetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) 
 {
     PyObject *py_retval;
@@ -1470,7 +1476,7 @@ libxml_xmlParserCtxtGetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *a
     return(py_retval);
 }
 
-PyObject *
+static PyObject *
 libxml_xmlFreeParserCtxt(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     xmlParserCtxtPtr ctxt;
     PyObject *pyobj_ctxt;
@@ -1533,7 +1539,7 @@ libxml_xmlTextReaderErrorCallback(void *arg,
     Py_XDECREF(result);
 }
 
-PyObject *
+static PyObject *
 libxml_xmlTextReaderSetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *args)
 {
     xmlTextReaderPtr reader;
@@ -1551,7 +1557,7 @@ libxml_xmlTextReaderSetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *a
     /* clear previous error handler */
     xmlTextReaderGetErrorHandler(reader,&f,&arg);
     if (arg != NULL) {
-	if (f == libxml_xmlTextReaderErrorCallback) {
+	if (f == (xmlTextReaderErrorFunc) libxml_xmlTextReaderErrorCallback) {
 	    /* ok, it's our error handler! */
 	    pyCtxt = (xmlTextReaderPyCtxtPtr)arg;
 	    Py_XDECREF(pyCtxt->f);
@@ -1581,14 +1587,16 @@ libxml_xmlTextReaderSetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *a
 	pyCtxt->f = pyobj_f;
 	Py_XINCREF(pyobj_arg);
 	pyCtxt->arg = pyobj_arg;
-	xmlTextReaderSetErrorHandler(reader,libxml_xmlTextReaderErrorCallback,pyCtxt);
+	xmlTextReaderSetErrorHandler(reader,
+	    (xmlTextReaderErrorFunc) libxml_xmlTextReaderErrorCallback,
+	                             pyCtxt);
     }
 
     py_retval = libxml_intWrap(1);
     return(py_retval);
 }
 
-PyObject *
+static PyObject *
 libxml_xmlTextReaderGetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *args)
 {
     xmlTextReaderPtr reader;
@@ -1603,7 +1611,7 @@ libxml_xmlTextReaderGetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *a
     reader = (xmlTextReaderPtr) PyxmlTextReader_Get(pyobj_reader);
     xmlTextReaderGetErrorHandler(reader,&f,&arg);
     py_retval = PyTuple_New(2);
-    if (f == libxml_xmlTextReaderErrorCallback) {
+    if (f == (xmlTextReaderErrorFunc)libxml_xmlTextReaderErrorCallback) {
 	/* ok, it's our error handler! */
 	pyCtxt = (xmlTextReaderPyCtxtPtr)arg;
 	PyTuple_SetItem(py_retval, 0, pyCtxt->f);
@@ -1622,7 +1630,7 @@ libxml_xmlTextReaderGetErrorHandler(ATTRIBUTE_UNUSED PyObject *self, PyObject *a
     return(py_retval);
 }
 
-PyObject *
+static PyObject *
 libxml_xmlFreeTextReader(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     xmlTextReaderPtr reader;
     PyObject *pyobj_reader;
@@ -1636,7 +1644,7 @@ libxml_xmlFreeTextReader(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 
     xmlTextReaderGetErrorHandler(reader,&f,&arg);
     if (arg != NULL) {
-	if (f == libxml_xmlTextReaderErrorCallback) {
+	if (f == (xmlTextReaderErrorFunc) libxml_xmlTextReaderErrorCallback) {
 	    /* ok, it's our error handler! */
 	    pyCtxt = (xmlTextReaderPyCtxtPtr)arg;
 	    Py_XDECREF(pyCtxt->f);
@@ -1764,7 +1772,7 @@ libxml_xpathCallbacksInitialize(void)
     printf("libxml_xpathCallbacksInitialized called\n");
 #endif
 
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < libxml_xpathCallbacksMax; i++) {
         libxml_xpathCallbacks[i].ctx = NULL;
         libxml_xpathCallbacks[i].name = NULL;
         libxml_xpathCallbacks[i].ns_uri = NULL;
@@ -2542,6 +2550,210 @@ libxml_xmlNewNode(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
     return (py_retval);
 }
 
+
+/************************************************************************
+ *									*
+ *			Local Catalog stuff				*
+ *									*
+ ************************************************************************/
+static PyObject *
+libxml_addLocalCatalog(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
+{
+    xmlChar *URL;
+    xmlParserCtxtPtr ctxt;
+    PyObject *pyobj_ctxt;
+
+    if (!PyArg_ParseTuple(args, (char *)"Os:addLocalCatalog", &pyobj_ctxt, &URL))
+        return(NULL);
+
+    ctxt = (xmlParserCtxtPtr) PyparserCtxt_Get(pyobj_ctxt);
+
+    if (URL != NULL) {
+	ctxt->catalogs = xmlCatalogAddLocal(ctxt->catalogs, URL);
+    }
+
+#ifdef DEBUG
+    printf("LocalCatalog: %s\n", URL);
+#endif
+
+    Py_INCREF(Py_None);
+    return (Py_None);
+}
+
+#ifdef LIBXML_SCHEMAS_ENABLED
+
+/************************************************************************
+ *                                                                      *
+ * RelaxNG error handler registration                                   *
+ *                                                                      *
+ ************************************************************************/
+
+typedef struct 
+{
+    PyObject *warn;
+    PyObject *error;
+    PyObject *arg;
+} xmlRelaxNGValidCtxtPyCtxt;
+typedef xmlRelaxNGValidCtxtPyCtxt *xmlRelaxNGValidCtxtPyCtxtPtr;
+
+static void
+libxml_xmlRelaxNGValidityGenericErrorFuncHandler(void *ctx, char *str) 
+{
+    PyObject *list;
+    PyObject *result;
+    xmlRelaxNGValidCtxtPyCtxtPtr pyCtxt;
+    
+#ifdef DEBUG_ERROR
+    printf("libxml_xmlRelaxNGValidityGenericErrorFuncHandler(%p, %s, ...) called\n", ctx, str);
+#endif
+
+    pyCtxt = (xmlRelaxNGValidCtxtPyCtxtPtr)ctx;
+
+    list = PyTuple_New(2);
+    PyTuple_SetItem(list, 0, libxml_charPtrWrap(str));
+    PyTuple_SetItem(list, 1, pyCtxt->arg);
+    Py_XINCREF(pyCtxt->arg);
+    result = PyEval_CallObject(pyCtxt->error, list);
+    if (result == NULL) 
+    {
+        /* TODO: manage for the exception to be propagated... */
+        PyErr_Print();
+    }
+    Py_XDECREF(list);
+    Py_XDECREF(result);
+}
+
+static void
+libxml_xmlRelaxNGValidityGenericWarningFuncHandler(void *ctx, char *str) 
+{
+    PyObject *list;
+    PyObject *result;
+    xmlRelaxNGValidCtxtPyCtxtPtr pyCtxt;
+    
+#ifdef DEBUG_ERROR
+    printf("libxml_xmlRelaxNGValidityGenericWarningFuncHandler(%p, %s, ...) called\n", ctx, str);
+#endif
+
+    pyCtxt = (xmlRelaxNGValidCtxtPyCtxtPtr)ctx;
+
+    list = PyTuple_New(2);
+    PyTuple_SetItem(list, 0, libxml_charPtrWrap(str));
+    PyTuple_SetItem(list, 1, pyCtxt->arg);
+    Py_XINCREF(pyCtxt->arg);
+    result = PyEval_CallObject(pyCtxt->warn, list);
+    if (result == NULL) 
+    {
+        /* TODO: manage for the exception to be propagated... */
+        PyErr_Print();
+    }
+    Py_XDECREF(list);
+    Py_XDECREF(result);
+}
+
+static void
+libxml_xmlRelaxNGValidityErrorFunc(void *ctx, const char *msg, ...)
+{
+    va_list ap;
+
+    va_start(ap, msg);
+    libxml_xmlRelaxNGValidityGenericErrorFuncHandler(ctx, libxml_buildMessage(msg, ap));
+    va_end(ap);
+}
+
+static void
+libxml_xmlRelaxNGValidityWarningFunc(void *ctx, const char *msg, ...)
+{
+    va_list ap;
+
+    va_start(ap, msg);
+    libxml_xmlRelaxNGValidityGenericWarningFuncHandler(ctx, libxml_buildMessage(msg, ap));
+    va_end(ap);
+}
+
+static PyObject *
+libxml_xmlRelaxNGSetValidErrors(ATTRIBUTE_UNUSED PyObject * self, PyObject * args)
+{
+    PyObject *py_retval;
+    PyObject *pyobj_error;
+    PyObject *pyobj_warn;
+    PyObject *pyobj_ctx;
+    PyObject *pyobj_arg = Py_None;
+    xmlRelaxNGValidCtxtPtr ctxt;
+    xmlRelaxNGValidCtxtPyCtxtPtr pyCtxt;
+
+    if (!PyArg_ParseTuple
+        (args, (char *) "OOO|O:xmlRelaxNGSetValidErrors", &pyobj_ctx, &pyobj_error, &pyobj_warn, &pyobj_arg))
+        return (NULL);
+
+#ifdef DEBUG_ERROR
+    printf("libxml_xmlRelaxNGSetValidErrors(%p, %p, %p) called\n", pyobj_ctx, pyobj_error, pyobj_warn);
+#endif
+
+    ctxt = PyrelaxNgValidCtxt_Get(pyobj_ctx);
+    if (xmlRelaxNGGetValidErrors(ctxt, NULL, NULL, (void **) &pyCtxt) == -1)
+    {
+        py_retval = libxml_intWrap(-1);
+        return(py_retval);
+    }
+    
+    if (pyCtxt == NULL)
+    {
+        /* first time to set the error handlers */
+        pyCtxt = xmlMalloc(sizeof(xmlRelaxNGValidCtxtPyCtxt));
+        if (pyCtxt == NULL) {
+            py_retval = libxml_intWrap(-1);
+            return(py_retval);
+        }
+        memset(pyCtxt, 0, sizeof(xmlRelaxNGValidCtxtPyCtxt));
+    }
+    
+    /* TODO: check warn and error is a function ! */
+    Py_XDECREF(pyCtxt->error);
+    Py_XINCREF(pyobj_error);
+    pyCtxt->error = pyobj_error;
+    
+    Py_XDECREF(pyCtxt->warn);
+    Py_XINCREF(pyobj_warn);
+    pyCtxt->warn = pyobj_warn;
+    
+    Py_XDECREF(pyCtxt->arg);
+    Py_XINCREF(pyobj_arg);
+    pyCtxt->arg = pyobj_arg;
+
+    xmlRelaxNGSetValidErrors(ctxt, &libxml_xmlRelaxNGValidityErrorFunc, &libxml_xmlRelaxNGValidityWarningFunc, pyCtxt);
+
+    py_retval = libxml_intWrap(1);
+    return (py_retval);
+}
+
+static PyObject *
+libxml_xmlRelaxNGFreeValidCtxt(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    xmlRelaxNGValidCtxtPtr ctxt;
+    xmlRelaxNGValidCtxtPyCtxtPtr pyCtxt;
+    PyObject *pyobj_ctxt;
+
+    if (!PyArg_ParseTuple(args, (char *)"O:xmlRelaxNGFreeValidCtxt", &pyobj_ctxt))
+        return(NULL);
+    ctxt = (xmlRelaxNGValidCtxtPtr) PyrelaxNgValidCtxt_Get(pyobj_ctxt);
+
+    if (xmlRelaxNGGetValidErrors(ctxt, NULL, NULL, (void **) &pyCtxt) == 0)
+    {
+        if (pyCtxt != NULL)
+        {
+            Py_XDECREF(pyCtxt->error);
+            Py_XDECREF(pyCtxt->warn);
+            Py_XDECREF(pyCtxt->arg);
+            xmlFree(pyCtxt);
+        }
+    }
+    
+    xmlRelaxNGFreeValidCtxt(ctxt);
+    Py_INCREF(Py_None);
+    return(Py_None);
+}
+
+#endif
+
 /************************************************************************
  *									*
  *			The registration stuff				*
@@ -2571,6 +2783,11 @@ static PyMethodDef libxmlMethods[] = {
     {(char *)"xmlTextReaderSetErrorHandler", libxml_xmlTextReaderSetErrorHandler, METH_VARARGS, NULL },
     {(char *)"xmlTextReaderGetErrorHandler", libxml_xmlTextReaderGetErrorHandler, METH_VARARGS, NULL },
     {(char *)"xmlFreeTextReader", libxml_xmlFreeTextReader, METH_VARARGS, NULL },
+    {(char *)"addLocalCatalog", libxml_addLocalCatalog, METH_VARARGS, NULL },
+#ifdef LIBXML_SCHEMAS_ENABLED
+    {(char *)"xmlRelaxNGSetValidErrors", libxml_xmlRelaxNGSetValidErrors, METH_VARARGS, NULL},
+    {(char *)"xmlRelaxNGFreeValidCtxt", libxml_xmlRelaxNGFreeValidCtxt, METH_VARARGS, NULL},
+#endif
     {NULL, NULL, 0, NULL}
 };
 
@@ -2586,6 +2803,8 @@ initlibxml2mod(void)
 
     if (initialized != 0)
         return;
+    /* XXX xmlInitParser does much more than this */
+    xmlInitGlobals();
     xmlRegisterDefaultOutputCallbacks();
     xmlRegisterDefaultInputCallbacks();
     m = Py_InitModule((char *) "libxml2mod", libxmlMethods);

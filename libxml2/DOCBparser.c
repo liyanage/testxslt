@@ -2675,14 +2675,13 @@ docbParseSGMLAttribute(docbParserCtxtPtr ctxt, const xmlChar stop) {
     xmlChar *name = NULL;
 
     xmlChar *cur = NULL;
-    xmlEntityPtr xent;
     docbEntityDescPtr ent;
 
     /*
      * allocate a translation buffer.
      */
     buffer_size = DOCB_PARSER_BIG_BUFFER_SIZE;
-    buffer = (xmlChar *) xmlMalloc(buffer_size * sizeof(xmlChar));
+    buffer = (xmlChar *) xmlMallocAtomic(buffer_size * sizeof(xmlChar));
     if (buffer == NULL) {
        xmlGenericError(xmlGenericErrorContext,
 	               "docbParseSGMLAttribute: malloc failed");
@@ -2714,7 +2713,7 @@ docbParseSGMLAttribute(docbParserCtxtPtr ctxt, const xmlChar stop) {
                    *out++  = ((c >> bits) & 0x3F) | 0x80;
                }
            } else {
-               xent = docbParseEntityRef(ctxt, &name);
+               docbParseEntityRef(ctxt, &name);
                if (name == NULL) {
                    *out++ = '&';
                    if (out - buffer > buffer_size - 100) {
@@ -2917,9 +2916,9 @@ docbParseSystemLiteral(docbParserCtxtPtr ctxt) {
     if (CUR == '"') {
         NEXT;
        q = CUR_PTR;
-       while ((IS_CHAR(CUR)) && (CUR != '"'))
+       while ((IS_CHAR((unsigned int) CUR)) && (CUR != '"'))
            NEXT;
-       if (!IS_CHAR(CUR)) {
+       if (!IS_CHAR((unsigned int) CUR)) {
            if ((ctxt->sax != NULL) && (ctxt->sax->error != NULL))
                ctxt->sax->error(ctxt->userData, "Unfinished SystemLiteral\n");
            ctxt->wellFormed = 0;
@@ -2930,9 +2929,9 @@ docbParseSystemLiteral(docbParserCtxtPtr ctxt) {
     } else if (CUR == '\'') {
         NEXT;
        q = CUR_PTR;
-       while ((IS_CHAR(CUR)) && (CUR != '\''))
+       while ((IS_CHAR((unsigned int) CUR)) && (CUR != '\''))
            NEXT;
-       if (!IS_CHAR(CUR)) {
+       if (!IS_CHAR((unsigned int) CUR)) {
            if ((ctxt->sax != NULL) && (ctxt->sax->error != NULL))
                ctxt->sax->error(ctxt->userData, "Unfinished SystemLiteral\n");
            ctxt->wellFormed = 0;
@@ -3157,7 +3156,7 @@ docbParsePI(xmlParserCtxtPtr ctxt) {
 	 */
 	target = xmlParseName(ctxt);
 	if (target != NULL) {
-	    xmlChar *encoding = NULL;
+	    const xmlChar *encoding = NULL;
 
 	    if ((RAW == '?') && (NXT(1) == '>')) {
 		if (input != ctxt->input) {
@@ -3195,7 +3194,7 @@ docbParsePI(xmlParserCtxtPtr ctxt) {
 		}
 
 	    }
-	    buf = (xmlChar *) xmlMalloc(size * sizeof(xmlChar));
+	    buf = (xmlChar *) xmlMallocAtomic(size * sizeof(xmlChar));
 	    if (buf == NULL) {
 		xmlGenericError(xmlGenericErrorContext,
 			"malloc of %d byte failed\n", size);
@@ -3315,7 +3314,7 @@ docbParseComment(docbParserCtxtPtr ctxt) {
     ctxt->instate = XML_PARSER_COMMENT;
     SHRINK;
     SKIP(4);
-    buf = (xmlChar *) xmlMalloc(size * sizeof(xmlChar));
+    buf = (xmlChar *) xmlMallocAtomic(size * sizeof(xmlChar));
     if (buf == NULL) {
        xmlGenericError(xmlGenericErrorContext,
                "malloc of %d byte failed\n", size);
@@ -3724,7 +3723,7 @@ docbParseStartTag(docbParserCtxtPtr ctxt) {
      * (S Attribute)* S?
      */
     SKIP_BLANKS;
-    while ((IS_CHAR(CUR)) &&
+    while ((IS_CHAR((unsigned int) CUR)) &&
            (CUR != '>') && 
           ((CUR != '/') || (NXT(1) != '>'))) {
        long cons = ctxt->nbChars;
@@ -3870,7 +3869,7 @@ docbParseEndTag(docbParserCtxtPtr ctxt) {
      * We should definitely be at the ending "S? '>'" part
      */
     SKIP_BLANKS;
-    if ((!IS_CHAR(CUR)) || (CUR != '>')) {
+    if ((!IS_CHAR((unsigned int) CUR)) || (CUR != '>')) {
        if ((ctxt->sax != NULL) && (ctxt->sax->error != NULL))
            ctxt->sax->error(ctxt->userData, "End tag : expected '>'\n");
        ctxt->wellFormed = 0;
@@ -3993,10 +3992,9 @@ docbParseReference(docbParserCtxtPtr ctxt) {
 		    /*
 		     * we really need to fetch and parse the external entity
 		     */
-		    int parse;
 		    xmlNodePtr children = NULL;
 
-		    parse = docbParseCtxtExternalEntity(ctxt,
+		    docbParseCtxtExternalEntity(ctxt,
 			       xent->SystemID, xent->ExternalID, &children);
 		    xmlAddChildList((xmlNodePtr) xent, children);
 	    }
@@ -4323,12 +4321,12 @@ docbParseElement(docbParserCtxtPtr ctxt) {
      */
     currentNode = xmlStrdup(ctxt->name);
     depth = ctxt->nameNr;
-    while (IS_CHAR(CUR)) {
+    while (IS_CHAR((unsigned int) CUR)) {
        docbParseContent(ctxt);
        if (ctxt->nameNr < depth) break; 
     }  
 
-    if (!IS_CHAR(CUR)) {
+    if (!IS_CHAR((unsigned int) CUR)) {
        /************
        if ((ctxt->sax != NULL) && (ctxt->sax->error != NULL))
            ctxt->sax->error(ctxt->userData,
@@ -4713,7 +4711,7 @@ docbParseInternalSubset(xmlParserCtxtPtr ctxt) {
         */
        while (RAW != ']') {
            const xmlChar *check = CUR_PTR;
-           int cons = ctxt->input->consumed;
+           unsigned int cons = ctxt->input->consumed;
 
            SKIP_BLANKS;
            docbParseMarkupDecl(ctxt);
@@ -5918,7 +5916,8 @@ docbCreatePushParserCtxt(docbSAXHandlerPtr sax, void *user_data,
     if (filename == NULL)
        inputStream->filename = NULL;
     else
-       inputStream->filename = xmlMemStrdup(filename);
+       inputStream->filename = (char *)
+            xmlCanonicPath((const xmlChar *)filename);
     inputStream->buf = buf;
     inputStream->base = inputStream->buf->buffer->content;
     inputStream->cur = inputStream->buf->buffer->content;
@@ -6030,8 +6029,7 @@ docbCreateFileParserCtxt(const char *filename,
     }
     memset(inputStream, 0, sizeof(docbParserInput));
 
-    inputStream->filename = (char *)
-	xmlCanonicPath((const xmlChar *)filename);
+    inputStream->filename = (char *) xmlCanonicPath((const xmlChar *)filename);
     inputStream->line = 1;
     inputStream->col = 1;
     inputStream->buf = buf;

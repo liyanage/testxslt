@@ -31,6 +31,15 @@
 #endif
 #endif /* _WIN32 */
 
+#ifdef __MINGW32__
+#define _WINSOCKAPI_
+#include <wsockcompat.h>
+#include <winsock2.h>
+#undef SOCKLEN_T
+#define SOCKLEN_T unsigned int
+#endif
+
+
 #ifdef HAVE_SYS_TIMEB_H
 #include <sys/timeb.h>
 #endif
@@ -86,6 +95,7 @@
 #include <libxml/xmlreader.h>
 #ifdef LIBXML_SCHEMAS_ENABLED
 #include <libxml/relaxng.h>
+#include <libxml/xmlschemas.h>
 #endif
 
 #ifndef XML_XML_DEFAULT_CATALOG
@@ -108,6 +118,8 @@ static char * dtdvalid = NULL;
 #ifdef LIBXML_SCHEMAS_ENABLED
 static char * relaxng = NULL;
 static xmlRelaxNGPtr relaxngschemas = NULL;
+static char * schema = NULL;
+static xmlSchemaPtr wxschemas = NULL;
 #endif
 static int repeat = 0;
 static int insert = 0;
@@ -141,7 +153,6 @@ static int nocatalogs = 0;
 static int stream = 0;
 static int chkregister = 0;
 static const char *output = NULL;
-
 
 /*
  * Internal timing routines to remove the necessity to have unix-specific
@@ -379,14 +390,12 @@ xmlHTMLError(void *ctx, const char *msg, ...)
 {
     xmlParserCtxtPtr ctxt = (xmlParserCtxtPtr) ctx;
     xmlParserInputPtr input;
-    xmlParserInputPtr cur = NULL;
     va_list args;
     int len;
 
     buffer[0] = 0;
     input = ctxt->input;
     if ((input != NULL) && (input->filename == NULL) && (ctxt->inputNr > 1)) {
-	cur = input;
         input = ctxt->inputTab[ctxt->inputNr - 2];
     }
         
@@ -418,14 +427,12 @@ xmlHTMLWarning(void *ctx, const char *msg, ...)
 {
     xmlParserCtxtPtr ctxt = (xmlParserCtxtPtr) ctx;
     xmlParserInputPtr input;
-    xmlParserInputPtr cur = NULL;
     va_list args;
     int len;
 
     buffer[0] = 0;
     input = ctxt->input;
     if ((input != NULL) && (input->filename == NULL) && (ctxt->inputNr > 1)) {
-	cur = input;
         input = ctxt->inputTab[ctxt->inputNr - 2];
     }
         
@@ -584,22 +591,21 @@ static void myClose(FILE *f) {
  * 			Stream Test processing				*
  * 									*
  ************************************************************************/
-static int count = 0;
-static int elem, attrs;
-
 static void processNode(xmlTextReaderPtr reader) {
     xmlChar *name, *value;
 
     name = xmlTextReaderName(reader);
     if (name == NULL)
 	name = xmlStrdup(BAD_CAST "--");
+
     value = xmlTextReaderValue(reader);
 
-    printf("%d %d %s %d", 
+    printf("%d %d %s %d %d", 
 	    xmlTextReaderDepth(reader),
 	    xmlTextReaderNodeType(reader),
 	    name,
-	    xmlTextReaderIsEmptyElement(reader));
+	    xmlTextReaderIsEmptyElement(reader),
+	    xmlTextReaderHasValue(reader));
     xmlFree(name);
     if (value == NULL)
 	printf("\n");
@@ -613,35 +619,80 @@ static void streamFile(char *filename) {
     xmlTextReaderPtr reader;
     int ret;
 
-    if (count) {
-	elem = 0;
-	attrs = 0;
-    }
-
     reader = xmlNewTextReaderFilename(filename);
     if (reader != NULL) {
 	if (valid)
 	    xmlTextReaderSetParserProp(reader, XML_PARSER_VALIDATE, 1);
+	else
+	    xmlTextReaderSetParserProp(reader, XML_PARSER_LOADDTD, 1);
+#ifdef LIBXML_SCHEMAS_ENABLED
+	if (relaxng != NULL) {
+	    if (timing) {
+		startTimer();
+	    }
+	    ret = xmlTextReaderRelaxNGValidate(reader, relaxng);
+	    if (ret < 0) {
+		xmlGenericError(xmlGenericErrorContext,
+			"Relax-NG schema %s failed to compile\n", relaxng);
+		relaxng = NULL;
+	    }
+	    if (timing) {
+		endTimer("Compiling the schemas");
+	    }
+	}
+#endif
 
 	/*
 	 * Process all nodes in sequence
 	 */
+	if (timing) {
+	    startTimer();
+	}
 	ret = xmlTextReaderRead(reader);
 	while (ret == 1) {
 	    if (debug)
 		processNode(reader);
 	    ret = xmlTextReaderRead(reader);
 	}
+	if (timing) {
+#ifdef LIBXML_SCHEMAS_ENABLED
+	    if ((valid) || (relaxng != NULL))
+#else
+	    if (valid)
+#endif
+		endTimer("Parsing and validating");
+	    else
+		endTimer("Parsing");
+	}
 
+	if (valid) {
+	    if (xmlTextReaderIsValid(reader) != 1) {
+		xmlGenericError(xmlGenericErrorContext,
+			"Document %s does not validate\n", filename);
+		progresult = 3;
+	    }
+	}
+#ifdef LIBXML_SCHEMAS_ENABLED
+	if (relaxng != NULL) {
+	    if (xmlTextReaderIsValid(reader) != 1) {
+		printf("%s fails to validate\n", filename);
+		progresult = 3;
+	    } else {
+		printf("%s validates\n", filename);
+	    }
+	}
+#endif
 	/*
 	 * Done, cleanup and status
 	 */
 	xmlFreeTextReader(reader);
 	if (ret != 0) {
 	    printf("%s : failed to parse\n", filename);
+	    progresult = 1;
 	}
     } else {
 	fprintf(stderr, "Unable to open %s\n", filename);
+	progresult = 1;
     }
 }
 
@@ -685,7 +736,7 @@ static void parseAndPrintFile(char *filename) {
 	    res = fread(chars, 1, 4, f);
 	    if (res > 0) {
 		ctxt = docbCreatePushParserCtxt(NULL, NULL,
-			    chars, res, filename, 0);
+			    chars, res, filename, XML_CHAR_ENCODING_NONE); 
 		while ((res = fread(chars, 1, size, f)) > 0) {
 		    docbParseChunk(ctxt, chars, res, 0);
 		}
@@ -700,6 +751,31 @@ static void parseAndPrintFile(char *filename) {
     }
 #endif
 #ifdef LIBXML_HTML_ENABLED
+    else if ((html) && (push)) {
+        FILE *f;
+
+        f = fopen(filename, "r");
+        if (f != NULL) {
+            int res, size = 3;
+            char chars[4096];
+            htmlParserCtxtPtr ctxt;
+
+            /* if (repeat) */
+                size = 4096;
+            res = fread(chars, 1, 4, f);
+            if (res > 0) {
+                ctxt = htmlCreatePushParserCtxt(NULL, NULL,
+                            chars, res, filename, 0);
+                while ((res = fread(chars, 1, size, f)) > 0) {
+                    htmlParseChunk(ctxt, chars, res, 0);
+                }
+                htmlParseChunk(ctxt, chars, 0, 1);
+                doc = ctxt->myDoc;
+                htmlFreeParserCtxt(ctxt);
+            }
+            fclose(f);
+        }
+    }
     else if (html) {
 	doc = htmlParseFile(filename, NULL);
     }
@@ -719,12 +795,11 @@ static void parseAndPrintFile(char *filename) {
 	    }
 	    if (f != NULL) {
 		int ret;
-	        int res, size = 3;
+	        int res, size = 1024;
 	        char chars[1024];
                 xmlParserCtxtPtr ctxt;
 
-		if (repeat)
-		    size = 1024;
+		/* if (repeat) size = 1024; */
 		res = fread(chars, 1, 4, f);
 		if (res > 0) {
 		    ctxt = xmlCreatePushParserCtxt(NULL, NULL,
@@ -1027,14 +1102,21 @@ static void parseAndPrintFile(char *filename) {
 		    "Could not parse DTD %s\n", dtdvalid);
 	    progresult = 2;
 	} else {
-	    xmlValidCtxt cvp;
+	    xmlValidCtxtPtr cvp;
+
+	    if ((cvp = xmlNewValidCtxt()) == NULL) {
+		xmlGenericError(xmlGenericErrorContext,
+			"Couldn't allocate validation context\n");
+		exit(-1);
+	    }
+	    cvp->userData = (void *) stderr;
+	    cvp->error    = (xmlValidityErrorFunc) fprintf;
+	    cvp->warning  = (xmlValidityWarningFunc) fprintf;
+
 	    if ((timing) && (!repeat)) {
 		startTimer();
 	    }
-	    cvp.userData = (void *) stderr;
-	    cvp.error    = (xmlValidityErrorFunc) fprintf;
-	    cvp.warning  = (xmlValidityWarningFunc) fprintf;
-	    if (!xmlValidateDtd(&cvp, doc, dtd)) {
+	    if (!xmlValidateDtd(cvp, doc, dtd)) {
 		xmlGenericError(xmlGenericErrorContext,
 			"Document %s does not validate against %s\n",
 			filename, dtdvalid);
@@ -1043,17 +1125,25 @@ static void parseAndPrintFile(char *filename) {
 	    if ((timing) && (!repeat)) {
 		endTimer("Validating against DTD");
 	    }
+	    xmlFreeValidCtxt(cvp);
 	    xmlFreeDtd(dtd);
 	}
     } else if (postvalid) {
-	xmlValidCtxt cvp;
+	xmlValidCtxtPtr cvp;
+
+	if ((cvp = xmlNewValidCtxt()) == NULL) {
+	    xmlGenericError(xmlGenericErrorContext,
+		    "Couldn't allocate validation context\n");
+	    exit(-1);
+	}
+
 	if ((timing) && (!repeat)) {
 	    startTimer();
 	}
-	cvp.userData = (void *) stderr;
-	cvp.error    = (xmlValidityErrorFunc) fprintf;
-	cvp.warning  = (xmlValidityWarningFunc) fprintf;
-	if (!xmlValidateDocument(&cvp, doc)) {
+	cvp->userData = (void *) stderr;
+	cvp->error    = (xmlValidityErrorFunc) fprintf;
+	cvp->warning  = (xmlValidityWarningFunc) fprintf;
+	if (!xmlValidateDocument(cvp, doc)) {
 	    xmlGenericError(xmlGenericErrorContext,
 		    "Document %s does not validate\n", filename);
 	    progresult = 3;
@@ -1061,10 +1151,15 @@ static void parseAndPrintFile(char *filename) {
 	if ((timing) && (!repeat)) {
 	    endTimer("Validating");
 	}
+	xmlFreeValidCtxt(cvp);
 #ifdef LIBXML_SCHEMAS_ENABLED
     } else if (relaxngschemas != NULL) {
 	xmlRelaxNGValidCtxtPtr ctxt;
 	int ret;
+
+	if ((timing) && (!repeat)) {
+	    startTimer();
+	}
 
 	ctxt = xmlRelaxNGNewValidCtxt(relaxngschemas);
 	xmlRelaxNGSetValidErrors(ctxt,
@@ -1081,6 +1176,35 @@ static void parseAndPrintFile(char *filename) {
 		   filename);
 	}
 	xmlRelaxNGFreeValidCtxt(ctxt);
+	if ((timing) && (!repeat)) {
+	    endTimer("Validating");
+	}
+    } else if (wxschemas != NULL) {
+	xmlSchemaValidCtxtPtr ctxt;
+	int ret;
+
+	if ((timing) && (!repeat)) {
+	    startTimer();
+	}
+
+	ctxt = xmlSchemaNewValidCtxt(wxschemas);
+	xmlSchemaSetValidErrors(ctxt,
+		(xmlSchemaValidityErrorFunc) fprintf,
+		(xmlSchemaValidityWarningFunc) fprintf,
+		stderr);
+	ret = xmlSchemaValidateDoc(ctxt, doc);
+	if (ret == 0) {
+	    printf("%s validates\n", filename);
+	} else if (ret > 0) {
+	    printf("%s fails to validate\n", filename);
+	} else {
+	    printf("%s validation generated an internal error\n",
+		   filename);
+	}
+	xmlSchemaFreeValidCtxt(ctxt);
+	if ((timing) && (!repeat)) {
+	    endTimer("Validating");
+	}
 #endif
     }
 
@@ -1173,6 +1297,7 @@ static void usage(const char *name) {
     printf("\t--recover : output what was parsable on broken XML documents\n");
     printf("\t--noent : substitute entity references by their value\n");
     printf("\t--noout : don't output the result tree\n");
+    printf("\t--nonet : refuse to fetch DTDs or entities over network\n");
     printf("\t--htmlout : output results as HTML\n");
     printf("\t--nowrap : do not put HTML doc wrapper\n");
     printf("\t--valid : validate the document in addition to std well-formed check\n");
@@ -1217,6 +1342,7 @@ static void usage(const char *name) {
     printf("\t--chkregister : verify the node registration code\n");
 #ifdef LIBXML_SCHEMAS_ENABLED
     printf("\t--relaxng schema : do RelaxNG validation against the schema\n");
+    printf("\t--schema schema : do validation against the WXS schema\n");
 #endif
     printf("\nLibxml project home page: http://xmlsoft.org/\n");
     printf("To report bugs or get some help check: http://xmlsoft.org/bugs.html\n");
@@ -1240,7 +1366,8 @@ main(int argc, char **argv) {
     int i, acount;
     int files = 0;
     int version = 0;
-
+    const char* indent;
+    
     if (argc <= 1) {
 	usage(argv[0]);
 	return(1);
@@ -1418,7 +1545,15 @@ main(int argc, char **argv) {
 	    i++;
 	    relaxng = argv[i];
 	    noent++;
+	} else if ((!strcmp(argv[i], "-schema")) ||
+	         (!strcmp(argv[i], "--schema"))) {
+	    i++;
+	    schema = argv[i];
+	    noent++;
 #endif
+        } else if ((!strcmp(argv[i], "-nonet")) ||
+                   (!strcmp(argv[i], "--nonet"))) {
+	    xmlSetExternalEntityLoader(xmlNoNetExternalEntityLoader);
 	} else {
 	    fprintf(stderr, "Unknown option %s\n", argv[i]);
 	    usage(argv[0]);
@@ -1445,6 +1580,12 @@ main(int argc, char **argv) {
 	xmlRegisterNodeDefault(registerNode);
 	xmlDeregisterNodeDefault(deregisterNode);
     }
+    
+    indent = getenv("XMLLINT_INDENT");
+    if(indent != NULL) {
+	xmlTreeIndentString = indent;
+    }
+    
 
     xmlLineNumbersDefault(1);
     if (loaddtd != 0)
@@ -1467,16 +1608,50 @@ main(int argc, char **argv) {
     }
 
 #ifdef LIBXML_SCHEMAS_ENABLED
-    if (relaxng != NULL) {
+    if ((relaxng != NULL) && (stream == 0)) {
 	xmlRelaxNGParserCtxtPtr ctxt;
 
+        /* forces loading the DTDs */
+        xmlLoadExtDtdDefaultValue |= 1; 
+	if (timing) {
+	    startTimer();
+	}
 	ctxt = xmlRelaxNGNewParserCtxt(relaxng);
 	xmlRelaxNGSetParserErrors(ctxt,
 		(xmlRelaxNGValidityErrorFunc) fprintf,
 		(xmlRelaxNGValidityWarningFunc) fprintf,
 		stderr);
 	relaxngschemas = xmlRelaxNGParse(ctxt);
+	if (relaxngschemas == NULL) {
+	    xmlGenericError(xmlGenericErrorContext,
+		    "Relax-NG schema %s failed to compile\n", relaxng);
+	    relaxng = NULL;
+	}
 	xmlRelaxNGFreeParserCtxt(ctxt);
+	if (timing) {
+	    endTimer("Compiling the schemas");
+	}
+    } else if ((schema != NULL) && (stream == 0)) {
+	xmlSchemaParserCtxtPtr ctxt;
+
+	if (timing) {
+	    startTimer();
+	}
+	ctxt = xmlSchemaNewParserCtxt(schema);
+	xmlSchemaSetParserErrors(ctxt,
+		(xmlSchemaValidityErrorFunc) fprintf,
+		(xmlSchemaValidityWarningFunc) fprintf,
+		stderr);
+	wxschemas = xmlSchemaParse(ctxt);
+	if (wxschemas == NULL) {
+	    xmlGenericError(xmlGenericErrorContext,
+		    "WXS schema %s failed to compile\n", schema);
+	    schema = NULL;
+	}
+	xmlSchemaFreeParserCtxt(ctxt);
+	if (timing) {
+	    endTimer("Compiling the schemas");
+	}
     }
 #endif
     for (i = 1; i < argc ; i++) {
@@ -1497,6 +1672,11 @@ main(int argc, char **argv) {
         }
 	if ((!strcmp(argv[i], "-relaxng")) ||
 	         (!strcmp(argv[i], "--relaxng"))) {
+	    i++;
+	    continue;
+        }
+	if ((!strcmp(argv[i], "-schema")) ||
+	         (!strcmp(argv[i], "--schema"))) {
 	    i++;
 	    continue;
         }
@@ -1533,6 +1713,8 @@ main(int argc, char **argv) {
 #ifdef LIBXML_SCHEMAS_ENABLED
     if (relaxngschemas != NULL)
 	xmlRelaxNGFree(relaxngschemas);
+    if (wxschemas != NULL)
+	xmlSchemaFree(wxschemas);
     xmlRelaxNGCleanupTypes();
 #endif
     xmlCleanupParser();

@@ -39,7 +39,8 @@ libxml2_la_SOURCES = SAX.c entities.c encoding.c error.c parserInternals.c  \
 endif
 
 DEPS = $(top_builddir)/libxml2.la
-LDADDS = @STATIC_BINARIES@ $(top_builddir)/libxml2.la @THREAD_LIBS@ @Z_LIBS@ $(ICONV_LIBS) -lm
+LDADDS = @STATIC_BINARIES@ $(top_builddir)/libxml2.la @THREAD_LIBS@ @Z_LIBS@ $(ICONV_LIBS) -lm @WIN32_EXTRA_LIBADD@
+
 
 man_MANS = xml2-config.1 libxml.3
 
@@ -115,6 +116,11 @@ testReader_SOURCES=testReader.c
 testReader_LDFLAGS = 
 testReader_DEPENDENCIES = $(DEPS)
 testReader_LDADD= $(LDADDS)
+
+#testOOM_SOURCES=testOOM.c testOOMlib.h testOOMlib.c
+#testOOM_LDFLAGS = 
+#testOOM_DEPENDENCIES = $(DEPS)
+#testOOM_LDADD= $(LDADDS)
 
 check-local: tests
 
@@ -408,6 +414,8 @@ XIncludetests : xmllint$(EXEEXT)
 	@echo "##"
 	@echo "## XInclude regression tests"
 	@echo "##"
+	@echo "## the warning reported on fallback.xml test is expected"
+	@echo "##"
 	-@(for i in $(srcdir)/test/XInclude/docs/* ; do \
 	  name=`basename $$i`; \
 	  if [ ! -d $$i ] ; then \
@@ -665,6 +673,7 @@ Schemastests: testSchemas$(EXEEXT)
 	  name=`basename $$i | sed 's+_.*++'`; \
 	  sno=`basename $$i | sed 's+.*_\(.*\).xsd+\1+'`; \
 	  for j in $(srcdir)/test/schemas/"$$name"_*.xml ; do \
+	      if [ -f $$j ] ; then \
 	      xno=`basename $$j | sed 's+.*_\(.*\).xml+\1+'`; \
 	      if [ ! -f $(srcdir)/result/schemas/"$$name"_"$$sno"_"$$xno" ]; \
 	      then \
@@ -683,7 +692,7 @@ Schemastests: testSchemas$(EXEEXT)
 		       err.$$name;\
 		  grep Unimplemented err.$$name; \
 	          rm res.$$name err.$$name ; \
-	       fi ; \
+	       fi ; fi ;\
 	  done; done)
 
 Relaxtests: xmllint$(EXEEXT)
@@ -732,9 +741,39 @@ Relaxtests: xmllint$(EXEEXT)
 	          rm res.$$name err.$$name ; \
 	       fi ; fi ; \
 	  done; done)
+	@echo "##"
+	@echo "## Relax-NG streaming regression tests"
+	@echo "##"
+	@echo "## Some error messages are different than non-streaming"
+	@echo "## and generate small diffs"
+	@echo "##"
+	-@(for i in $(srcdir)/test/relaxng/*.rng ; do \
+	  name=`basename $$i | sed 's+\.rng++'`; \
+	  for j in $(srcdir)/test/relaxng/"$$name"_*.xml ; do \
+	      if [ -f $$j ] ; then \
+	      xno=`basename $$j | sed 's+.*_\(.*\).xml+\1+'`; \
+	      if [ ! -f $(srcdir)/result/relaxng/"$$name"_"$$xno" ]; \
+	      then \
+		  echo New test file "$$name"_"$$xno" ; \
+		  $(CHECKER) $(top_builddir)/xmllint$(EXEEXT) --noout --relaxng $$i $$j \
+		    > $(srcdir)/result/relaxng/"$$name"_"$$xno" \
+		    2> $(srcdir)/result/relaxng/"$$name"_"$$xno".err; \
+	      else \
+		  echo Testing "$$name"_"$$xno" ; \
+	          $(CHECKER) $(top_builddir)/xmllint$(EXEEXT) --noout --stream --relaxng $$i $$j \
+		    > res.$$name 2> err.$$name;\
+	          grep "MORY ALLO" .memdump  | grep -v "MEMORY ALLOCATED : 0";\
+	          diff $(srcdir)/result/relaxng/"$$name"_"$$xno" \
+		       res.$$name;\
+	          diff $(srcdir)/result/relaxng/"$$name"_"$$xno".err \
+		       err.$$name | grep -v "error detected at";\
+		  grep Unimplemented err.$$name; \
+	          rm res.$$name err.$$name ; \
+	       fi ; fi ; \
+	  done; done)
 
-dist-hook: libxml.spec
-	-cp libxml.spec $(distdir)
+dist-hook: libxml2.spec
+	-cp libxml2.spec $(distdir)
 	(cd $(srcdir) ; tar -cf - --exclude CVS win32 macos vms test result SAXresult ) | (cd $(distdir); tar xf -)
 
 cleantar:
@@ -752,7 +791,7 @@ CLEANFILES=xml2Conf.sh
 
 confexecdir=$(libdir)
 confexec_DATA = xml2Conf.sh
-EXTRA_DIST = xml2-config.in xml2Conf.sh.in libxml.spec.in libxml.spec \
+EXTRA_DIST = xml2-config.in xml2Conf.sh.in libxml.spec.in libxml2.spec \
              libxml.m4 Copyright check-xml-test-suite.py \
 	     check-relaxng-test-suite.py check-xinclude-test-suite.py \
              example/Makefile.am example/gjobread.c example/gjobs.xml \

@@ -1,671 +1,130 @@
-<HTML
-><HEAD
-><TITLE
->HTMLparser</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.76b+
-"><LINK
-REL="HOME"
-TITLE="Gnome XML Library Reference Manual"
-HREF="book1.html"><LINK
-REL="UP"
-TITLE="Libxml Library Reference"
-HREF="libxml-lib.html"><LINK
-REL="PREVIOUS"
-TITLE="xmlerror"
-HREF="libxml-xmlerror.html"><LINK
-REL="NEXT"
-TITLE="HTMLtree"
-HREF="libxml-htmltree.html"></HEAD
-><BODY
-CLASS="REFENTRY"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-WIDTH="100%"
-BORDER="0"
-BGCOLOR="#000000"
-CELLPADDING="1"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="4"
-ALIGN="center"
-><FONT
-COLOR="#FFFFFF"
-SIZE="5"
->Gnome XML Library Reference Manual</FONT
-></TH
-></TR
-><TR
-><TD
-WIDTH="25%"
-BGCOLOR="#C00000"
-ALIGN="left"
-><A
-HREF="libxml-xmlerror.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->&#60;&#60;&#60; Previous Page</B
-></FONT
-></A
-></TD
-><TD
-WIDTH="25%"
-BGCOLOR="#0000C0"
-ALIGN="center"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
-><A
-HREF="book1.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->Home</B
-></FONT
-></A
-></B
-></FONT
-></TD
-><TD
-WIDTH="25%"
-BGCOLOR="#00C000"
-ALIGN="center"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
-><A
-HREF="libxml-lib.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->Up</B
-></FONT
-></A
-></B
-></FONT
-></TD
-><TD
-WIDTH="25%"
-BGCOLOR="#C00000"
-ALIGN="right"
-><A
-HREF="libxml-htmltree.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->Next Page &#62;&#62;&#62;</B
-></FONT
-></A
-></TD
-></TR
-></TABLE
-></DIV
-><H1
-><A
-NAME="LIBXML-HTMLPARSER">HTMLparser</H1
-><DIV
-CLASS="REFNAMEDIV"
-><A
-NAME="AEN11185"
-></A
-><H2
->Name</H2
->HTMLparser&nbsp;--&nbsp;</DIV
-><DIV
-CLASS="REFSYNOPSISDIV"
-><A
-NAME="AEN11188"><H2
->Synopsis</H2
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="SYNOPSIS"
->&#13;
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>HTMLparser</title><meta name="generator" content="DocBook XSL Stylesheets V1.58.1"><style xmlns="http://www.w3.org/TR/xhtml1/transitional" type="text/css">
+        .synopsis, .classsynopsis {
+            background: #eeeeee;
+            border: solid 1px #aaaaaa;
+            padding: 0.5em;
+        }
+        .programlisting {
+            background: #eeeeff;
+            border: solid 1px #aaaaff;
+            padding: 0.5em;
+        }
+        .variablelist {
+            padding: 4px;
+            margin-left: 3em;
+        }
+        .navigation {
+            background: #ffeeee;
+            border: solid 1px #ffaaaa;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        .navigation a {
+            color: #770000;
+        }
+        .navigation a:visited {
+            color: #550000;
+        }
+        .navigation .title {
+            font-size: 200%;
+        }
+      </style><link rel="home" href="index.html" title="Gnome XML Library Reference Manual"><link rel="up" href="libxml-lib.html" title="Libxml Library Reference"><link rel="previous" href="libxml-xmlerror.html" title="xmlerror"><link rel="next" href="libxml-HTMLtree.html" title="HTMLtree"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table xmlns="http://www.w3.org/TR/xhtml1/transitional" class="navigation" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle"><td><a accesskey="p" href="libxml-xmlerror.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></img></a></td><td><a accesskey="u" href="libxml-lib.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></img></a></td><td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></img></a></td><th width="100%" align="center">Gnome XML Library Reference Manual</th><td><a accesskey="n" href="libxml-HTMLtree.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></img></a></td></tr></table><div class="refentry" lang="en"><a name="libxml-HTMLparser"></a><div class="titlepage"></div><div class="refnamediv"><h2>HTMLparser</h2><p>HTMLparser &#8212; </p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><pre class="synopsis">
 
-typedef     <A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXT"
->htmlParserCtxt</A
->;
-typedef     <A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
->;
-typedef     <A
-HREF="libxml-htmlparser.html#HTMLPARSERNODEINFO"
->htmlParserNodeInfo</A
->;
-typedef     <A
-HREF="libxml-htmlparser.html#HTMLSAXHANDLER"
->htmlSAXHandler</A
->;
-typedef     <A
-HREF="libxml-htmlparser.html#HTMLSAXHANDLERPTR"
->htmlSAXHandlerPtr</A
->;
-typedef     <A
-HREF="libxml-htmlparser.html#HTMLPARSERINPUT"
->htmlParserInput</A
->;
-typedef     <A
-HREF="libxml-htmlparser.html#HTMLPARSERINPUTPTR"
->htmlParserInputPtr</A
->;
-typedef     <A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
->;
-typedef     <A
-HREF="libxml-htmlparser.html#HTMLNODEPTR"
->htmlNodePtr</A
->;
-struct      <A
-HREF="libxml-htmlparser.html#HTMLELEMDESC"
->htmlElemDesc</A
->;
-typedef     <A
-HREF="libxml-htmlparser.html#HTMLELEMDESCPTR"
->htmlElemDescPtr</A
->;
-struct      <A
-HREF="libxml-htmlparser.html#HTMLENTITYDESC"
->htmlEntityDesc</A
->;
-typedef     <A
-HREF="libxml-htmlparser.html#HTMLENTITYDESCPTR"
->htmlEntityDescPtr</A
->;
-const <A
-HREF="libxml-htmlparser.html#HTMLELEMDESC"
->htmlElemDesc</A
->* <A
-HREF="libxml-htmlparser.html#HTMLTAGLOOKUP"
->htmlTagLookup</A
->           (const <A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> *tag);
-const <A
-HREF="libxml-htmlparser.html#HTMLENTITYDESC"
->htmlEntityDesc</A
->* <A
-HREF="libxml-htmlparser.html#HTMLENTITYLOOKUP"
->htmlEntityLookup</A
->      (const <A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> *name);
-const <A
-HREF="libxml-htmlparser.html#HTMLENTITYDESC"
->htmlEntityDesc</A
->* <A
-HREF="libxml-htmlparser.html#HTMLENTITYVALUELOOKUP"
->htmlEntityValueLookup</A
-> (unsigned int value);
-int         <A
-HREF="libxml-htmlparser.html#HTMLISAUTOCLOSED"
->htmlIsAutoClosed</A
->                (<A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
-> doc,
-                                             <A
-HREF="libxml-htmlparser.html#HTMLNODEPTR"
->htmlNodePtr</A
-> elem);
-int         <A
-HREF="libxml-htmlparser.html#HTMLAUTOCLOSETAG"
->htmlAutoCloseTag</A
->                (<A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
-> doc,
-                                             const <A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> *name,
-                                             <A
-HREF="libxml-htmlparser.html#HTMLNODEPTR"
->htmlNodePtr</A
-> elem);
-const <A
-HREF="libxml-htmlparser.html#HTMLENTITYDESC"
->htmlEntityDesc</A
->* <A
-HREF="libxml-htmlparser.html#HTMLPARSEENTITYREF"
->htmlParseEntityRef</A
->    (<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> ctxt,
-                                             <A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> **str);
-int         <A
-HREF="libxml-htmlparser.html#HTMLPARSECHARREF"
->htmlParseCharRef</A
->                (<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> ctxt);
-void        <A
-HREF="libxml-htmlparser.html#HTMLPARSEELEMENT"
->htmlParseElement</A
->                (<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> ctxt);
-int         <A
-HREF="libxml-htmlparser.html#HTMLPARSEDOCUMENT"
->htmlParseDocument</A
->               (<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> ctxt);
-<A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
->  <A
-HREF="libxml-htmlparser.html#HTMLSAXPARSEDOC"
->htmlSAXParseDoc</A
->                 (<A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> *cur,
+
+
+typedef     <a href="libxml-HTMLparser.html#htmlParserCtxt">htmlParserCtxt</a>;
+typedef     <a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a>;
+typedef     <a href="libxml-HTMLparser.html#htmlParserNodeInfo">htmlParserNodeInfo</a>;
+typedef     <a href="libxml-HTMLparser.html#htmlSAXHandler">htmlSAXHandler</a>;
+typedef     <a href="libxml-HTMLparser.html#htmlSAXHandlerPtr">htmlSAXHandlerPtr</a>;
+typedef     <a href="libxml-HTMLparser.html#htmlParserInput">htmlParserInput</a>;
+typedef     <a href="libxml-HTMLparser.html#htmlParserInputPtr">htmlParserInputPtr</a>;
+typedef     <a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a>;
+typedef     <a href="libxml-HTMLparser.html#htmlNodePtr">htmlNodePtr</a>;
+struct      <a href="libxml-HTMLparser.html#htmlElemDesc">htmlElemDesc</a>;
+typedef     <a href="libxml-HTMLparser.html#htmlElemDescPtr">htmlElemDescPtr</a>;
+struct      <a href="libxml-HTMLparser.html#htmlEntityDesc">htmlEntityDesc</a>;
+typedef     <a href="libxml-HTMLparser.html#htmlEntityDescPtr">htmlEntityDescPtr</a>;
+const <a href="libxml-HTMLparser.html#htmlElemDesc">htmlElemDesc</a>* <a href="libxml-HTMLparser.html#htmlTagLookup">htmlTagLookup</a>           (const <a href="libxml-tree.html#xmlChar">xmlChar</a> *tag);
+const <a href="libxml-HTMLparser.html#htmlEntityDesc">htmlEntityDesc</a>* <a href="libxml-HTMLparser.html#htmlEntityLookup">htmlEntityLookup</a>      (const <a href="libxml-tree.html#xmlChar">xmlChar</a> *name);
+const <a href="libxml-HTMLparser.html#htmlEntityDesc">htmlEntityDesc</a>* <a href="libxml-HTMLparser.html#htmlEntityValueLookup">htmlEntityValueLookup</a> (unsigned int value);
+int         <a href="libxml-HTMLparser.html#htmlIsAutoClosed">htmlIsAutoClosed</a>                (<a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a> doc,
+                                             <a href="libxml-HTMLparser.html#htmlNodePtr">htmlNodePtr</a> elem);
+int         <a href="libxml-HTMLparser.html#htmlAutoCloseTag">htmlAutoCloseTag</a>                (<a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a> doc,
+                                             const <a href="libxml-tree.html#xmlChar">xmlChar</a> *name,
+                                             <a href="libxml-HTMLparser.html#htmlNodePtr">htmlNodePtr</a> elem);
+const <a href="libxml-HTMLparser.html#htmlEntityDesc">htmlEntityDesc</a>* <a href="libxml-HTMLparser.html#htmlParseEntityRef">htmlParseEntityRef</a>    (<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> ctxt,
+                                             <a href="libxml-tree.html#xmlChar">xmlChar</a> **str);
+int         <a href="libxml-HTMLparser.html#htmlParseCharRef">htmlParseCharRef</a>                (<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> ctxt);
+void        <a href="libxml-HTMLparser.html#htmlParseElement">htmlParseElement</a>                (<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> ctxt);
+<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> <a href="libxml-HTMLparser.html#htmlCreateMemoryParserCtxt">htmlCreateMemoryParserCtxt</a>
+                                            (const char *buffer,
+                                             int size);
+int         <a href="libxml-HTMLparser.html#htmlParseDocument">htmlParseDocument</a>               (<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> ctxt);
+<a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a>  <a href="libxml-HTMLparser.html#htmlSAXParseDoc">htmlSAXParseDoc</a>                 (<a href="libxml-tree.html#xmlChar">xmlChar</a> *cur,
                                              const char *encoding,
-                                             <A
-HREF="libxml-htmlparser.html#HTMLSAXHANDLERPTR"
->htmlSAXHandlerPtr</A
-> sax,
+                                             <a href="libxml-HTMLparser.html#htmlSAXHandlerPtr">htmlSAXHandlerPtr</a> sax,
                                              void *userData);
-<A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
->  <A
-HREF="libxml-htmlparser.html#HTMLPARSEDOC"
->htmlParseDoc</A
->                    (<A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> *cur,
+<a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a>  <a href="libxml-HTMLparser.html#htmlParseDoc">htmlParseDoc</a>                    (<a href="libxml-tree.html#xmlChar">xmlChar</a> *cur,
                                              const char *encoding);
-<A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
->  <A
-HREF="libxml-htmlparser.html#HTMLSAXPARSEFILE"
->htmlSAXParseFile</A
->                (const char *filename,
+<a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a>  <a href="libxml-HTMLparser.html#htmlSAXParseFile">htmlSAXParseFile</a>                (const char *filename,
                                              const char *encoding,
-                                             <A
-HREF="libxml-htmlparser.html#HTMLSAXHANDLERPTR"
->htmlSAXHandlerPtr</A
-> sax,
+                                             <a href="libxml-HTMLparser.html#htmlSAXHandlerPtr">htmlSAXHandlerPtr</a> sax,
                                              void *userData);
-<A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
->  <A
-HREF="libxml-htmlparser.html#HTMLPARSEFILE"
->htmlParseFile</A
->                   (const char *filename,
+<a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a>  <a href="libxml-HTMLparser.html#htmlParseFile">htmlParseFile</a>                   (const char *filename,
                                              const char *encoding);
-int         <A
-HREF="libxml-htmlparser.html#UTF8TOHTML"
->UTF8ToHtml</A
->                      (unsigned char *out,
+int         <a href="libxml-HTMLparser.html#UTF8ToHtml">UTF8ToHtml</a>                      (unsigned char *out,
                                              int *outlen,
                                              unsigned char *in,
                                              int *inlen);
-int         <A
-HREF="libxml-htmlparser.html#HTMLENCODEENTITIES"
->htmlEncodeEntities</A
->              (unsigned char *out,
+int         <a href="libxml-HTMLparser.html#htmlEncodeEntities">htmlEncodeEntities</a>              (unsigned char *out,
                                              int *outlen,
                                              unsigned char *in,
                                              int *inlen,
                                              int quoteChar);
-int         <A
-HREF="libxml-htmlparser.html#HTMLISSCRIPTATTRIBUTE"
->htmlIsScriptAttribute</A
->           (const <A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> *name);
-int         <A
-HREF="libxml-htmlparser.html#HTMLHANDLEOMITTEDELEM"
->htmlHandleOmittedElem</A
->           (int val);
-void        <A
-HREF="libxml-htmlparser.html#HTMLFREEPARSERCTXT"
->htmlFreeParserCtxt</A
->              (<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> ctxt);
-<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> <A
-HREF="libxml-htmlparser.html#HTMLCREATEPUSHPARSERCTXT"
->htmlCreatePushParserCtxt</A
->  (<A
-HREF="libxml-htmlparser.html#HTMLSAXHANDLERPTR"
->htmlSAXHandlerPtr</A
-> sax,
+int         <a href="libxml-HTMLparser.html#htmlIsScriptAttribute">htmlIsScriptAttribute</a>           (const <a href="libxml-tree.html#xmlChar">xmlChar</a> *name);
+int         <a href="libxml-HTMLparser.html#htmlHandleOmittedElem">htmlHandleOmittedElem</a>           (int val);
+void        <a href="libxml-HTMLparser.html#htmlFreeParserCtxt">htmlFreeParserCtxt</a>              (<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> ctxt);
+<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> <a href="libxml-HTMLparser.html#htmlCreatePushParserCtxt">htmlCreatePushParserCtxt</a>  (<a href="libxml-HTMLparser.html#htmlSAXHandlerPtr">htmlSAXHandlerPtr</a> sax,
                                              void *user_data,
                                              const char *chunk,
                                              int size,
                                              const char *filename,
-                                             <A
-HREF="libxml-encoding.html#XMLCHARENCODING"
->xmlCharEncoding</A
-> enc);
-int         <A
-HREF="libxml-htmlparser.html#HTMLPARSECHUNK"
->htmlParseChunk</A
->                  (<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> ctxt,
+                                             <a href="libxml-encoding.html#xmlCharEncoding">xmlCharEncoding</a> enc);
+int         <a href="libxml-HTMLparser.html#htmlParseChunk">htmlParseChunk</a>                  (<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> ctxt,
                                              const char *chunk,
                                              int size,
-                                             int terminate);</PRE
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="REFSECT1"
-><A
-NAME="AEN11254"
-></A
-><H2
->Description</H2
-><P
-></P
-></DIV
-><DIV
-CLASS="REFSECT1"
-><A
-NAME="AEN11257"
-></A
-><H2
->Details</H2
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11259"
-></A
-><H3
-><A
-NAME="HTMLPARSERCTXT"
-></A
->htmlParserCtxt</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlParserCtxt htmlParserCtxt;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11264"
-></A
-><H3
-><A
-NAME="HTMLPARSERCTXTPTR"
-></A
->htmlParserCtxtPtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlParserCtxtPtr htmlParserCtxtPtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11269"
-></A
-><H3
-><A
-NAME="HTMLPARSERNODEINFO"
-></A
->htmlParserNodeInfo</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlParserNodeInfo htmlParserNodeInfo;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11274"
-></A
-><H3
-><A
-NAME="HTMLSAXHANDLER"
-></A
->htmlSAXHandler</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlSAXHandler htmlSAXHandler;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11279"
-></A
-><H3
-><A
-NAME="HTMLSAXHANDLERPTR"
-></A
->htmlSAXHandlerPtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlSAXHandlerPtr htmlSAXHandlerPtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11284"
-></A
-><H3
-><A
-NAME="HTMLPARSERINPUT"
-></A
->htmlParserInput</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlParserInput htmlParserInput;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11289"
-></A
-><H3
-><A
-NAME="HTMLPARSERINPUTPTR"
-></A
->htmlParserInputPtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlParserInputPtr htmlParserInputPtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11294"
-></A
-><H3
-><A
-NAME="HTMLDOCPTR"
-></A
->htmlDocPtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlDocPtr htmlDocPtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11299"
-></A
-><H3
-><A
-NAME="HTMLNODEPTR"
-></A
->htmlNodePtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlNodePtr htmlNodePtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11304"
-></A
-><H3
-><A
-NAME="HTMLELEMDESC"
-></A
->struct htmlElemDesc</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->struct htmlElemDesc {
+                                             int terminate);
+</pre></div><div class="refsect1" lang="en"><h2>Description</h2><p>
+
+</p></div><div class="refsect1" lang="en"><h2>Details</h2><div class="refsect2" lang="en"><h3><a name="htmlParserCtxt"></a>htmlParserCtxt</h3><pre class="programlisting">typedef xmlParserCtxt htmlParserCtxt;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlParserCtxtPtr"></a>htmlParserCtxtPtr</h3><pre class="programlisting">typedef xmlParserCtxtPtr htmlParserCtxtPtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlParserNodeInfo"></a>htmlParserNodeInfo</h3><pre class="programlisting">typedef xmlParserNodeInfo htmlParserNodeInfo;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlSAXHandler"></a>htmlSAXHandler</h3><pre class="programlisting">typedef xmlSAXHandler htmlSAXHandler;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlSAXHandlerPtr"></a>htmlSAXHandlerPtr</h3><pre class="programlisting">typedef xmlSAXHandlerPtr htmlSAXHandlerPtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlParserInput"></a>htmlParserInput</h3><pre class="programlisting">typedef xmlParserInput htmlParserInput;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlParserInputPtr"></a>htmlParserInputPtr</h3><pre class="programlisting">typedef xmlParserInputPtr htmlParserInputPtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlDocPtr"></a>htmlDocPtr</h3><pre class="programlisting">typedef xmlDocPtr htmlDocPtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlNodePtr"></a>htmlNodePtr</h3><pre class="programlisting">typedef xmlNodePtr htmlNodePtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlElemDesc"></a>struct htmlElemDesc</h3><pre class="programlisting">struct htmlElemDesc {
     const char *name;	/* The tag name */
     char startTag;      /* Whether the start tag can be implied */
     char endTag;        /* Whether the end tag can be implied */
@@ -675,2453 +134,237 @@ CLASS="PROGRAMLISTING"
     char dtd;           /* 1: only in Loose DTD, 2: only Frameset one */
     char isinline;      /* is this a block 0 or inline 1 element */
     const char *desc;   /* the description */
-};</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11309"
-></A
-><H3
-><A
-NAME="HTMLELEMDESCPTR"
-></A
->htmlElemDescPtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef htmlElemDesc *htmlElemDescPtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11314"
-></A
-><H3
-><A
-NAME="HTMLENTITYDESC"
-></A
->struct htmlEntityDesc</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->struct htmlEntityDesc {
+
+/* NRK Jan.2003
+ * New fields encapsulating HTML structure
+ *
+ * Bugs:
+ *	This is a very limited representation.  It fails to tell us when
+ *	an element *requires* subelements (we only have whether they're
+ *	allowed or not), and it doesn't tell us where CDATA and PCDATA
+ *	are allowed.  Some element relationships are not fully represented:
+ *	these are flagged with the word MODIFIER
+ */
+    const char** subelts;		/* allowed sub-elements of this element */
+    const char* defaultsubelt;	/* subelement for suggested auto-repair
+					   if necessary or NULL */
+    const char** attrs_opt;		/* Optional Attributes */
+    const char** attrs_depr;		/* Additional deprecated attributes */
+    const char** attrs_req;		/* Required attributes */
+};
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlElemDescPtr"></a>htmlElemDescPtr</h3><pre class="programlisting">typedef htmlElemDesc *htmlElemDescPtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlEntityDesc"></a>struct htmlEntityDesc</h3><pre class="programlisting">struct htmlEntityDesc {
     unsigned int value;	/* the UNICODE value for the character */
     const char *name;	/* The entity name */
     const char *desc;   /* the description */
-};</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11319"
-></A
-><H3
-><A
-NAME="HTMLENTITYDESCPTR"
-></A
->htmlEntityDescPtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef htmlEntityDesc *htmlEntityDescPtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11324"
-></A
-><H3
-><A
-NAME="HTMLTAGLOOKUP"
-></A
->htmlTagLookup ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->const <A
-HREF="libxml-htmlparser.html#HTMLELEMDESC"
->htmlElemDesc</A
->* htmlTagLookup           (const <A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> *tag);</PRE
-></TD
-></TR
-></TABLE
-><P
->Lookup the HTML tag in the ElementTable</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11332"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->tag</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  The tag name in lowercase</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->the related htmlElemDescPtr or NULL if not found.</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11345"
-></A
-><H3
-><A
-NAME="HTMLENTITYLOOKUP"
-></A
->htmlEntityLookup ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->const <A
-HREF="libxml-htmlparser.html#HTMLENTITYDESC"
->htmlEntityDesc</A
->* htmlEntityLookup      (const <A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> *name);</PRE
-></TD
-></TR
-></TABLE
-><P
->Lookup the given entity in EntitiesTable</P
-><P
->TODO: the linear scan is really ugly, an hash table is really needed.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11354"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->name</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
-> the entity name</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->the associated htmlEntityDescPtr if found, NULL otherwise.</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11367"
-></A
-><H3
-><A
-NAME="HTMLENTITYVALUELOOKUP"
-></A
->htmlEntityValueLookup ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->const <A
-HREF="libxml-htmlparser.html#HTMLENTITYDESC"
->htmlEntityDesc</A
->* htmlEntityValueLookup (unsigned int value);</PRE
-></TD
-></TR
-></TABLE
-><P
->Lookup the given entity in EntitiesTable</P
-><P
->TODO: the linear scan is really ugly, an hash table is really needed.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11375"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->value</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
-> the entity's unicode value</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->the associated htmlEntityDescPtr if found, NULL otherwise.</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11388"
-></A
-><H3
-><A
-NAME="HTMLISAUTOCLOSED"
-></A
->htmlIsAutoClosed ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->int         htmlIsAutoClosed                (<A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
-> doc,
-                                             <A
-HREF="libxml-htmlparser.html#HTMLNODEPTR"
->htmlNodePtr</A
-> elem);</PRE
-></TD
-></TR
-></TABLE
-><P
->The HTML DTD allows a tag to implicitly close other tags.
+};
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlEntityDescPtr"></a>htmlEntityDescPtr</h3><pre class="programlisting">typedef htmlEntityDesc *htmlEntityDescPtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlTagLookup"></a>htmlTagLookup ()</h3><pre class="programlisting">const <a href="libxml-HTMLparser.html#htmlElemDesc">htmlElemDesc</a>* htmlTagLookup           (const <a href="libxml-tree.html#xmlChar">xmlChar</a> *tag);</pre><p>
+Lookup the HTML tag in the ElementTable</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>tag</tt></i> :</span></td><td>  The tag name in lowercase
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>the related htmlElemDescPtr or NULL if not found.
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlEntityLookup"></a>htmlEntityLookup ()</h3><pre class="programlisting">const <a href="libxml-HTMLparser.html#htmlEntityDesc">htmlEntityDesc</a>* htmlEntityLookup      (const <a href="libxml-tree.html#xmlChar">xmlChar</a> *name);</pre><p>
+Lookup the given entity in EntitiesTable
+</p><p>
+TODO: the linear scan is really ugly, an hash table is really needed.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>name</tt></i> :</span></td><td> the entity name
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>the associated htmlEntityDescPtr if found, NULL otherwise.
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlEntityValueLookup"></a>htmlEntityValueLookup ()</h3><pre class="programlisting">const <a href="libxml-HTMLparser.html#htmlEntityDesc">htmlEntityDesc</a>* htmlEntityValueLookup (unsigned int value);</pre><p>
+Lookup the given entity in EntitiesTable
+</p><p>
+TODO: the linear scan is really ugly, an hash table is really needed.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>value</tt></i> :</span></td><td> the entity's unicode value
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>the associated htmlEntityDescPtr if found, NULL otherwise.
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlIsAutoClosed"></a>htmlIsAutoClosed ()</h3><pre class="programlisting">int         htmlIsAutoClosed                (<a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a> doc,
+                                             <a href="libxml-HTMLparser.html#htmlNodePtr">htmlNodePtr</a> elem);</pre><p>
+The HTML DTD allows a tag to implicitly close other tags.
 The list is kept in htmlStartClose array. This function checks
-if a tag is autoclosed by one of it's child</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11396"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->doc</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the HTML document</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->elem</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the HTML element</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->1 if autoclosed, 0 otherwise</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11413"
-></A
-><H3
-><A
-NAME="HTMLAUTOCLOSETAG"
-></A
->htmlAutoCloseTag ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->int         htmlAutoCloseTag                (<A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
-> doc,
-                                             const <A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> *name,
-                                             <A
-HREF="libxml-htmlparser.html#HTMLNODEPTR"
->htmlNodePtr</A
-> elem);</PRE
-></TD
-></TR
-></TABLE
-><P
->The HTML DTD allows a tag to implicitly close other tags.
+if a tag is autoclosed by one of it's child</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>doc</tt></i> :</span></td><td>  the HTML document
+</td></tr><tr><td><span class="term"><i><tt>elem</tt></i> :</span></td><td>  the HTML element
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>1 if autoclosed, 0 otherwise
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlAutoCloseTag"></a>htmlAutoCloseTag ()</h3><pre class="programlisting">int         htmlAutoCloseTag                (<a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a> doc,
+                                             const <a href="libxml-tree.html#xmlChar">xmlChar</a> *name,
+                                             <a href="libxml-HTMLparser.html#htmlNodePtr">htmlNodePtr</a> elem);</pre><p>
+The HTML DTD allows a tag to implicitly close other tags.
 The list is kept in htmlStartClose array. This function checks
 if the element or one of it's children would autoclose the
-given tag.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11422"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->doc</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the HTML document</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->name</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  The tag name</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->elem</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the HTML element</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->1 if autoclose, 0 otherwise</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11443"
-></A
-><H3
-><A
-NAME="HTMLPARSEENTITYREF"
-></A
->htmlParseEntityRef ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->const <A
-HREF="libxml-htmlparser.html#HTMLENTITYDESC"
->htmlEntityDesc</A
->* htmlParseEntityRef    (<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> ctxt,
-                                             <A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> **str);</PRE
-></TD
-></TR
-></TABLE
-><P
->parse an HTML ENTITY references</P
-><P
->[68] EntityRef ::= '&amp;' Name ';'</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11453"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->ctxt</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  an HTML parser context</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->str</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  location to store the entity name</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->the associated htmlEntityDescPtr if found, or NULL otherwise,
-if non-NULL *str will have to be freed by the caller.</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11470"
-></A
-><H3
-><A
-NAME="HTMLPARSECHARREF"
-></A
->htmlParseCharRef ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->int         htmlParseCharRef                (<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> ctxt);</PRE
-></TD
-></TR
-></TABLE
-><P
->parse Reference declarations</P
-><P
->[66] CharRef ::= '&amp;#' [0-9]+ ';' |
-'&amp;<GTKDOCLINK
-HREF="X"
->x</GTKDOCLINK
->' [0-9a-fA-F]+ ';'</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11479"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->ctxt</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  an HTML parser context</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->the value parsed (as an int)</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11492"
-></A
-><H3
-><A
-NAME="HTMLPARSEELEMENT"
-></A
->htmlParseElement ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->void        htmlParseElement                (<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> ctxt);</PRE
-></TD
-></TR
-></TABLE
-><P
->parse an HTML element, this is highly recursive</P
-><P
->[39] element ::= EmptyElemTag | STag content ETag</P
-><P
->[41] Attribute ::= Name Eq AttValue</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11501"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->ctxt</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  an HTML parser context</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11510"
-></A
-><H3
-><A
-NAME="HTMLPARSEDOCUMENT"
-></A
->htmlParseDocument ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->int         htmlParseDocument               (<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> ctxt);</PRE
-></TD
-></TR
-></TABLE
-><P
->parse an HTML document (and build a tree if using the standard SAX
-interface).</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11517"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->ctxt</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  an HTML parser context</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->0, -1 in case of error. the parser context is augmented
-as a result of the parsing.</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11530"
-></A
-><H3
-><A
-NAME="HTMLSAXPARSEDOC"
-></A
->htmlSAXParseDoc ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
-><A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
->  htmlSAXParseDoc                 (<A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> *cur,
+given tag.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>doc</tt></i> :</span></td><td>  the HTML document
+</td></tr><tr><td><span class="term"><i><tt>name</tt></i> :</span></td><td>  The tag name
+</td></tr><tr><td><span class="term"><i><tt>elem</tt></i> :</span></td><td>  the HTML element
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>1 if autoclose, 0 otherwise
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlParseEntityRef"></a>htmlParseEntityRef ()</h3><pre class="programlisting">const <a href="libxml-HTMLparser.html#htmlEntityDesc">htmlEntityDesc</a>* htmlParseEntityRef    (<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> ctxt,
+                                             <a href="libxml-tree.html#xmlChar">xmlChar</a> **str);</pre><p>
+parse an HTML ENTITY references
+</p><p>
+[68] EntityRef ::= '&amp;' Name ';'</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>ctxt</tt></i> :</span></td><td>  an HTML parser context
+</td></tr><tr><td><span class="term"><i><tt>str</tt></i> :</span></td><td>  location to store the entity name
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>the associated htmlEntityDescPtr if found, or NULL otherwise,
+        if non-NULL *str will have to be freed by the caller.
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlParseCharRef"></a>htmlParseCharRef ()</h3><pre class="programlisting">int         htmlParseCharRef                (<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> ctxt);</pre><p>
+parse Reference declarations
+</p><p>
+[66] CharRef ::= '&amp;#' [0-9]+ ';' |
+                 '&amp;<GTKDOCLINK xmlns="http://www.w3.org/TR/xhtml1/transitional" HREF="x">x</GTKDOCLINK>' [0-9a-fA-F]+ ';'</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>ctxt</tt></i> :</span></td><td>  an HTML parser context
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>the value parsed (as an int)
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlParseElement"></a>htmlParseElement ()</h3><pre class="programlisting">void        htmlParseElement                (<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> ctxt);</pre><p>
+parse an HTML element, this is highly recursive
+</p><p>
+[39] element ::= EmptyElemTag | STag content ETag
+</p><p>
+[41] Attribute ::= Name Eq AttValue</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>ctxt</tt></i> :</span></td><td>  an HTML parser context
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlCreateMemoryParserCtxt"></a>htmlCreateMemoryParserCtxt ()</h3><pre class="programlisting"><a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> htmlCreateMemoryParserCtxt
+                                            (const char *buffer,
+                                             int size);</pre><p>
+Create a parser context for an HTML in-memory document.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>buffer</tt></i> :</span></td><td>  a pointer to a char array
+</td></tr><tr><td><span class="term"><i><tt>size</tt></i> :</span></td><td>  the size of the array
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>the new parser context or NULL
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlParseDocument"></a>htmlParseDocument ()</h3><pre class="programlisting">int         htmlParseDocument               (<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> ctxt);</pre><p>
+parse an HTML document (and build a tree if using the standard SAX
+interface).</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>ctxt</tt></i> :</span></td><td>  an HTML parser context
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>0, -1 in case of error. the parser context is augmented
+               as a result of the parsing.
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlSAXParseDoc"></a>htmlSAXParseDoc ()</h3><pre class="programlisting"><a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a>  htmlSAXParseDoc                 (<a href="libxml-tree.html#xmlChar">xmlChar</a> *cur,
                                              const char *encoding,
-                                             <A
-HREF="libxml-htmlparser.html#HTMLSAXHANDLERPTR"
->htmlSAXHandlerPtr</A
-> sax,
-                                             void *userData);</PRE
-></TD
-></TR
-></TABLE
-><P
->Parse an HTML in-memory document. If sax is not NULL, use the SAX callbacks
+                                             <a href="libxml-HTMLparser.html#htmlSAXHandlerPtr">htmlSAXHandlerPtr</a> sax,
+                                             void *userData);</pre><p>
+Parse an HTML in-memory document. If sax is not NULL, use the SAX callbacks
 to handle parse events. If sax is NULL, fallback to the default DOM
-behavior and return a tree.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11539"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->cur</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a pointer to an array of xmlChar</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->encoding</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a free form C string describing the HTML document encoding, or NULL</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->sax</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the SAX handler block</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->userData</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
-> if using SAX, this pointer will be provided on callbacks. </TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->the resulting document tree unless SAX is NULL or the document is
-not well formed.</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11564"
-></A
-><H3
-><A
-NAME="HTMLPARSEDOC"
-></A
->htmlParseDoc ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
-><A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
->  htmlParseDoc                    (<A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> *cur,
-                                             const char *encoding);</PRE
-></TD
-></TR
-></TABLE
-><P
->parse an HTML in-memory document and build a tree.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11572"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->cur</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a pointer to an array of xmlChar</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->encoding</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a free form C string describing the HTML document encoding, or NULL</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->the resulting document tree</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11589"
-></A
-><H3
-><A
-NAME="HTMLSAXPARSEFILE"
-></A
->htmlSAXParseFile ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
-><A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
->  htmlSAXParseFile                (const char *filename,
+behavior and return a tree.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>cur</tt></i> :</span></td><td>  a pointer to an array of xmlChar
+</td></tr><tr><td><span class="term"><i><tt>encoding</tt></i> :</span></td><td>  a free form C string describing the HTML document encoding, or NULL
+</td></tr><tr><td><span class="term"><i><tt>sax</tt></i> :</span></td><td>  the SAX handler block
+</td></tr><tr><td><span class="term"><i><tt>userData</tt></i> :</span></td><td> if using SAX, this pointer will be provided on callbacks. 
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>the resulting document tree unless SAX is NULL or the document is
+    not well formed.
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlParseDoc"></a>htmlParseDoc ()</h3><pre class="programlisting"><a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a>  htmlParseDoc                    (<a href="libxml-tree.html#xmlChar">xmlChar</a> *cur,
+                                             const char *encoding);</pre><p>
+parse an HTML in-memory document and build a tree.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>cur</tt></i> :</span></td><td>  a pointer to an array of xmlChar
+</td></tr><tr><td><span class="term"><i><tt>encoding</tt></i> :</span></td><td>  a free form C string describing the HTML document encoding, or NULL
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>the resulting document tree
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlSAXParseFile"></a>htmlSAXParseFile ()</h3><pre class="programlisting"><a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a>  htmlSAXParseFile                (const char *filename,
                                              const char *encoding,
-                                             <A
-HREF="libxml-htmlparser.html#HTMLSAXHANDLERPTR"
->htmlSAXHandlerPtr</A
-> sax,
-                                             void *userData);</PRE
-></TD
-></TR
-></TABLE
-><P
->parse an HTML file and build a tree. Automatic support for ZLIB/Compress
+                                             <a href="libxml-HTMLparser.html#htmlSAXHandlerPtr">htmlSAXHandlerPtr</a> sax,
+                                             void *userData);</pre><p>
+parse an HTML file and build a tree. Automatic support for ZLIB/Compress
 compressed document is provided by default if found at compile-time.
 It use the given SAX function block to handle the parsing callback.
-If sax is NULL, fallback to the default DOM tree building routines.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11597"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->filename</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the filename</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->encoding</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a free form C string describing the HTML document encoding, or NULL</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->sax</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the SAX handler block</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->userData</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
-> if using SAX, this pointer will be provided on callbacks. </TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->the resulting document tree unless SAX is NULL or the document is
-not well formed.</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11622"
-></A
-><H3
-><A
-NAME="HTMLPARSEFILE"
-></A
->htmlParseFile ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
-><A
-HREF="libxml-htmlparser.html#HTMLDOCPTR"
->htmlDocPtr</A
->  htmlParseFile                   (const char *filename,
-                                             const char *encoding);</PRE
-></TD
-></TR
-></TABLE
-><P
->parse an HTML file and build a tree. Automatic support for ZLIB/Compress
-compressed document is provided by default if found at compile-time.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11629"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->filename</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the filename</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->encoding</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a free form C string describing the HTML document encoding, or NULL</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->the resulting document tree</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11646"
-></A
-><H3
-><A
-NAME="UTF8TOHTML"
-></A
->UTF8ToHtml ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->int         UTF8ToHtml                      (unsigned char *out,
+If sax is NULL, fallback to the default DOM tree building routines.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>filename</tt></i> :</span></td><td>  the filename
+</td></tr><tr><td><span class="term"><i><tt>encoding</tt></i> :</span></td><td>  a free form C string describing the HTML document encoding, or NULL
+</td></tr><tr><td><span class="term"><i><tt>sax</tt></i> :</span></td><td>  the SAX handler block
+</td></tr><tr><td><span class="term"><i><tt>userData</tt></i> :</span></td><td> if using SAX, this pointer will be provided on callbacks. 
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>the resulting document tree unless SAX is NULL or the document is
+    not well formed.
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlParseFile"></a>htmlParseFile ()</h3><pre class="programlisting"><a href="libxml-HTMLparser.html#htmlDocPtr">htmlDocPtr</a>  htmlParseFile                   (const char *filename,
+                                             const char *encoding);</pre><p>
+parse an HTML file and build a tree. Automatic support for ZLIB/Compress
+compressed document is provided by default if found at compile-time.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>filename</tt></i> :</span></td><td>  the filename
+</td></tr><tr><td><span class="term"><i><tt>encoding</tt></i> :</span></td><td>  a free form C string describing the HTML document encoding, or NULL
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>the resulting document tree
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="UTF8ToHtml"></a>UTF8ToHtml ()</h3><pre class="programlisting">int         UTF8ToHtml                      (unsigned char *out,
                                              int *outlen,
                                              unsigned char *in,
-                                             int *inlen);</PRE
-></TD
-></TR
-></TABLE
-><P
->Take a block of UTF-8 chars in and try to convert it to an ASCII
-plus HTML entities block of chars out.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11652"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->out</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a pointer to an array of bytes to store the result</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->outlen</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the length of <TT
-CLASS="PARAMETER"
-><I
->out</I
-></TT
-></TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->in</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a pointer to an array of UTF-8 chars</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->inlen</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the length of <TT
-CLASS="PARAMETER"
-><I
->in</I
-></TT
-></TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->0 if success, -2 if the transcoding fails, or -1 otherwise
-The value of <TT
-CLASS="PARAMETER"
-><I
->inlen</I
-></TT
-> after return is the number of octets consumed
-as the return value is positive, else unpredictable.
-The value of <TT
-CLASS="PARAMETER"
-><I
->outlen</I
-></TT
-> after return is the number of octets consumed.</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11681"
-></A
-><H3
-><A
-NAME="HTMLENCODEENTITIES"
-></A
->htmlEncodeEntities ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->int         htmlEncodeEntities              (unsigned char *out,
+                                             int *inlen);</pre><p>
+Take a block of UTF-8 chars in and try to convert it to an ASCII
+plus HTML entities block of chars out.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>out</tt></i> :</span></td><td>  a pointer to an array of bytes to store the result
+</td></tr><tr><td><span class="term"><i><tt>outlen</tt></i> :</span></td><td>  the length of <i><tt>out</tt></i>
+</td></tr><tr><td><span class="term"><i><tt>in</tt></i> :</span></td><td>  a pointer to an array of UTF-8 chars
+</td></tr><tr><td><span class="term"><i><tt>inlen</tt></i> :</span></td><td>  the length of <i><tt>in</tt></i>
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>0 if success, -2 if the transcoding fails, or -1 otherwise
+The value of <i><tt>inlen</tt></i> after return is the number of octets consumed
+    as the return value is positive, else unpredictable.
+The value of <i><tt>outlen</tt></i> after return is the number of octets consumed.
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlEncodeEntities"></a>htmlEncodeEntities ()</h3><pre class="programlisting">int         htmlEncodeEntities              (unsigned char *out,
                                              int *outlen,
                                              unsigned char *in,
                                              int *inlen,
-                                             int quoteChar);</PRE
-></TD
-></TR
-></TABLE
-><P
->Take a block of UTF-8 chars in and try to convert it to an ASCII
-plus HTML entities block of chars out.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11687"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->out</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a pointer to an array of bytes to store the result</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->outlen</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the length of <TT
-CLASS="PARAMETER"
-><I
->out</I
-></TT
-></TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->in</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a pointer to an array of UTF-8 chars</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->inlen</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the length of <TT
-CLASS="PARAMETER"
-><I
->in</I
-></TT
-></TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->quoteChar</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
-> the quote character to escape (' or ") or zero.</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->0 if success, -2 if the transcoding fails, or -1 otherwise
-The value of <TT
-CLASS="PARAMETER"
-><I
->inlen</I
-></TT
-> after return is the number of octets consumed
-as the return value is positive, else unpredictable.
-The value of <TT
-CLASS="PARAMETER"
-><I
->outlen</I
-></TT
-> after return is the number of octets consumed.</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11720"
-></A
-><H3
-><A
-NAME="HTMLISSCRIPTATTRIBUTE"
-></A
->htmlIsScriptAttribute ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->int         htmlIsScriptAttribute           (const <A
-HREF="libxml-tree.html#XMLCHAR"
->xmlChar</A
-> *name);</PRE
-></TD
-></TR
-></TABLE
-><P
->Check if an attribute is of content type Script</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11727"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->name</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  an attribute name</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->1 is the attribute is a script 0 otherwise</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11740"
-></A
-><H3
-><A
-NAME="HTMLHANDLEOMITTEDELEM"
-></A
->htmlHandleOmittedElem ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->int         htmlHandleOmittedElem           (int val);</PRE
-></TD
-></TR
-></TABLE
-><P
->Set and return the previous value for handling HTML omitted tags.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11746"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->val</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  int 0 or 1 </TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->the last value for 0 for no handling, 1 for auto insertion.</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11759"
-></A
-><H3
-><A
-NAME="HTMLFREEPARSERCTXT"
-></A
->htmlFreeParserCtxt ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->void        htmlFreeParserCtxt              (<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> ctxt);</PRE
-></TD
-></TR
-></TABLE
-><P
->Free all the memory used by a parser context. However the parsed
-document in ctxt-&gt;myDoc is not freed.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11766"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->ctxt</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  an HTML parser context</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11775"
-></A
-><H3
-><A
-NAME="HTMLCREATEPUSHPARSERCTXT"
-></A
->htmlCreatePushParserCtxt ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
-><A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> htmlCreatePushParserCtxt  (<A
-HREF="libxml-htmlparser.html#HTMLSAXHANDLERPTR"
->htmlSAXHandlerPtr</A
-> sax,
+                                             int quoteChar);</pre><p>
+Take a block of UTF-8 chars in and try to convert it to an ASCII
+plus HTML entities block of chars out.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>out</tt></i> :</span></td><td>  a pointer to an array of bytes to store the result
+</td></tr><tr><td><span class="term"><i><tt>outlen</tt></i> :</span></td><td>  the length of <i><tt>out</tt></i>
+</td></tr><tr><td><span class="term"><i><tt>in</tt></i> :</span></td><td>  a pointer to an array of UTF-8 chars
+</td></tr><tr><td><span class="term"><i><tt>inlen</tt></i> :</span></td><td>  the length of <i><tt>in</tt></i>
+</td></tr><tr><td><span class="term"><i><tt>quoteChar</tt></i> :</span></td><td> the quote character to escape (' or ") or zero.
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>0 if success, -2 if the transcoding fails, or -1 otherwise
+The value of <i><tt>inlen</tt></i> after return is the number of octets consumed
+    as the return value is positive, else unpredictable.
+The value of <i><tt>outlen</tt></i> after return is the number of octets consumed.
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlIsScriptAttribute"></a>htmlIsScriptAttribute ()</h3><pre class="programlisting">int         htmlIsScriptAttribute           (const <a href="libxml-tree.html#xmlChar">xmlChar</a> *name);</pre><p>
+Check if an attribute is of content type Script</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>name</tt></i> :</span></td><td>  an attribute name
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>1 is the attribute is a script 0 otherwise
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlHandleOmittedElem"></a>htmlHandleOmittedElem ()</h3><pre class="programlisting">int         htmlHandleOmittedElem           (int val);</pre><p>
+Set and return the previous value for handling HTML omitted tags.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>val</tt></i> :</span></td><td>  int 0 or 1 
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>the last value for 0 for no handling, 1 for auto insertion.
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlFreeParserCtxt"></a>htmlFreeParserCtxt ()</h3><pre class="programlisting">void        htmlFreeParserCtxt              (<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> ctxt);</pre><p>
+Free all the memory used by a parser context. However the parsed
+document in ctxt-&gt;myDoc is not freed.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>ctxt</tt></i> :</span></td><td>  an HTML parser context
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlCreatePushParserCtxt"></a>htmlCreatePushParserCtxt ()</h3><pre class="programlisting"><a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> htmlCreatePushParserCtxt  (<a href="libxml-HTMLparser.html#htmlSAXHandlerPtr">htmlSAXHandlerPtr</a> sax,
                                              void *user_data,
                                              const char *chunk,
                                              int size,
                                              const char *filename,
-                                             <A
-HREF="libxml-encoding.html#XMLCHARENCODING"
->xmlCharEncoding</A
-> enc);</PRE
-></TD
-></TR
-></TABLE
-><P
->Create a parser context for using the HTML parser in push mode
-To allow content encoding detection, <TT
-CLASS="PARAMETER"
-><I
->size</I
-></TT
-> should be &gt;= 4
-The value of <TT
-CLASS="PARAMETER"
-><I
->filename</I
-></TT
-> is used for fetching external entities
-and error/warning reports.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11786"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->sax</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a SAX handler</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->user_data</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  The user data returned on SAX callbacks</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->chunk</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a pointer to an array of chars</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->size</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  number of chars in the array</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->filename</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  an optional file name or URI</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->enc</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  an optional encoding</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->the new parser context or NULL</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN11819"
-></A
-><H3
-><A
-NAME="HTMLPARSECHUNK"
-></A
->htmlParseChunk ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->int         htmlParseChunk                  (<A
-HREF="libxml-htmlparser.html#HTMLPARSERCTXTPTR"
->htmlParserCtxtPtr</A
-> ctxt,
+                                             <a href="libxml-encoding.html#xmlCharEncoding">xmlCharEncoding</a> enc);</pre><p>
+Create a parser context for using the HTML parser in push mode
+The value of <i><tt>filename</tt></i> is used for fetching external entities
+and error/warning reports.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>sax</tt></i> :</span></td><td>  a SAX handler
+</td></tr><tr><td><span class="term"><i><tt>user_data</tt></i> :</span></td><td>  The user data returned on SAX callbacks
+</td></tr><tr><td><span class="term"><i><tt>chunk</tt></i> :</span></td><td>  a pointer to an array of chars
+</td></tr><tr><td><span class="term"><i><tt>size</tt></i> :</span></td><td>  number of chars in the array
+</td></tr><tr><td><span class="term"><i><tt>filename</tt></i> :</span></td><td>  an optional file name or URI
+</td></tr><tr><td><span class="term"><i><tt>enc</tt></i> :</span></td><td>  an optional encoding
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>the new parser context or NULL
+</td></tr></tbody></table></div></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="htmlParseChunk"></a>htmlParseChunk ()</h3><pre class="programlisting">int         htmlParseChunk                  (<a href="libxml-HTMLparser.html#htmlParserCtxtPtr">htmlParserCtxtPtr</a> ctxt,
                                              const char *chunk,
                                              int size,
-                                             int terminate);</PRE
-></TD
-></TR
-></TABLE
-><P
->Parse a Chunk of memory</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN11826"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->ctxt</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  an XML parser context</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->chunk</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  an char array</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->size</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  the size in byte of the chunk</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->terminate</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  last chunk indicator</TD
-></TR
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><SPAN
-CLASS="emphasis"
-><I
-CLASS="EMPHASIS"
->Returns</I
-></SPAN
-> :</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->zero if no error, the xmlParserErrors otherwise.</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><BR
-CLEAR="all"><BR><TABLE
-WIDTH="100%"
-BORDER="0"
-BGCOLOR="#000000"
-CELLPADDING="1"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="25%"
-BGCOLOR="#C00000"
-ALIGN="left"
-><A
-HREF="libxml-xmlerror.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->&#60;&#60;&#60; Previous Page</B
-></FONT
-></A
-></TD
-><TD
-WIDTH="25%"
-BGCOLOR="#0000C0"
-ALIGN="center"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
-><A
-HREF="book1.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->Home</B
-></FONT
-></A
-></B
-></FONT
-></TD
-><TD
-WIDTH="25%"
-BGCOLOR="#00C000"
-ALIGN="center"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
-><A
-HREF="libxml-lib.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->Up</B
-></FONT
-></A
-></B
-></FONT
-></TD
-><TD
-WIDTH="25%"
-BGCOLOR="#C00000"
-ALIGN="right"
-><A
-HREF="libxml-htmltree.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->Next Page &#62;&#62;&#62;</B
-></FONT
-></A
-></TD
-></TR
-><TR
-><TD
-COLSPAN="2"
-ALIGN="left"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->xmlerror</B
-></FONT
-></TD
-><TD
-COLSPAN="2"
-ALIGN="right"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->HTMLtree</B
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+                                             int terminate);</pre><p>
+Parse a Chunk of memory</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>ctxt</tt></i> :</span></td><td>  an XML parser context
+</td></tr><tr><td><span class="term"><i><tt>chunk</tt></i> :</span></td><td>  an char array
+</td></tr><tr><td><span class="term"><i><tt>size</tt></i> :</span></td><td>  the size in byte of the chunk
+</td></tr><tr><td><span class="term"><i><tt>terminate</tt></i> :</span></td><td>  last chunk indicator
+</td></tr><tr><td><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></td><td>zero if no error, the xmlParserErrors otherwise.
+</td></tr></tbody></table></div></div></div></div><table xmlns="http://www.w3.org/TR/xhtml1/transitional" class="navigation" width="100%" summary="Navigation footer" cellpadding="2" cellspacing="0"><tr valign="middle"><td align="left"><a accesskey="p" href="libxml-xmlerror.html"><b>&lt;&lt; xmlerror</b></a></td><td align="right"><a accesskey="n" href="libxml-HTMLtree.html"><b>HTMLtree &gt;&gt;</b></a></td></tr></table></body></html>

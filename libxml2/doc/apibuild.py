@@ -11,6 +11,31 @@ import os, sys
 import string
 import glob
 
+#
+# C parser analysis code
+#
+ignored_files = {
+  "trio": "too many non standard macros",
+  "trio.c": "too many non standard macros",
+  "trionan.c": "too many non standard macros",
+  "triostr.c": "too many non standard macros",
+  "acconfig.h": "generated portability layer",
+  "config.h": "generated portability layer",
+  "libxml.h": "internal only",
+  "testOOM.c": "out of memory tester",
+  "testOOMlib.h": "out of memory tester",
+  "testOOMlib.c": "out of memory tester",
+}
+
+ignored_words = {
+  "WINAPI": (0, "Windows keyword"),
+  "LIBXML_DLL_IMPORT": (0, "Special macro to flag external keywords"),
+  "__declspec": (3, "Windows keyword"),
+  "ATTRIBUTE_UNUSED": (0, "macro keyword"),
+  "LIBEXSLT_PUBLIC": (0, "macro keyword"),
+  "X_IN_Y": (5, "macro function builder"),
+}
+
 def escape(raw):
     raw = string.replace(raw, '&', '&amp;')
     raw = string.replace(raw, '<', '&lt;')
@@ -208,28 +233,6 @@ class index:
 	 self.analyze_dict("typedefs", self.typedefs)
 	 self.analyze_dict("macros", self.macros)
          
-#
-# C parser analysis code
-#
-ignored_files = {
-  "trio": "too many non standard macros",
-  "trio.c": "too many non standard macros",
-  "trionan.c": "too many non standard macros",
-  "triostr.c": "too many non standard macros",
-  "acconfig.h": "generated portability layer",
-  "config.h": "generated portability layer",
-  "libxml.h": "internal only",
-}
-
-ignored_words = {
-  "WINAPI": (0, "Windows keyword"),
-  "LIBXML_DLL_IMPORT": (0, "Special macro to flag external keywords"),
-  "__declspec": (3, "Windows keyword"),
-  "ATTRIBUTE_UNUSED": (0, "macro keyword"),
-  "LIBEXSLT_PUBLIC": (0, "macro keyword"),
-  "X_IN_Y": (5, "macro function builder"),
-}
-
 class CLexer:
      """A lexer for the C language, tokenize the input by reading and
         analyzing it line by line"""
@@ -1461,8 +1464,7 @@ def rebuild():
     if glob.glob("../parser.c") != [] :
         print "Rebuilding API description for libxml2"
 	builder = docBuilder("libxml2", ["..", "../include/libxml"],
-	                     ["xmlwin32version.h", "tst.c",
-			      "schemasInternals.h", "xmlschemas" ])
+	                     ["xmlwin32version.h", "tst.c"])
     elif glob.glob("../libxslt/transform.c") != [] :
         print "Rebuilding API description for libxslt"
 	builder = docBuilder("libxslt", ["../libxslt"],

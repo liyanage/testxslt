@@ -3,6 +3,7 @@
 #include <Python.h>
 #include <libxml/xmlversion.h>
 #include <libxml/tree.h>
+#include <libxml/xmlschemastypes.h>
 #include "libxml_wrap.h"
 #include "libxml2-py.h"
 
@@ -194,22 +195,22 @@ libxml_htmlNewDocNoDtD(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 #endif /* LIBXML_HTML_ENABLED */
-#ifdef LIBXML_XPATH_ENABLED
 PyObject *
-libxml_xmlXPathNewString(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+libxml_xmlTextReaderExpand(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
-    xmlXPathObjectPtr c_retval;
-    xmlChar * val;
+    xmlNodePtr c_retval;
+    xmlTextReaderPtr reader;
+    PyObject *pyobj_reader;
 
-    if (!PyArg_ParseTuple(args, (char *)"z:xmlXPathNewString", &val))
+    if (!PyArg_ParseTuple(args, (char *)"O:xmlTextReaderExpand", &pyobj_reader))
         return(NULL);
+    reader = (xmlTextReaderPtr) PyxmlTextReader_Get(pyobj_reader);
 
-    c_retval = xmlXPathNewString(val);
-    py_retval = libxml_xmlXPathObjectPtrWrap((xmlXPathObjectPtr) c_retval);
+    c_retval = xmlTextReaderExpand(reader);
+    py_retval = libxml_xmlNodePtrWrap((xmlNodePtr) c_retval);
     return(py_retval);
 }
 
-#endif /* LIBXML_XPATH_ENABLED */
 PyObject *
 libxml_xmlUCSIsHangulJamo(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
@@ -292,6 +293,34 @@ libxml_xmlParseElementDecl(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 PyObject *
+libxml_xmlUCSIsCatPo(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int code;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCatPo", &code))
+        return(NULL);
+
+    c_retval = xmlUCSIsCatPo(code);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
+libxml_xmlUCSIsCatMn(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int code;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCatMn", &code))
+        return(NULL);
+
+    c_retval = xmlUCSIsCatMn(code);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
 libxml_xmlFreeParserInputBuffer(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     xmlParserInputBufferPtr in;
     PyObject *pyobj_in;
@@ -326,6 +355,22 @@ libxml_htmlDocContentDumpFormatOutput(ATTRIBUTE_UNUSED PyObject *self, PyObject 
 }
 
 #endif /* LIBXML_HTML_ENABLED */
+PyObject *
+libxml_xmlTextReaderIsValid(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlTextReaderPtr reader;
+    PyObject *pyobj_reader;
+
+    if (!PyArg_ParseTuple(args, (char *)"O:xmlTextReaderIsValid", &pyobj_reader))
+        return(NULL);
+    reader = (xmlTextReaderPtr) PyxmlTextReader_Get(pyobj_reader);
+
+    c_retval = xmlTextReaderIsValid(reader);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
 libxml_xmlXPathNextDescendantOrSelf(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
@@ -438,7 +483,7 @@ libxml_xmlURISetQuery(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     if (URI->query != NULL) xmlFree(URI->query);
-    URI->query = xmlStrdup((const xmlChar *)query);
+    URI->query = (char *)xmlStrdup((const xmlChar *)query);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -513,23 +558,6 @@ libxml_xmlXPathNextAncestor(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     c_retval = xmlXPathNextAncestor(ctxt, cur);
     py_retval = libxml_xmlNodePtrWrap((xmlNodePtr) c_retval);
     return(py_retval);
-}
-
-#endif /* LIBXML_XPATH_ENABLED */
-#ifdef LIBXML_XPATH_ENABLED
-PyObject *
-libxml_xmlXPathLocalNameFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    xmlXPathParserContextPtr ctxt;
-    PyObject *pyobj_ctxt;
-    int nargs;
-
-    if (!PyArg_ParseTuple(args, (char *)"Oi:xmlXPathLocalNameFunction", &pyobj_ctxt, &nargs))
-        return(NULL);
-    ctxt = (xmlXPathParserContextPtr) PyxmlXPathParserContext_Get(pyobj_ctxt);
-
-    xmlXPathLocalNameFunction(ctxt, nargs);
-    Py_INCREF(Py_None);
-    return(Py_None);
 }
 
 #endif /* LIBXML_XPATH_ENABLED */
@@ -716,6 +744,57 @@ libxml_xmlNanoFTPCleanup(ATTRIBUTE_UNUSED PyObject *self,ATTRIBUTE_UNUSED  PyObj
 }
 
 PyObject *
+libxml_xmlXPathGetContextSize(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlXPathContextPtr ctxt;
+    PyObject *pyobj_ctxt;
+
+    if (!PyArg_ParseTuple(args, (char *)"O:xmlXPathGetContextSize", &pyobj_ctxt))
+        return(NULL);
+    ctxt = (xmlXPathContextPtr) PyxmlXPathContext_Get(pyobj_ctxt);
+
+    c_retval = ctxt->contextSize;
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+#ifdef LIBXML_XPATH_ENABLED
+PyObject *
+libxml_xmlXPathStringEvalNumber(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    double c_retval;
+    xmlChar * str;
+
+    if (!PyArg_ParseTuple(args, (char *)"z:xmlXPathStringEvalNumber", &str))
+        return(NULL);
+
+    c_retval = xmlXPathStringEvalNumber(str);
+    py_retval = libxml_doubleWrap((double) c_retval);
+    return(py_retval);
+}
+
+#endif /* LIBXML_XPATH_ENABLED */
+PyObject *
+libxml_xmlReconciliateNs(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlDocPtr doc;
+    PyObject *pyobj_doc;
+    xmlNodePtr tree;
+    PyObject *pyobj_tree;
+
+    if (!PyArg_ParseTuple(args, (char *)"OO:xmlReconciliateNs", &pyobj_doc, &pyobj_tree))
+        return(NULL);
+    doc = (xmlDocPtr) PyxmlNode_Get(pyobj_doc);
+    tree = (xmlNodePtr) PyxmlNode_Get(pyobj_tree);
+
+    c_retval = xmlReconciliateNs(doc, tree);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
 libxml_xmlRecoverMemory(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     xmlDocPtr c_retval;
@@ -886,17 +965,15 @@ libxml_xmlUCSIsBengali(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 PyObject *
-libxml_xmlParserGetWellFormed(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+libxml_xmlUCSIsCombiningMarksforSymbols(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     int c_retval;
-    xmlParserCtxtPtr ctxt;
-    PyObject *pyobj_ctxt;
+    int code;
 
-    if (!PyArg_ParseTuple(args, (char *)"O:xmlParserGetWellFormed", &pyobj_ctxt))
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCombiningMarksforSymbols", &code))
         return(NULL);
-    ctxt = (xmlParserCtxtPtr) PyparserCtxt_Get(pyobj_ctxt);
 
-    c_retval = ctxt->wellFormed;
+    c_retval = xmlUCSIsCombiningMarksforSymbols(code);
     py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
@@ -1003,6 +1080,8 @@ libxml_xmlXPathInit(ATTRIBUTE_UNUSED PyObject *self,ATTRIBUTE_UNUSED  PyObject *
 #endif /* LIBXML_XPATH_ENABLED */
 PyObject *
 libxml_xmlInitParserCtxt(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
     xmlParserCtxtPtr ctxt;
     PyObject *pyobj_ctxt;
 
@@ -1010,9 +1089,9 @@ libxml_xmlInitParserCtxt(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
         return(NULL);
     ctxt = (xmlParserCtxtPtr) PyparserCtxt_Get(pyobj_ctxt);
 
-    xmlInitParserCtxt(ctxt);
-    Py_INCREF(Py_None);
-    return(Py_None);
+    c_retval = xmlInitParserCtxt(ctxt);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
 }
 
 #ifdef LIBXML_SCHEMAS_ENABLED
@@ -1123,6 +1202,23 @@ libxml_xmlNextChar(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     return(Py_None);
 }
 
+#ifdef LIBXML_XPATH_ENABLED
+PyObject *
+libxml_xmlXPathLocalNameFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    xmlXPathParserContextPtr ctxt;
+    PyObject *pyobj_ctxt;
+    int nargs;
+
+    if (!PyArg_ParseTuple(args, (char *)"Oi:xmlXPathLocalNameFunction", &pyobj_ctxt, &nargs))
+        return(NULL);
+    ctxt = (xmlXPathParserContextPtr) PyxmlXPathParserContext_Get(pyobj_ctxt);
+
+    xmlXPathLocalNameFunction(ctxt, nargs);
+    Py_INCREF(Py_None);
+    return(Py_None);
+}
+
+#endif /* LIBXML_XPATH_ENABLED */
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
 libxml_xmlXPathFalseFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
@@ -1282,16 +1378,16 @@ libxml_xmlRegexpPrint(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 #endif /* LIBXML_REGEXP_ENABLED */
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
-libxml_xmlXPathRoundFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+libxml_xmlXPathNotFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     xmlXPathParserContextPtr ctxt;
     PyObject *pyobj_ctxt;
     int nargs;
 
-    if (!PyArg_ParseTuple(args, (char *)"Oi:xmlXPathRoundFunction", &pyobj_ctxt, &nargs))
+    if (!PyArg_ParseTuple(args, (char *)"Oi:xmlXPathNotFunction", &pyobj_ctxt, &nargs))
         return(NULL);
     ctxt = (xmlXPathParserContextPtr) PyxmlXPathParserContext_Get(pyobj_ctxt);
 
-    xmlXPathRoundFunction(ctxt, nargs);
+    xmlXPathNotFunction(ctxt, nargs);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -1402,6 +1498,22 @@ libxml_xmlTextReaderMoveToAttributeNs(ATTRIBUTE_UNUSED PyObject *self, PyObject 
     reader = (xmlTextReaderPtr) PyxmlTextReader_Get(pyobj_reader);
 
     c_retval = xmlTextReaderMoveToAttributeNs(reader, localName, namespaceURI);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
+libxml_xmlTextReaderNext(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlTextReaderPtr reader;
+    PyObject *pyobj_reader;
+
+    if (!PyArg_ParseTuple(args, (char *)"O:xmlTextReaderNext", &pyobj_reader))
+        return(NULL);
+    reader = (xmlTextReaderPtr) PyxmlTextReader_Get(pyobj_reader);
+
+    c_retval = xmlTextReaderNext(reader);
     py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
@@ -1537,15 +1649,15 @@ libxml_xmlIsPubidChar(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 PyObject *
-libxml_xmlUCSIsCatLm(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+libxml_xmlThrDefLoadExtDtdDefaultValue(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     int c_retval;
-    int code;
+    int v;
 
-    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCatLm", &code))
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlThrDefLoadExtDtdDefaultValue", &v))
         return(NULL);
 
-    c_retval = xmlUCSIsCatLm(code);
+    c_retval = xmlThrDefLoadExtDtdDefaultValue(v);
     py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
@@ -1556,22 +1668,6 @@ libxml_htmlInitAutoClose(ATTRIBUTE_UNUSED PyObject *self,ATTRIBUTE_UNUSED  PyObj
     htmlInitAutoClose();
     Py_INCREF(Py_None);
     return(Py_None);
-}
-
-PyObject *
-libxml_xmlCopyNamespaceList(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    PyObject *py_retval;
-    xmlNsPtr c_retval;
-    xmlNsPtr cur;
-    PyObject *pyobj_cur;
-
-    if (!PyArg_ParseTuple(args, (char *)"O:xmlCopyNamespaceList", &pyobj_cur))
-        return(NULL);
-    cur = (xmlNsPtr) PyxmlNode_Get(pyobj_cur);
-
-    c_retval = xmlCopyNamespaceList(cur);
-    py_retval = libxml_xmlNsPtrWrap((xmlNsPtr) c_retval);
-    return(py_retval);
 }
 
 #ifdef LIBXML_XPTR_ENABLED
@@ -1837,17 +1933,11 @@ libxml_xmlUCSIsCatS(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 PyObject *
-libxml_xmlUCSIsCatP(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    PyObject *py_retval;
-    int c_retval;
-    int code;
+libxml_xmlCleanupGlobals(ATTRIBUTE_UNUSED PyObject *self,ATTRIBUTE_UNUSED  PyObject *args) {
 
-    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCatP", &code))
-        return(NULL);
-
-    c_retval = xmlUCSIsCatP(code);
-    py_retval = libxml_intWrap((int) c_retval);
-    return(py_retval);
+    xmlCleanupGlobals();
+    Py_INCREF(Py_None);
+    return(Py_None);
 }
 
 PyObject *
@@ -2398,6 +2488,23 @@ libxml_xmlUCSIsCJKUnifiedIdeographsExtensionA(ATTRIBUTE_UNUSED PyObject *self, P
     return(py_retval);
 }
 
+#ifdef LIBXML_HTML_ENABLED
+PyObject *
+libxml_htmlCreateMemoryParserCtxt(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    htmlParserCtxtPtr c_retval;
+    char * buffer;
+    int size;
+
+    if (!PyArg_ParseTuple(args, (char *)"zi:htmlCreateMemoryParserCtxt", &buffer, &size))
+        return(NULL);
+
+    c_retval = htmlCreateMemoryParserCtxt(buffer, size);
+    py_retval = libxml_xmlParserCtxtPtrWrap((xmlParserCtxtPtr) c_retval);
+    return(py_retval);
+}
+
+#endif /* LIBXML_HTML_ENABLED */
 PyObject *
 libxml_xmlUCSIsRunic(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
@@ -2409,6 +2516,20 @@ libxml_xmlUCSIsRunic(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 
     c_retval = xmlUCSIsRunic(code);
     py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
+libxml_xmlCatalogResolveURI(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    xmlChar * c_retval;
+    xmlChar * URI;
+
+    if (!PyArg_ParseTuple(args, (char *)"z:xmlCatalogResolveURI", &URI))
+        return(NULL);
+
+    c_retval = xmlCatalogResolveURI(URI);
+    py_retval = libxml_xmlCharPtrWrap((xmlChar *) c_retval);
     return(py_retval);
 }
 
@@ -2486,6 +2607,24 @@ libxml_xmlParserGetDirectory(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     return(py_retval);
 }
 
+PyObject *
+libxml_xmlInitGlobals(ATTRIBUTE_UNUSED PyObject *self,ATTRIBUTE_UNUSED  PyObject *args) {
+
+    xmlInitGlobals();
+    Py_INCREF(Py_None);
+    return(Py_None);
+}
+
+#ifdef LIBXML_SCHEMAS_ENABLED
+PyObject *
+libxml_xmlSchemaCleanupTypes(ATTRIBUTE_UNUSED PyObject *self,ATTRIBUTE_UNUSED  PyObject *args) {
+
+    xmlSchemaCleanupTypes();
+    Py_INCREF(Py_None);
+    return(Py_None);
+}
+
+#endif /* LIBXML_SCHEMAS_ENABLED */
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
 libxml_xmlXPathFreeParserContext(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
@@ -2973,6 +3112,20 @@ libxml_xmlTextReaderMoveToAttribute(ATTRIBUTE_UNUSED PyObject *self, PyObject *a
 }
 
 PyObject *
+libxml_xmlThrDefDoValidityCheckingDefaultValue(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int v;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlThrDefDoValidityCheckingDefaultValue", &v))
+        return(NULL);
+
+    c_retval = xmlThrDefDoValidityCheckingDefaultValue(v);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
 libxml_xmlUCSIsBoxDrawing(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     int c_retval;
@@ -3133,23 +3286,6 @@ libxml_xmlXPathTrueFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 #endif /* LIBXML_XPATH_ENABLED */
-#ifdef LIBXML_XPATH_ENABLED
-PyObject *
-libxml_xmlXPathConcatFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    xmlXPathParserContextPtr ctxt;
-    PyObject *pyobj_ctxt;
-    int nargs;
-
-    if (!PyArg_ParseTuple(args, (char *)"Oi:xmlXPathConcatFunction", &pyobj_ctxt, &nargs))
-        return(NULL);
-    ctxt = (xmlXPathParserContextPtr) PyxmlXPathParserContext_Get(pyobj_ctxt);
-
-    xmlXPathConcatFunction(ctxt, nargs);
-    Py_INCREF(Py_None);
-    return(Py_None);
-}
-
-#endif /* LIBXML_XPATH_ENABLED */
 PyObject *
 libxml_xmlXPathGetContextPosition(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
@@ -3166,21 +3302,6 @@ libxml_xmlXPathGetContextPosition(ATTRIBUTE_UNUSED PyObject *self, PyObject *arg
     return(py_retval);
 }
 
-#ifdef LIBXML_DEBUG_ENABLED
-PyObject *
-libxml_xmlShellPrintXPathError(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    int errorType;
-    char * arg;
-
-    if (!PyArg_ParseTuple(args, (char *)"iz:xmlShellPrintXPathError", &errorType, &arg))
-        return(NULL);
-
-    xmlShellPrintXPathError(errorType, arg);
-    Py_INCREF(Py_None);
-    return(Py_None);
-}
-
-#endif /* LIBXML_DEBUG_ENABLED */
 PyObject *
 libxml_xmlCatalogResolve(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
@@ -3221,21 +3342,9 @@ libxml_xmlTextReaderLocatorLineNumber(ATTRIBUTE_UNUSED PyObject *self, PyObject 
 }
 
 PyObject *
-libxml_xmlUCSIsCherokee(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+libxml_xmlTextConcat(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     int c_retval;
-    int code;
-
-    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCherokee", &code))
-        return(NULL);
-
-    c_retval = xmlUCSIsCherokee(code);
-    py_retval = libxml_intWrap((int) c_retval);
-    return(py_retval);
-}
-
-PyObject *
-libxml_xmlTextConcat(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     xmlNodePtr node;
     PyObject *pyobj_node;
     xmlChar * content;
@@ -3245,9 +3354,9 @@ libxml_xmlTextConcat(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
         return(NULL);
     node = (xmlNodePtr) PyxmlNode_Get(pyobj_node);
 
-    xmlTextConcat(node, content, len);
-    Py_INCREF(Py_None);
-    return(Py_None);
+    c_retval = xmlTextConcat(node, content, len);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
 }
 
 PyObject *
@@ -3501,6 +3610,20 @@ libxml_xmlUCSIsThai(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 PyObject *
+libxml_xmlUCSIsSmallFormVariants(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int code;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsSmallFormVariants", &code))
+        return(NULL);
+
+    c_retval = xmlUCSIsSmallFormVariants(code);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
 libxml_xmlSetCompressMode(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     int mode;
 
@@ -3631,7 +3754,7 @@ libxml_xmlURISetServer(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     if (URI->server != NULL) xmlFree(URI->server);
-    URI->server = xmlStrdup((const xmlChar *)server);
+    URI->server = (char *)xmlStrdup((const xmlChar *)server);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -3650,6 +3773,20 @@ libxml_xmlCopyDoc(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 
     c_retval = xmlCopyDoc(doc, recursive);
     py_retval = libxml_xmlDocPtrWrap((xmlDocPtr) c_retval);
+    return(py_retval);
+}
+
+PyObject *
+libxml_xmlUCSIsArabic(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int code;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsArabic", &code))
+        return(NULL);
+
+    c_retval = xmlUCSIsArabic(code);
+    py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
 
@@ -3678,6 +3815,20 @@ libxml_xmlUCSIsCat(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
         return(NULL);
 
     c_retval = xmlUCSIsCat(code, cat);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
+libxml_xmlThrDefSubstituteEntitiesDefaultValue(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int v;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlThrDefSubstituteEntitiesDefaultValue", &v))
+        return(NULL);
+
+    c_retval = xmlThrDefSubstituteEntitiesDefaultValue(v);
     py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
@@ -3715,6 +3866,20 @@ libxml_xmlTextReaderReadAttributeValue(ATTRIBUTE_UNUSED PyObject *self, PyObject
     reader = (xmlTextReaderPtr) PyxmlTextReader_Get(pyobj_reader);
 
     c_retval = xmlTextReaderReadAttributeValue(reader);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
+libxml_xmlThrDefIndentTreeOutput(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int v;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlThrDefIndentTreeOutput", &v))
+        return(NULL);
+
+    c_retval = xmlThrDefIndentTreeOutput(v);
     py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
@@ -3890,6 +4055,20 @@ libxml_xmlParseAttributeListDecl(ATTRIBUTE_UNUSED PyObject *self, PyObject *args
     xmlParseAttributeListDecl(ctxt);
     Py_INCREF(Py_None);
     return(Py_None);
+}
+
+PyObject *
+libxml_xmlValidateNamesValue(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlChar * value;
+
+    if (!PyArg_ParseTuple(args, (char *)"z:xmlValidateNamesValue", &value))
+        return(NULL);
+
+    c_retval = xmlValidateNamesValue(value);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
 }
 
 PyObject *
@@ -4147,9 +4326,23 @@ libxml_xmlURISetUser(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     if (URI->user != NULL) xmlFree(URI->user);
-    URI->user = xmlStrdup((const xmlChar *)user);
+    URI->user = (char *)xmlStrdup((const xmlChar *)user);
     Py_INCREF(Py_None);
     return(Py_None);
+}
+
+PyObject *
+libxml_xmlUCSIsCatLl(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int code;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCatLl", &code))
+        return(NULL);
+
+    c_retval = xmlUCSIsCatLl(code);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
 }
 
 PyObject *
@@ -4314,25 +4507,6 @@ libxml_xmlUCSIsHebrew(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     return(py_retval);
 }
 
-PyObject *
-libxml_xmlReconciliateNs(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    PyObject *py_retval;
-    int c_retval;
-    xmlDocPtr doc;
-    PyObject *pyobj_doc;
-    xmlNodePtr tree;
-    PyObject *pyobj_tree;
-
-    if (!PyArg_ParseTuple(args, (char *)"OO:xmlReconciliateNs", &pyobj_doc, &pyobj_tree))
-        return(NULL);
-    doc = (xmlDocPtr) PyxmlNode_Get(pyobj_doc);
-    tree = (xmlNodePtr) PyxmlNode_Get(pyobj_tree);
-
-    c_retval = xmlReconciliateNs(doc, tree);
-    py_retval = libxml_intWrap((int) c_retval);
-    return(py_retval);
-}
-
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
 libxml_xmlXPathLangFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
@@ -4350,20 +4524,30 @@ libxml_xmlXPathLangFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 #endif /* LIBXML_XPATH_ENABLED */
+#ifdef LIBXML_SCHEMAS_ENABLED
 PyObject *
-libxml_xmlUCSIsCatLl(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+libxml_xmlRelaxNGValidatePopElement(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     int c_retval;
-    int code;
+    xmlRelaxNGValidCtxtPtr ctxt;
+    PyObject *pyobj_ctxt;
+    xmlDocPtr doc;
+    PyObject *pyobj_doc;
+    xmlNodePtr elem;
+    PyObject *pyobj_elem;
 
-    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCatLl", &code))
+    if (!PyArg_ParseTuple(args, (char *)"OOO:xmlRelaxNGValidatePopElement", &pyobj_ctxt, &pyobj_doc, &pyobj_elem))
         return(NULL);
+    ctxt = (xmlRelaxNGValidCtxtPtr) PyrelaxNgValidCtxt_Get(pyobj_ctxt);
+    doc = (xmlDocPtr) PyxmlNode_Get(pyobj_doc);
+    elem = (xmlNodePtr) PyxmlNode_Get(pyobj_elem);
 
-    c_retval = xmlUCSIsCatLl(code);
+    c_retval = xmlRelaxNGValidatePopElement(ctxt, doc, elem);
     py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
 
+#endif /* LIBXML_SCHEMAS_ENABLED */
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
 libxml_xmlXPathEvalExpression(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
@@ -4637,20 +4821,24 @@ libxml_xmlNewCharRef(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     return(py_retval);
 }
 
+#ifdef LIBXML_SCHEMAS_ENABLED
 PyObject *
-libxml_xmlUCSIsArabic(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+libxml_xmlRelaxNGNewDocParserCtxt(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
-    int c_retval;
-    int code;
+    xmlRelaxNGParserCtxtPtr c_retval;
+    xmlDocPtr doc;
+    PyObject *pyobj_doc;
 
-    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsArabic", &code))
+    if (!PyArg_ParseTuple(args, (char *)"O:xmlRelaxNGNewDocParserCtxt", &pyobj_doc))
         return(NULL);
+    doc = (xmlDocPtr) PyxmlNode_Get(pyobj_doc);
 
-    c_retval = xmlUCSIsArabic(code);
-    py_retval = libxml_intWrap((int) c_retval);
+    c_retval = xmlRelaxNGNewDocParserCtxt(doc);
+    py_retval = libxml_xmlRelaxNGParserCtxtPtrWrap((xmlRelaxNGParserCtxtPtr) c_retval);
     return(py_retval);
 }
 
+#endif /* LIBXML_SCHEMAS_ENABLED */
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
 libxml_xmlXPathSubValues(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
@@ -4710,6 +4898,21 @@ libxml_xmlUCSIsGeometricShapes(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) 
     c_retval = xmlUCSIsGeometricShapes(code);
     py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
+}
+
+PyObject *
+libxml_xmlNodeSetBase(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    xmlNodePtr cur;
+    PyObject *pyobj_cur;
+    xmlChar * uri;
+
+    if (!PyArg_ParseTuple(args, (char *)"Oz:xmlNodeSetBase", &pyobj_cur, &uri))
+        return(NULL);
+    cur = (xmlNodePtr) PyxmlNode_Get(pyobj_cur);
+
+    xmlNodeSetBase(cur, uri);
+    Py_INCREF(Py_None);
+    return(Py_None);
 }
 
 PyObject *
@@ -4825,6 +5028,20 @@ libxml_xmlSaveFile(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 PyObject *
+libxml_xmlThrDefDefaultBufferSize(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int v;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlThrDefDefaultBufferSize", &v))
+        return(NULL);
+
+    c_retval = xmlThrDefDefaultBufferSize(v);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
 libxml_xmlNewNs(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     xmlNsPtr c_retval;
@@ -4928,22 +5145,20 @@ libxml_xmlACatalogResolveSystem(ATTRIBUTE_UNUSED PyObject *self, PyObject *args)
     return(py_retval);
 }
 
-#ifdef LIBXML_XPATH_ENABLED
 PyObject *
-libxml_xmlXPathNewFloat(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+libxml_xmlThrDefParserDebugEntities(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
-    xmlXPathObjectPtr c_retval;
-    double val;
+    int c_retval;
+    int v;
 
-    if (!PyArg_ParseTuple(args, (char *)"d:xmlXPathNewFloat", &val))
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlThrDefParserDebugEntities", &v))
         return(NULL);
 
-    c_retval = xmlXPathNewFloat(val);
-    py_retval = libxml_xmlXPathObjectPtrWrap((xmlXPathObjectPtr) c_retval);
+    c_retval = xmlThrDefParserDebugEntities(v);
+    py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
 
-#endif /* LIBXML_XPATH_ENABLED */
 PyObject *
 libxml_xmlCatalogConvert(ATTRIBUTE_UNUSED PyObject *self,ATTRIBUTE_UNUSED  PyObject *args) {
     PyObject *py_retval;
@@ -5020,6 +5235,22 @@ libxml_xmlUCSIsMusicalSymbols(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     return(py_retval);
 }
 
+#ifdef LIBXML_XPATH_ENABLED
+PyObject *
+libxml_xmlXPathNewString(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    xmlXPathObjectPtr c_retval;
+    xmlChar * val;
+
+    if (!PyArg_ParseTuple(args, (char *)"z:xmlXPathNewString", &val))
+        return(NULL);
+
+    c_retval = xmlXPathNewString(val);
+    py_retval = libxml_xmlXPathObjectPtrWrap((xmlXPathObjectPtr) c_retval);
+    return(py_retval);
+}
+
+#endif /* LIBXML_XPATH_ENABLED */
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
 libxml_xmlXPathParseName(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
@@ -5196,7 +5427,7 @@ libxml_xmlURISetPath(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     if (URI->path != NULL) xmlFree(URI->path);
-    URI->path = xmlStrdup((const xmlChar *)path);
+    URI->path = (char *)xmlStrdup((const xmlChar *)path);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -5417,21 +5648,6 @@ libxml_xmlSaveFormatFileTo(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 PyObject *
-libxml_xmlNodeSetBase(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    xmlNodePtr cur;
-    PyObject *pyobj_cur;
-    xmlChar * uri;
-
-    if (!PyArg_ParseTuple(args, (char *)"Oz:xmlNodeSetBase", &pyobj_cur, &uri))
-        return(NULL);
-    cur = (xmlNodePtr) PyxmlNode_Get(pyobj_cur);
-
-    xmlNodeSetBase(cur, uri);
-    Py_INCREF(Py_None);
-    return(Py_None);
-}
-
-PyObject *
 libxml_xmlUCSIsCatNl(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     int c_retval;
@@ -5523,16 +5739,19 @@ libxml_xmlXPtrNewLocationSetNodes(ATTRIBUTE_UNUSED PyObject *self, PyObject *arg
 
 #endif /* LIBXML_XPTR_ENABLED */
 PyObject *
-libxml_xmlUCSIsCombiningMarksforSymbols(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+libxml_xmlBuildQName(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
-    int c_retval;
-    int code;
+    xmlChar * c_retval;
+    xmlChar * ncname;
+    xmlChar * prefix;
+    xmlChar * memory;
+    int len;
 
-    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCombiningMarksforSymbols", &code))
+    if (!PyArg_ParseTuple(args, (char *)"zzzi:xmlBuildQName", &ncname, &prefix, &memory, &len))
         return(NULL);
 
-    c_retval = xmlUCSIsCombiningMarksforSymbols(code);
-    py_retval = libxml_intWrap((int) c_retval);
+    c_retval = xmlBuildQName(ncname, prefix, memory, len);
+    py_retval = libxml_xmlCharPtrWrap((xmlChar *) c_retval);
     return(py_retval);
 }
 
@@ -5642,6 +5861,22 @@ libxml_xmlNewDocFragment(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 
     c_retval = xmlNewDocFragment(doc);
     py_retval = libxml_xmlNodePtrWrap((xmlNodePtr) c_retval);
+    return(py_retval);
+}
+
+PyObject *
+libxml_xmlParserGetWellFormed(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlParserCtxtPtr ctxt;
+    PyObject *pyobj_ctxt;
+
+    if (!PyArg_ParseTuple(args, (char *)"O:xmlParserGetWellFormed", &pyobj_ctxt))
+        return(NULL);
+    ctxt = (xmlParserCtxtPtr) PyparserCtxt_Get(pyobj_ctxt);
+
+    c_retval = ctxt->wellFormed;
+    py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
 
@@ -5912,6 +6147,20 @@ libxml_xmlRegexpCompile(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 
 #endif /* LIBXML_REGEXP_ENABLED */
 PyObject *
+libxml_xmlThrDefGetWarningsDefaultValue(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int v;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlThrDefGetWarningsDefaultValue", &v))
+        return(NULL);
+
+    c_retval = xmlThrDefGetWarningsDefaultValue(v);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
 libxml_xmlParseMemory(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     xmlDocPtr c_retval;
@@ -6027,20 +6276,6 @@ libxml_xmlFreePropList(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     xmlFreePropList(cur);
     Py_INCREF(Py_None);
     return(Py_None);
-}
-
-PyObject *
-libxml_xmlUCSIsSmallFormVariants(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    PyObject *py_retval;
-    int c_retval;
-    int code;
-
-    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsSmallFormVariants", &code))
-        return(NULL);
-
-    c_retval = xmlUCSIsSmallFormVariants(code);
-    py_retval = libxml_intWrap((int) c_retval);
-    return(py_retval);
 }
 
 #ifdef LIBXML_HTML_ENABLED
@@ -6228,6 +6463,22 @@ libxml_xmlXPathNextPreceding(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 #endif /* LIBXML_XPATH_ENABLED */
+#ifdef LIBXML_XPATH_ENABLED
+PyObject *
+libxml_xmlXPathIsNodeType(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlChar * name;
+
+    if (!PyArg_ParseTuple(args, (char *)"z:xmlXPathIsNodeType", &name))
+        return(NULL);
+
+    c_retval = xmlXPathIsNodeType(name);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+#endif /* LIBXML_XPATH_ENABLED */
 PyObject *
 libxml_xmlURISetScheme(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     xmlURIPtr URI;
@@ -6239,7 +6490,7 @@ libxml_xmlURISetScheme(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     if (URI->scheme != NULL) xmlFree(URI->scheme);
-    URI->scheme = xmlStrdup((const xmlChar *)scheme);
+    URI->scheme = (char *)xmlStrdup((const xmlChar *)scheme);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -6363,7 +6614,7 @@ libxml_xmlURISetFragment(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     if (URI->fragment != NULL) xmlFree(URI->fragment);
-    URI->fragment = xmlStrdup((const xmlChar *)fragment);
+    URI->fragment = (char *)xmlStrdup((const xmlChar *)fragment);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -6739,6 +6990,26 @@ libxml_xmlUCSIsLetterlikeSymbols(ATTRIBUTE_UNUSED PyObject *self, PyObject *args
     return(py_retval);
 }
 
+#ifdef LIBXML_SCHEMAS_ENABLED
+PyObject *
+libxml_xmlRelaxNGValidatePushCData(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlRelaxNGValidCtxtPtr ctxt;
+    PyObject *pyobj_ctxt;
+    xmlChar * data;
+    int len;
+
+    if (!PyArg_ParseTuple(args, (char *)"Ozi:xmlRelaxNGValidatePushCData", &pyobj_ctxt, &data, &len))
+        return(NULL);
+    ctxt = (xmlRelaxNGValidCtxtPtr) PyrelaxNgValidCtxt_Get(pyobj_ctxt);
+
+    c_retval = xmlRelaxNGValidatePushCData(ctxt, data, len);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+#endif /* LIBXML_SCHEMAS_ENABLED */
 PyObject *
 libxml_xmlParserSetLoadSubset(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     xmlParserCtxtPtr ctxt;
@@ -6985,22 +7256,6 @@ libxml_xmlEncodeEntitiesReentrant(ATTRIBUTE_UNUSED PyObject *self, PyObject *arg
     return(py_retval);
 }
 
-#ifdef LIBXML_XPATH_ENABLED
-PyObject *
-libxml_xmlXPathMultValues(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    xmlXPathParserContextPtr ctxt;
-    PyObject *pyobj_ctxt;
-
-    if (!PyArg_ParseTuple(args, (char *)"O:xmlXPathMultValues", &pyobj_ctxt))
-        return(NULL);
-    ctxt = (xmlXPathParserContextPtr) PyxmlXPathParserContext_Get(pyobj_ctxt);
-
-    xmlXPathMultValues(ctxt);
-    Py_INCREF(Py_None);
-    return(Py_None);
-}
-
-#endif /* LIBXML_XPATH_ENABLED */
 PyObject *
 libxml_xmlUCSIsCJKUnifiedIdeographs(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
@@ -7059,7 +7314,7 @@ libxml_xmlURISetAuthority(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     if (URI->authority != NULL) xmlFree(URI->authority);
-    URI->authority = xmlStrdup((const xmlChar *)authority);
+    URI->authority = (char *)xmlStrdup((const xmlChar *)authority);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -7100,20 +7355,6 @@ libxml_xmlXPathNewParserContext(ATTRIBUTE_UNUSED PyObject *self, PyObject *args)
 
 #endif /* LIBXML_XPATH_ENABLED */
 PyObject *
-libxml_xmlValidateNamesValue(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    PyObject *py_retval;
-    int c_retval;
-    xmlChar * value;
-
-    if (!PyArg_ParseTuple(args, (char *)"z:xmlValidateNamesValue", &value))
-        return(NULL);
-
-    c_retval = xmlValidateNamesValue(value);
-    py_retval = libxml_intWrap((int) c_retval);
-    return(py_retval);
-}
-
-PyObject *
 libxml_xmlParseFile(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     xmlDocPtr c_retval;
@@ -7127,6 +7368,22 @@ libxml_xmlParseFile(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     return(py_retval);
 }
 
+#ifdef LIBXML_XPATH_ENABLED
+PyObject *
+libxml_xmlXPathNewFloat(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    xmlXPathObjectPtr c_retval;
+    double val;
+
+    if (!PyArg_ParseTuple(args, (char *)"d:xmlXPathNewFloat", &val))
+        return(NULL);
+
+    c_retval = xmlXPathNewFloat(val);
+    py_retval = libxml_xmlXPathObjectPtrWrap((xmlXPathObjectPtr) c_retval);
+    return(py_retval);
+}
+
+#endif /* LIBXML_XPATH_ENABLED */
 PyObject *
 libxml_xmlUCSIsNumberForms(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
@@ -7223,6 +7480,30 @@ libxml_xmlCatalogGetPublic(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     return(py_retval);
 }
 
+#ifdef LIBXML_SCHEMAS_ENABLED
+PyObject *
+libxml_xmlRelaxNGValidatePushElement(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlRelaxNGValidCtxtPtr ctxt;
+    PyObject *pyobj_ctxt;
+    xmlDocPtr doc;
+    PyObject *pyobj_doc;
+    xmlNodePtr elem;
+    PyObject *pyobj_elem;
+
+    if (!PyArg_ParseTuple(args, (char *)"OOO:xmlRelaxNGValidatePushElement", &pyobj_ctxt, &pyobj_doc, &pyobj_elem))
+        return(NULL);
+    ctxt = (xmlRelaxNGValidCtxtPtr) PyrelaxNgValidCtxt_Get(pyobj_ctxt);
+    doc = (xmlDocPtr) PyxmlNode_Get(pyobj_doc);
+    elem = (xmlNodePtr) PyxmlNode_Get(pyobj_elem);
+
+    c_retval = xmlRelaxNGValidatePushElement(ctxt, doc, elem);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+#endif /* LIBXML_SCHEMAS_ENABLED */
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
 libxml_xmlXPathTranslateFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
@@ -7468,7 +7749,7 @@ libxml_xmlURISetOpaque(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     URI = (xmlURIPtr) PyURI_Get(pyobj_URI);
 
     if (URI->opaque != NULL) xmlFree(URI->opaque);
-    URI->opaque = xmlStrdup((const xmlChar *)opaque);
+    URI->opaque = (char *)xmlStrdup((const xmlChar *)opaque);
     Py_INCREF(Py_None);
     return(Py_None);
 }
@@ -7565,6 +7846,39 @@ libxml_xmlDelEncodingAlias(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 PyObject *
+libxml_xmlTextReaderRelaxNGValidate(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlTextReaderPtr reader;
+    PyObject *pyobj_reader;
+    char * rng;
+
+    if (!PyArg_ParseTuple(args, (char *)"Oz:xmlTextReaderRelaxNGValidate", &pyobj_reader, &rng))
+        return(NULL);
+    reader = (xmlTextReaderPtr) PyxmlTextReader_Get(pyobj_reader);
+
+    c_retval = xmlTextReaderRelaxNGValidate(reader, rng);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
+libxml_xmlNodeSetContentLen(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    xmlNodePtr cur;
+    PyObject *pyobj_cur;
+    xmlChar * content;
+    int len;
+
+    if (!PyArg_ParseTuple(args, (char *)"Ozi:xmlNodeSetContentLen", &pyobj_cur, &content, &len))
+        return(NULL);
+    cur = (xmlNodePtr) PyxmlNode_Get(pyobj_cur);
+
+    xmlNodeSetContentLen(cur, content, len);
+    Py_INCREF(Py_None);
+    return(Py_None);
+}
+
+PyObject *
 libxml_xmlNewNodeEatName(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     xmlNodePtr c_retval;
@@ -7621,6 +7935,20 @@ libxml_xmlIsCombining(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
         return(NULL);
 
     c_retval = xmlIsCombining(c);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
+libxml_xmlThrDefPedanticParserDefaultValue(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int v;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlThrDefPedanticParserDefaultValue", &v))
+        return(NULL);
+
+    c_retval = xmlThrDefPedanticParserDefaultValue(v);
     py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
@@ -7819,6 +8147,38 @@ libxml_xmlOutputBufferFlush(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     out = (xmlOutputBufferPtr) PyoutputBuffer_Get(pyobj_out);
 
     c_retval = xmlOutputBufferFlush(out);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+#ifdef LIBXML_XPATH_ENABLED
+PyObject *
+libxml_xmlXPathOrderDocElems(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    long c_retval;
+    xmlDocPtr doc;
+    PyObject *pyobj_doc;
+
+    if (!PyArg_ParseTuple(args, (char *)"O:xmlXPathOrderDocElems", &pyobj_doc))
+        return(NULL);
+    doc = (xmlDocPtr) PyxmlNode_Get(pyobj_doc);
+
+    c_retval = xmlXPathOrderDocElems(doc);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+#endif /* LIBXML_XPATH_ENABLED */
+PyObject *
+libxml_xmlUTF8Size(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlChar * utf;
+
+    if (!PyArg_ParseTuple(args, (char *)"z:xmlUTF8Size", &utf))
+        return(NULL);
+
+    c_retval = xmlUTF8Size(utf);
     py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
@@ -8033,22 +8393,25 @@ libxml_xmlXPathVariableLookup(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 #endif /* LIBXML_XPATH_ENABLED */
-#ifdef LIBXML_XPATH_ENABLED
 PyObject *
-libxml_xmlXPathStringEvalNumber(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+libxml_xmlTextReaderRelaxNGSetSchema(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
-    double c_retval;
-    xmlChar * str;
+    int c_retval;
+    xmlTextReaderPtr reader;
+    PyObject *pyobj_reader;
+    xmlRelaxNGPtr schema;
+    PyObject *pyobj_schema;
 
-    if (!PyArg_ParseTuple(args, (char *)"z:xmlXPathStringEvalNumber", &str))
+    if (!PyArg_ParseTuple(args, (char *)"OO:xmlTextReaderRelaxNGSetSchema", &pyobj_reader, &pyobj_schema))
         return(NULL);
+    reader = (xmlTextReaderPtr) PyxmlTextReader_Get(pyobj_reader);
+    schema = (xmlRelaxNGPtr) PyrelaxNgSchema_Get(pyobj_schema);
 
-    c_retval = xmlXPathStringEvalNumber(str);
-    py_retval = libxml_doubleWrap((double) c_retval);
+    c_retval = xmlTextReaderRelaxNGSetSchema(reader, schema);
+    py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
 
-#endif /* LIBXML_XPATH_ENABLED */
 PyObject *
 libxml_xmlUCSIsKanbun(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
@@ -8368,6 +8731,23 @@ libxml_xmlXPathNumberFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 #endif /* LIBXML_XPATH_ENABLED */
+#ifdef LIBXML_XPATH_ENABLED
+PyObject *
+libxml_xmlXPathRoundFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    xmlXPathParserContextPtr ctxt;
+    PyObject *pyobj_ctxt;
+    int nargs;
+
+    if (!PyArg_ParseTuple(args, (char *)"Oi:xmlXPathRoundFunction", &pyobj_ctxt, &nargs))
+        return(NULL);
+    ctxt = (xmlXPathParserContextPtr) PyxmlXPathParserContext_Get(pyobj_ctxt);
+
+    xmlXPathRoundFunction(ctxt, nargs);
+    Py_INCREF(Py_None);
+    return(Py_None);
+}
+
+#endif /* LIBXML_XPATH_ENABLED */
 PyObject *
 libxml_xmlUCSIsDingbats(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
@@ -8494,6 +8874,22 @@ libxml_xmlUCSIsHangulSyllables(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) 
 }
 
 PyObject *
+libxml_xmlCopyNamespaceList(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    xmlNsPtr c_retval;
+    xmlNsPtr cur;
+    PyObject *pyobj_cur;
+
+    if (!PyArg_ParseTuple(args, (char *)"O:xmlCopyNamespaceList", &pyobj_cur))
+        return(NULL);
+    cur = (xmlNsPtr) PyxmlNode_Get(pyobj_cur);
+
+    c_retval = xmlCopyNamespaceList(cur);
+    py_retval = libxml_xmlNsPtrWrap((xmlNsPtr) c_retval);
+    return(py_retval);
+}
+
+PyObject *
 libxml_xmlStrndup(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     xmlChar * c_retval;
@@ -8599,6 +8995,20 @@ libxml_xmlTextReaderReadInnerXml(ATTRIBUTE_UNUSED PyObject *self, PyObject *args
 
     c_retval = xmlTextReaderReadInnerXml(reader);
     py_retval = libxml_xmlCharPtrWrap((xmlChar *) c_retval);
+    return(py_retval);
+}
+
+PyObject *
+libxml_xmlThrDefKeepBlanksDefaultValue(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int v;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlThrDefKeepBlanksDefaultValue", &v))
+        return(NULL);
+
+    c_retval = xmlThrDefKeepBlanksDefaultValue(v);
+    py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
 
@@ -8760,17 +9170,18 @@ libxml_htmlParseCharRef(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 #endif /* LIBXML_HTML_ENABLED */
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
-libxml_xmlXPathIsNodeType(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    PyObject *py_retval;
-    int c_retval;
-    xmlChar * name;
+libxml_xmlXPathConcatFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    xmlXPathParserContextPtr ctxt;
+    PyObject *pyobj_ctxt;
+    int nargs;
 
-    if (!PyArg_ParseTuple(args, (char *)"z:xmlXPathIsNodeType", &name))
+    if (!PyArg_ParseTuple(args, (char *)"Oi:xmlXPathConcatFunction", &pyobj_ctxt, &nargs))
         return(NULL);
+    ctxt = (xmlXPathParserContextPtr) PyxmlXPathParserContext_Get(pyobj_ctxt);
 
-    c_retval = xmlXPathIsNodeType(name);
-    py_retval = libxml_intWrap((int) c_retval);
-    return(py_retval);
+    xmlXPathConcatFunction(ctxt, nargs);
+    Py_INCREF(Py_None);
+    return(Py_None);
 }
 
 #endif /* LIBXML_XPATH_ENABLED */
@@ -8837,6 +9248,21 @@ libxml_xmlXPathSubstringBeforeFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject
 }
 
 #endif /* LIBXML_XPATH_ENABLED */
+PyObject *
+libxml_xmlUTF8Charcmp(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlChar * utf1;
+    xmlChar * utf2;
+
+    if (!PyArg_ParseTuple(args, (char *)"zz:xmlUTF8Charcmp", &utf1, &utf2))
+        return(NULL);
+
+    c_retval = xmlUTF8Charcmp(utf1, utf2);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
 libxml_xmlXPathNextFollowing(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
@@ -8930,6 +9356,16 @@ libxml_xmlXPathNewNodeSet(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 #endif /* LIBXML_XPATH_ENABLED */
+#ifdef LIBXML_SCHEMAS_ENABLED
+PyObject *
+libxml_xmlSchemaInitTypes(ATTRIBUTE_UNUSED PyObject *self,ATTRIBUTE_UNUSED  PyObject *args) {
+
+    xmlSchemaInitTypes();
+    Py_INCREF(Py_None);
+    return(Py_None);
+}
+
+#endif /* LIBXML_SCHEMAS_ENABLED */
 PyObject *
 libxml_xmlNewTextChild(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
@@ -8972,6 +9408,21 @@ libxml_xmlStringDecodeEntities(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) 
     return(py_retval);
 }
 
+#ifdef LIBXML_DEBUG_ENABLED
+PyObject *
+libxml_xmlShellPrintXPathError(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    int errorType;
+    char * arg;
+
+    if (!PyArg_ParseTuple(args, (char *)"iz:xmlShellPrintXPathError", &errorType, &arg))
+        return(NULL);
+
+    xmlShellPrintXPathError(errorType, arg);
+    Py_INCREF(Py_None);
+    return(Py_None);
+}
+
+#endif /* LIBXML_DEBUG_ENABLED */
 PyObject *
 libxml_xmlFreeCatalog(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     xmlCatalogPtr catal;
@@ -9316,22 +9767,30 @@ libxml_xmlStrchr(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     return(py_retval);
 }
 
+#ifdef LIBXML_SCHEMAS_ENABLED
 PyObject *
-libxml_xmlXPathGetContextSize(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+libxml_xmlRelaxNGValidateFullElement(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     int c_retval;
-    xmlXPathContextPtr ctxt;
+    xmlRelaxNGValidCtxtPtr ctxt;
     PyObject *pyobj_ctxt;
+    xmlDocPtr doc;
+    PyObject *pyobj_doc;
+    xmlNodePtr elem;
+    PyObject *pyobj_elem;
 
-    if (!PyArg_ParseTuple(args, (char *)"O:xmlXPathGetContextSize", &pyobj_ctxt))
+    if (!PyArg_ParseTuple(args, (char *)"OOO:xmlRelaxNGValidateFullElement", &pyobj_ctxt, &pyobj_doc, &pyobj_elem))
         return(NULL);
-    ctxt = (xmlXPathContextPtr) PyxmlXPathContext_Get(pyobj_ctxt);
+    ctxt = (xmlRelaxNGValidCtxtPtr) PyrelaxNgValidCtxt_Get(pyobj_ctxt);
+    doc = (xmlDocPtr) PyxmlNode_Get(pyobj_doc);
+    elem = (xmlNodePtr) PyxmlNode_Get(pyobj_elem);
 
-    c_retval = ctxt->contextSize;
+    c_retval = xmlRelaxNGValidateFullElement(ctxt, doc, elem);
     py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }
 
+#endif /* LIBXML_SCHEMAS_ENABLED */
 PyObject *
 libxml_xmlURIGetPath(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
@@ -9455,6 +9914,20 @@ libxml_xmlTextReaderIsEmptyElement(ATTRIBUTE_UNUSED PyObject *self, PyObject *ar
 }
 
 PyObject *
+libxml_xmlUCSIsCherokee(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int code;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCherokee", &code))
+        return(NULL);
+
+    c_retval = xmlUCSIsCherokee(code);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
 libxml_xmlCheckUTF8(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     int c_retval;
@@ -9468,23 +9941,24 @@ libxml_xmlCheckUTF8(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     return(py_retval);
 }
 
-#ifdef LIBXML_XPATH_ENABLED
+#ifdef LIBXML_XINCLUDE_ENABLED
 PyObject *
-libxml_xmlXPathNotFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    xmlXPathParserContextPtr ctxt;
-    PyObject *pyobj_ctxt;
-    int nargs;
+libxml_xmlXIncludeProcessTree(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    xmlNodePtr tree;
+    PyObject *pyobj_tree;
 
-    if (!PyArg_ParseTuple(args, (char *)"Oi:xmlXPathNotFunction", &pyobj_ctxt, &nargs))
+    if (!PyArg_ParseTuple(args, (char *)"O:xmlXIncludeProcessTree", &pyobj_tree))
         return(NULL);
-    ctxt = (xmlXPathParserContextPtr) PyxmlXPathParserContext_Get(pyobj_ctxt);
+    tree = (xmlNodePtr) PyxmlNode_Get(pyobj_tree);
 
-    xmlXPathNotFunction(ctxt, nargs);
-    Py_INCREF(Py_None);
-    return(Py_None);
+    c_retval = xmlXIncludeProcessTree(tree);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
 }
 
-#endif /* LIBXML_XPATH_ENABLED */
+#endif /* LIBXML_XINCLUDE_ENABLED */
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
 libxml_xmlXPathRegisteredVariablesCleanup(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
@@ -9501,6 +9975,20 @@ libxml_xmlXPathRegisteredVariablesCleanup(ATTRIBUTE_UNUSED PyObject *self, PyObj
 }
 
 #endif /* LIBXML_XPATH_ENABLED */
+PyObject *
+libxml_xmlUCSIsCatP(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int code;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCatP", &code))
+        return(NULL);
+
+    c_retval = xmlUCSIsCatP(code);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
 PyObject *
 libxml_xmlUCSIsCatPf(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
@@ -9532,20 +10020,6 @@ libxml_xmlXPathLastFunction(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 #endif /* LIBXML_XPATH_ENABLED */
-PyObject *
-libxml_xmlUCSIsCatPo(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    PyObject *py_retval;
-    int c_retval;
-    int code;
-
-    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCatPo", &code))
-        return(NULL);
-
-    c_retval = xmlUCSIsCatPo(code);
-    py_retval = libxml_intWrap((int) c_retval);
-    return(py_retval);
-}
-
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
 libxml_xmlXPathNextChild(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
@@ -9611,20 +10085,22 @@ libxml_xmlNodeGetSpacePreserve(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) 
     return(py_retval);
 }
 
+#ifdef LIBXML_XPATH_ENABLED
 PyObject *
-libxml_xmlCatalogResolveURI(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    PyObject *py_retval;
-    xmlChar * c_retval;
-    xmlChar * URI;
+libxml_xmlXPathMultValues(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    xmlXPathParserContextPtr ctxt;
+    PyObject *pyobj_ctxt;
 
-    if (!PyArg_ParseTuple(args, (char *)"z:xmlCatalogResolveURI", &URI))
+    if (!PyArg_ParseTuple(args, (char *)"O:xmlXPathMultValues", &pyobj_ctxt))
         return(NULL);
+    ctxt = (xmlXPathParserContextPtr) PyxmlXPathParserContext_Get(pyobj_ctxt);
 
-    c_retval = xmlCatalogResolveURI(URI);
-    py_retval = libxml_xmlCharPtrWrap((xmlChar *) c_retval);
-    return(py_retval);
+    xmlXPathMultValues(ctxt);
+    Py_INCREF(Py_None);
+    return(Py_None);
 }
 
+#endif /* LIBXML_XPATH_ENABLED */
 #ifdef LIBXML_XPATH_ENABLED
 PyObject *
 libxml_xmlXPathPopNumber(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
@@ -9941,6 +10417,20 @@ libxml_xmlUCSIsYiSyllables(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 PyObject *
+libxml_xmlUCSIsCatLm(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int code;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCatLm", &code))
+        return(NULL);
+
+    c_retval = xmlUCSIsCatLm(code);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
 libxml_xmlGetLineNo(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     long c_retval;
@@ -9957,9 +10447,23 @@ libxml_xmlGetLineNo(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 PyObject *
+libxml_xmlThrDefTreeIndentString(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    const char * c_retval;
+    char * v;
+
+    if (!PyArg_ParseTuple(args, (char *)"z:xmlThrDefTreeIndentString", &v))
+        return(NULL);
+
+    c_retval = xmlThrDefTreeIndentString(v);
+    py_retval = libxml_charPtrConstWrap((const char *) c_retval);
+    return(py_retval);
+}
+
+PyObject *
 libxml_xmlParseEncodingDecl(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
-    xmlChar * c_retval;
+    const xmlChar * c_retval;
     xmlParserCtxtPtr ctxt;
     PyObject *pyobj_ctxt;
 
@@ -9968,7 +10472,7 @@ libxml_xmlParseEncodingDecl(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     ctxt = (xmlParserCtxtPtr) PyparserCtxt_Get(pyobj_ctxt);
 
     c_retval = xmlParseEncodingDecl(ctxt);
-    py_retval = libxml_xmlCharPtrWrap((xmlChar *) c_retval);
+    py_retval = libxml_xmlCharPtrConstWrap((const xmlChar *) c_retval);
     return(py_retval);
 }
 
@@ -10222,6 +10726,20 @@ libxml_xmlDebugDumpDocument(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 
 #endif /* LIBXML_DEBUG_ENABLED */
 PyObject *
+libxml_xmlThrDefSaveNoEmptyTags(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+    PyObject *py_retval;
+    int c_retval;
+    int v;
+
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlThrDefSaveNoEmptyTags", &v))
+        return(NULL);
+
+    c_retval = xmlThrDefSaveNoEmptyTags(v);
+    py_retval = libxml_intWrap((int) c_retval);
+    return(py_retval);
+}
+
+PyObject *
 libxml_xmlUCSIsGreek(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     int c_retval;
@@ -10270,22 +10788,6 @@ libxml_xmlTextReaderGetAttribute(ATTRIBUTE_UNUSED PyObject *self, PyObject *args
     c_retval = xmlTextReaderGetAttribute(reader, name);
     py_retval = libxml_xmlCharPtrWrap((xmlChar *) c_retval);
     return(py_retval);
-}
-
-PyObject *
-libxml_xmlNodeSetContentLen(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    xmlNodePtr cur;
-    PyObject *pyobj_cur;
-    xmlChar * content;
-    int len;
-
-    if (!PyArg_ParseTuple(args, (char *)"Ozi:xmlNodeSetContentLen", &pyobj_cur, &content, &len))
-        return(NULL);
-    cur = (xmlNodePtr) PyxmlNode_Get(pyobj_cur);
-
-    xmlNodeSetContentLen(cur, content, len);
-    Py_INCREF(Py_None);
-    return(Py_None);
 }
 
 #ifdef LIBXML_HTML_ENABLED
@@ -10391,22 +10893,6 @@ libxml_xmlNewDoc(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     return(py_retval);
 }
 
-#ifdef LIBXML_SCHEMAS_ENABLED
-PyObject *
-libxml_xmlRelaxNGFreeValidCtxt(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
-    xmlRelaxNGValidCtxtPtr ctxt;
-    PyObject *pyobj_ctxt;
-
-    if (!PyArg_ParseTuple(args, (char *)"O:xmlRelaxNGFreeValidCtxt", &pyobj_ctxt))
-        return(NULL);
-    ctxt = (xmlRelaxNGValidCtxtPtr) PyrelaxNgValidCtxt_Get(pyobj_ctxt);
-
-    xmlRelaxNGFreeValidCtxt(ctxt);
-    Py_INCREF(Py_None);
-    return(Py_None);
-}
-
-#endif /* LIBXML_SCHEMAS_ENABLED */
 PyObject *
 libxml_xmlDocSetRootElement(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
@@ -10719,15 +11205,15 @@ libxml_xmlParseReference(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
 }
 
 PyObject *
-libxml_xmlUCSIsCatMn(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
+libxml_xmlThrDefLineNumbersDefaultValue(ATTRIBUTE_UNUSED PyObject *self, PyObject *args) {
     PyObject *py_retval;
     int c_retval;
-    int code;
+    int v;
 
-    if (!PyArg_ParseTuple(args, (char *)"i:xmlUCSIsCatMn", &code))
+    if (!PyArg_ParseTuple(args, (char *)"i:xmlThrDefLineNumbersDefaultValue", &v))
         return(NULL);
 
-    c_retval = xmlUCSIsCatMn(code);
+    c_retval = xmlThrDefLineNumbersDefaultValue(v);
     py_retval = libxml_intWrap((int) c_retval);
     return(py_retval);
 }

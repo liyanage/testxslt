@@ -31,7 +31,8 @@ xmllint \- command line XML tool
         | \fB--noblanks\fR | \fB--format\fR | \fB--testIO\fR | \fB--encode \fIencoding\fR\fR
         | \fB--catalogs\fR | \fB--nocatalogs\fR | \fB--auto\fR | \fB--xinclude\fR
         | \fB--loaddtd\fR | \fB--dtdattr\fR | \fB--dropdtd\fR | \fB--stream\fR
-        | \fB--chkregister\fR] [\fBxmlfile\fR]
+        | \fB--chkregister\fR | \fB--relaxng\fR | \fB--schema\fR | \fB--nonet\fR]
+        [\fBxmlfile\fR]
 .fi
 
 .SH "INTRODUCTION"
@@ -138,7 +139,7 @@ Drop ignorable blank spaces.
 
 .TP
 \fB--format\fR
-Reformat and reindent the output.
+Reformat and reindent the output. The $XMLLINT_INDENT environment variable controls the indentation (default value is two spaces " ").
 
 .TP
 \fB--testIO\fR
@@ -178,11 +179,23 @@ Remove DTD from output.
 
 .TP
 \fB--stream\fR
-Use streaming API - useful for validation of files that are too large to be held in memory.
+Use streaming API - useful when used in combination with --relaxng or --valid options for validation of files that are too large to be held in memory.
 
 .TP
 \fB--chkregister\fR
 Turn on node registration. Useful for developeres testing libxml2 node tracking code.
+
+.TP
+\fB--relaxng\fR \fIschema\fR
+Use RelaxNG file named \fIschema\fR for validation.
+
+.TP
+\fB--schema\fR \fIschema\fR
+Use a W3C XML Schema file named \fIschema\fR for validation.
+
+.TP
+\fB--nonet\fR
+Do not use the Internet to fetch DTD's or entities.
 
 .SH "SHELL"
 

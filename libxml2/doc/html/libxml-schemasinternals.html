@@ -1,327 +1,77 @@
-<HTML
-><HEAD
-><TITLE
->schemasInternals</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.76b+
-"><LINK
-REL="HOME"
-TITLE="Gnome XML Library Reference Manual"
-HREF="book1.html"><LINK
-REL="UP"
-TITLE="Libxml Library Reference"
-HREF="libxml-lib.html"><LINK
-REL="PREVIOUS"
-TITLE="xmlschemastypes"
-HREF="libxml-xmlschemastypes.html"></HEAD
-><BODY
-CLASS="REFENTRY"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-WIDTH="100%"
-BORDER="0"
-BGCOLOR="#000000"
-CELLPADDING="1"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="4"
-ALIGN="center"
-><FONT
-COLOR="#FFFFFF"
-SIZE="5"
->Gnome XML Library Reference Manual</FONT
-></TH
-></TR
-><TR
-><TD
-WIDTH="25%"
-BGCOLOR="#C00000"
-ALIGN="left"
-><A
-HREF="libxml-xmlschemastypes.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->&#60;&#60;&#60; Previous Page</B
-></FONT
-></A
-></TD
-><TD
-WIDTH="25%"
-BGCOLOR="#0000C0"
-ALIGN="center"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
-><A
-HREF="book1.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->Home</B
-></FONT
-></A
-></B
-></FONT
-></TD
-><TD
-WIDTH="25%"
-BGCOLOR="#00C000"
-ALIGN="center"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
-><A
-HREF="libxml-lib.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->Up</B
-></FONT
-></A
-></B
-></FONT
-></TD
-><TD
-WIDTH="25%"
-BGCOLOR="#C00000"
-ALIGN="right"
->&nbsp;</TD
-></TR
-></TABLE
-></DIV
-><H1
-><A
-NAME="LIBXML-SCHEMASINTERNALS">schemasInternals</H1
-><DIV
-CLASS="REFNAMEDIV"
-><A
-NAME="AEN31773"
-></A
-><H2
->Name</H2
->schemasInternals&nbsp;--&nbsp;</DIV
-><DIV
-CLASS="REFSYNOPSISDIV"
-><A
-NAME="AEN31776"><H2
->Synopsis</H2
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="SYNOPSIS"
->&#13;
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>schemasInternals</title><meta name="generator" content="DocBook XSL Stylesheets V1.58.1"><style xmlns="http://www.w3.org/TR/xhtml1/transitional" type="text/css">
+        .synopsis, .classsynopsis {
+            background: #eeeeee;
+            border: solid 1px #aaaaaa;
+            padding: 0.5em;
+        }
+        .programlisting {
+            background: #eeeeff;
+            border: solid 1px #aaaaff;
+            padding: 0.5em;
+        }
+        .variablelist {
+            padding: 4px;
+            margin-left: 3em;
+        }
+        .navigation {
+            background: #ffeeee;
+            border: solid 1px #ffaaaa;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        .navigation a {
+            color: #770000;
+        }
+        .navigation a:visited {
+            color: #550000;
+        }
+        .navigation .title {
+            font-size: 200%;
+        }
+      </style><link rel="home" href="index.html" title="Gnome XML Library Reference Manual"><link rel="up" href="libxml-lib.html" title="Libxml Library Reference"><link rel="previous" href="libxml-xmlschemastypes.html" title="xmlschemastypes"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table xmlns="http://www.w3.org/TR/xhtml1/transitional" class="navigation" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle"><td><a accesskey="p" href="libxml-xmlschemastypes.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></img></a></td><td><a accesskey="u" href="libxml-lib.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></img></a></td><td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></img></a></td><th width="100%" align="center">Gnome XML Library Reference Manual</th></tr></table><div class="refentry" lang="en"><a name="libxml-schemasInternals"></a><div class="titlepage"></div><div class="refnamediv"><h2>schemasInternals</h2><p>schemasInternals &#8212; </p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><pre class="synopsis">
 
-enum        <A
-HREF="libxml-schemasinternals.html#XMLSCHEMATYPETYPE"
->xmlSchemaTypeType</A
->;
-enum        <A
-HREF="libxml-schemasinternals.html#XMLSCHEMACONTENTTYPE"
->xmlSchemaContentType</A
->;
-struct      <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAVAL"
->xmlSchemaVal</A
->;
-typedef     <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAVALPTR"
->xmlSchemaValPtr</A
->;
-struct      <A
-HREF="libxml-schemasinternals.html#XMLSCHEMATYPE"
->xmlSchemaType</A
->;
-typedef     <A
-HREF="libxml-schemasinternals.html#XMLSCHEMATYPEPTR"
->xmlSchemaTypePtr</A
->;
-struct      <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAFACET"
->xmlSchemaFacet</A
->;
-typedef     <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAFACETPTR"
->xmlSchemaFacetPtr</A
->;
-struct      <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAANNOT"
->xmlSchemaAnnot</A
->;
-typedef     <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAANNOTPTR"
->xmlSchemaAnnotPtr</A
->;
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-ANYATTR-SKIP-CAPS"
->XML_SCHEMAS_ANYATTR_SKIP</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-ANYATTR-LAX-CAPS"
->XML_SCHEMAS_ANYATTR_LAX</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-ANYATTR-STRICT-CAPS"
->XML_SCHEMAS_ANYATTR_STRICT</A
->
-struct      <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAATTRIBUTE"
->xmlSchemaAttribute</A
->;
-typedef     <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAATTRIBUTEPTR"
->xmlSchemaAttributePtr</A
->;
-struct      <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAATTRIBUTEGROUP"
->xmlSchemaAttributeGroup</A
->;
-typedef     <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAATTRIBUTEGROUPPTR"
->xmlSchemaAttributeGroupPtr</A
->;
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-TYPE-MIXED-CAPS"
->XML_SCHEMAS_TYPE_MIXED</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-ELEM-NILLABLE-CAPS"
->XML_SCHEMAS_ELEM_NILLABLE</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-ELEM-GLOBAL-CAPS"
->XML_SCHEMAS_ELEM_GLOBAL</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-ELEM-DEFAULT-CAPS"
->XML_SCHEMAS_ELEM_DEFAULT</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-ELEM-FIXED-CAPS"
->XML_SCHEMAS_ELEM_FIXED</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-ELEM-ABSTRACT-CAPS"
->XML_SCHEMAS_ELEM_ABSTRACT</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-ELEM-TOPLEVEL-CAPS"
->XML_SCHEMAS_ELEM_TOPLEVEL</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-ELEM-REF-CAPS"
->XML_SCHEMAS_ELEM_REF</A
->
-struct      <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAELEMENT"
->xmlSchemaElement</A
->;
-typedef     <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAELEMENTPTR"
->xmlSchemaElementPtr</A
->;
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-FACET-UNKNOWN-CAPS"
->XML_SCHEMAS_FACET_UNKNOWN</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-FACET-PRESERVE-CAPS"
->XML_SCHEMAS_FACET_PRESERVE</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-FACET-REPLACE-CAPS"
->XML_SCHEMAS_FACET_REPLACE</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-FACET-COLLAPSE-CAPS"
->XML_SCHEMAS_FACET_COLLAPSE</A
->
-struct      <A
-HREF="libxml-schemasinternals.html#XMLSCHEMANOTATION"
->xmlSchemaNotation</A
->;
-typedef     <A
-HREF="libxml-schemasinternals.html#XMLSCHEMANOTATIONPTR"
->xmlSchemaNotationPtr</A
->;
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-QUALIF-ELEM-CAPS"
->XML_SCHEMAS_QUALIF_ELEM</A
->
-#define     <A
-HREF="libxml-schemasinternals.html#XML-SCHEMAS-QUALIF-ATTR-CAPS"
->XML_SCHEMAS_QUALIF_ATTR</A
->
-struct      <A
-HREF="libxml-xmlschemas.html#XMLSCHEMA"
->xmlSchema</A
->;
-void        <A
-HREF="libxml-schemasinternals.html#XMLSCHEMAFREETYPE"
->xmlSchemaFreeType</A
->               (<A
-HREF="libxml-schemasinternals.html#XMLSCHEMATYPEPTR"
->xmlSchemaTypePtr</A
-> type);</PRE
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="REFSECT1"
-><A
-NAME="AEN31817"
-></A
-><H2
->Description</H2
-><P
-></P
-></DIV
-><DIV
-CLASS="REFSECT1"
-><A
-NAME="AEN31820"
-></A
-><H2
->Details</H2
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31822"
-></A
-><H3
-><A
-NAME="XMLSCHEMATYPETYPE"
-></A
->enum xmlSchemaTypeType</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef enum {
+
+
+enum        <a href="libxml-schemasInternals.html#xmlSchemaTypeType">xmlSchemaTypeType</a>;
+enum        <a href="libxml-schemasInternals.html#xmlSchemaContentType">xmlSchemaContentType</a>;
+struct      <a href="libxml-schemasInternals.html#xmlSchemaVal">xmlSchemaVal</a>;
+typedef     <a href="libxml-schemasInternals.html#xmlSchemaValPtr">xmlSchemaValPtr</a>;
+struct      <a href="libxml-schemasInternals.html#xmlSchemaType">xmlSchemaType</a>;
+typedef     <a href="libxml-schemasInternals.html#xmlSchemaTypePtr">xmlSchemaTypePtr</a>;
+struct      <a href="libxml-schemasInternals.html#xmlSchemaFacet">xmlSchemaFacet</a>;
+typedef     <a href="libxml-schemasInternals.html#xmlSchemaFacetPtr">xmlSchemaFacetPtr</a>;
+struct      <a href="libxml-schemasInternals.html#xmlSchemaAnnot">xmlSchemaAnnot</a>;
+typedef     <a href="libxml-schemasInternals.html#xmlSchemaAnnotPtr">xmlSchemaAnnotPtr</a>;
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-ANYATTR-SKIP-CAPS">XML_SCHEMAS_ANYATTR_SKIP</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-ANYATTR-LAX-CAPS">XML_SCHEMAS_ANYATTR_LAX</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-ANYATTR-STRICT-CAPS">XML_SCHEMAS_ANYATTR_STRICT</a>
+struct      <a href="libxml-schemasInternals.html#xmlSchemaAttribute">xmlSchemaAttribute</a>;
+typedef     <a href="libxml-schemasInternals.html#xmlSchemaAttributePtr">xmlSchemaAttributePtr</a>;
+struct      <a href="libxml-schemasInternals.html#xmlSchemaAttributeGroup">xmlSchemaAttributeGroup</a>;
+typedef     <a href="libxml-schemasInternals.html#xmlSchemaAttributeGroupPtr">xmlSchemaAttributeGroupPtr</a>;
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-TYPE-MIXED-CAPS">XML_SCHEMAS_TYPE_MIXED</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-ELEM-NILLABLE-CAPS">XML_SCHEMAS_ELEM_NILLABLE</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-ELEM-GLOBAL-CAPS">XML_SCHEMAS_ELEM_GLOBAL</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-ELEM-DEFAULT-CAPS">XML_SCHEMAS_ELEM_DEFAULT</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-ELEM-FIXED-CAPS">XML_SCHEMAS_ELEM_FIXED</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-ELEM-ABSTRACT-CAPS">XML_SCHEMAS_ELEM_ABSTRACT</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-ELEM-TOPLEVEL-CAPS">XML_SCHEMAS_ELEM_TOPLEVEL</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-ELEM-REF-CAPS">XML_SCHEMAS_ELEM_REF</a>
+struct      <a href="libxml-schemasInternals.html#xmlSchemaElement">xmlSchemaElement</a>;
+typedef     <a href="libxml-schemasInternals.html#xmlSchemaElementPtr">xmlSchemaElementPtr</a>;
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-FACET-UNKNOWN-CAPS">XML_SCHEMAS_FACET_UNKNOWN</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-FACET-PRESERVE-CAPS">XML_SCHEMAS_FACET_PRESERVE</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-FACET-REPLACE-CAPS">XML_SCHEMAS_FACET_REPLACE</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-FACET-COLLAPSE-CAPS">XML_SCHEMAS_FACET_COLLAPSE</a>
+struct      <a href="libxml-schemasInternals.html#xmlSchemaNotation">xmlSchemaNotation</a>;
+typedef     <a href="libxml-schemasInternals.html#xmlSchemaNotationPtr">xmlSchemaNotationPtr</a>;
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-QUALIF-ELEM-CAPS">XML_SCHEMAS_QUALIF_ELEM</a>
+#define     <a href="libxml-schemasInternals.html#XML-SCHEMAS-QUALIF-ATTR-CAPS">XML_SCHEMAS_QUALIF_ATTR</a>
+struct      <a href="libxml-xmlschemas.html#xmlSchema">xmlSchema</a>;
+void        <a href="libxml-schemasInternals.html#xmlSchemaFreeType">xmlSchemaFreeType</a>               (<a href="libxml-schemasInternals.html#xmlSchemaTypePtr">xmlSchemaTypePtr</a> type);
+</pre></div><div class="refsect1" lang="en"><h2>Description</h2><p>
+
+</p></div><div class="refsect1" lang="en"><h2>Details</h2><div class="refsect2" lang="en"><h3><a name="xmlSchemaTypeType"></a>enum xmlSchemaTypeType</h3><pre class="programlisting">typedef enum {
     XML_SCHEMA_TYPE_BASIC = 1,
     XML_SCHEMA_TYPE_ANY,
     XML_SCHEMA_TYPE_FACET,
@@ -354,33 +104,10 @@ CLASS="PROGRAMLISTING"
     XML_SCHEMA_FACET_LENGTH,
     XML_SCHEMA_FACET_MAXLENGTH,
     XML_SCHEMA_FACET_MINLENGTH
-} xmlSchemaTypeType;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31827"
-></A
-><H3
-><A
-NAME="XMLSCHEMACONTENTTYPE"
-></A
->enum xmlSchemaContentType</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef enum {
+} xmlSchemaTypeType;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaContentType"></a>enum xmlSchemaContentType</h3><pre class="programlisting">typedef enum {
     XML_SCHEMA_CONTENT_UNKNOWN = 0,
     XML_SCHEMA_CONTENT_EMPTY = 1,
     XML_SCHEMA_CONTENT_ELEMENTS,
@@ -389,85 +116,15 @@ CLASS="PROGRAMLISTING"
     XML_SCHEMA_CONTENT_MIXED_OR_ELEMENTS,
     XML_SCHEMA_CONTENT_BASIC,
     XML_SCHEMA_CONTENT_ANY
-} xmlSchemaContentType;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31832"
-></A
-><H3
-><A
-NAME="XMLSCHEMAVAL"
-></A
->struct xmlSchemaVal</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->struct xmlSchemaVal;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31837"
-></A
-><H3
-><A
-NAME="XMLSCHEMAVALPTR"
-></A
->xmlSchemaValPtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlSchemaVal *xmlSchemaValPtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31842"
-></A
-><H3
-><A
-NAME="XMLSCHEMATYPE"
-></A
->struct xmlSchemaType</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->struct xmlSchemaType {
+} xmlSchemaContentType;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaVal"></a>struct xmlSchemaVal</h3><pre class="programlisting">struct xmlSchemaVal;</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaValPtr"></a>xmlSchemaValPtr</h3><pre class="programlisting">typedef xmlSchemaVal *xmlSchemaValPtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaType"></a>struct xmlSchemaType</h3><pre class="programlisting">struct xmlSchemaType {
     xmlSchemaTypeType type;	/* The kind of type */
     struct _xmlSchemaType *next;/* the next type if in a sequence ... */
     xmlChar *name;
@@ -487,59 +144,13 @@ CLASS="PROGRAMLISTING"
     xmlChar *baseNs;
     xmlSchemaTypePtr baseType;
     xmlSchemaFacetPtr facets;
-};</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31847"
-></A
-><H3
-><A
-NAME="XMLSCHEMATYPEPTR"
-></A
->xmlSchemaTypePtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlSchemaType *xmlSchemaTypePtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31852"
-></A
-><H3
-><A
-NAME="XMLSCHEMAFACET"
-></A
->struct xmlSchemaFacet</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->struct xmlSchemaFacet {
+};
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaTypePtr"></a>xmlSchemaTypePtr</h3><pre class="programlisting">typedef xmlSchemaType *xmlSchemaTypePtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaFacet"></a>struct xmlSchemaFacet</h3><pre class="programlisting">struct xmlSchemaFacet {
     xmlSchemaTypeType type;	/* The kind of type */
     struct _xmlSchemaFacet *next;/* the next type if in a sequence ... */
     xmlChar *value;
@@ -550,192 +161,31 @@ CLASS="PROGRAMLISTING"
     int whitespace;
     xmlSchemaValPtr val;
     xmlRegexpPtr    regexp;
-};</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31857"
-></A
-><H3
-><A
-NAME="XMLSCHEMAFACETPTR"
-></A
->xmlSchemaFacetPtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlSchemaFacet *xmlSchemaFacetPtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31862"
-></A
-><H3
-><A
-NAME="XMLSCHEMAANNOT"
-></A
->struct xmlSchemaAnnot</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->struct xmlSchemaAnnot {
+};
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaFacetPtr"></a>xmlSchemaFacetPtr</h3><pre class="programlisting">typedef xmlSchemaFacet *xmlSchemaFacetPtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaAnnot"></a>struct xmlSchemaAnnot</h3><pre class="programlisting">struct xmlSchemaAnnot {
     struct _xmlSchemaAnnot *next;
     xmlNodePtr content;         /* the annotation */
-};</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31867"
-></A
-><H3
-><A
-NAME="XMLSCHEMAANNOTPTR"
-></A
->xmlSchemaAnnotPtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlSchemaAnnot *xmlSchemaAnnotPtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31872"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-ANYATTR-SKIP-CAPS"
-></A
->XML_SCHEMAS_ANYATTR_SKIP</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_ANYATTR_SKIP	1</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31877"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-ANYATTR-LAX-CAPS"
-></A
->XML_SCHEMAS_ANYATTR_LAX</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_ANYATTR_LAX		2</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31882"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-ANYATTR-STRICT-CAPS"
-></A
->XML_SCHEMAS_ANYATTR_STRICT</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_ANYATTR_STRICT	3</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31887"
-></A
-><H3
-><A
-NAME="XMLSCHEMAATTRIBUTE"
-></A
->struct xmlSchemaAttribute</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->struct xmlSchemaAttribute {
+};
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaAnnotPtr"></a>xmlSchemaAnnotPtr</h3><pre class="programlisting">typedef xmlSchemaAnnot *xmlSchemaAnnotPtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-ANYATTR-SKIP-CAPS"></a>XML_SCHEMAS_ANYATTR_SKIP</h3><pre class="programlisting">#define XML_SCHEMAS_ANYATTR_SKIP	1
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-ANYATTR-LAX-CAPS"></a>XML_SCHEMAS_ANYATTR_LAX</h3><pre class="programlisting">#define XML_SCHEMAS_ANYATTR_LAX		2
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-ANYATTR-STRICT-CAPS"></a>XML_SCHEMAS_ANYATTR_STRICT</h3><pre class="programlisting">#define XML_SCHEMAS_ANYATTR_STRICT	3
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaAttribute"></a>struct xmlSchemaAttribute</h3><pre class="programlisting">struct xmlSchemaAttribute {
     xmlSchemaTypeType type;	/* The kind of type */
     struct _xmlSchemaAttribute *next;/* the next attribute if in a group ... */
     xmlChar *name;
@@ -750,59 +200,14 @@ CLASS="PROGRAMLISTING"
     int occurs;
     xmlChar *defValue;
     xmlSchemaTypePtr subtypes;
-};</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31892"
-></A
-><H3
-><A
-NAME="XMLSCHEMAATTRIBUTEPTR"
-></A
->xmlSchemaAttributePtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlSchemaAttribute *xmlSchemaAttributePtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31897"
-></A
-><H3
-><A
-NAME="XMLSCHEMAATTRIBUTEGROUP"
-></A
->struct xmlSchemaAttributeGroup</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->struct xmlSchemaAttributeGroup {
+    xmlNodePtr node;
+};
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaAttributePtr"></a>xmlSchemaAttributePtr</h3><pre class="programlisting">typedef xmlSchemaAttribute *xmlSchemaAttributePtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaAttributeGroup"></a>struct xmlSchemaAttributeGroup</h3><pre class="programlisting">struct xmlSchemaAttributeGroup {
     xmlSchemaTypeType type;	/* The kind of type */
     struct _xmlSchemaAttribute *next;/* the next attribute if in a group ... */
     xmlChar *name;
@@ -812,267 +217,46 @@ CLASS="PROGRAMLISTING"
     xmlSchemaAnnotPtr annot;
 
     xmlSchemaAttributePtr attributes;
-};</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31902"
-></A
-><H3
-><A
-NAME="XMLSCHEMAATTRIBUTEGROUPPTR"
-></A
->xmlSchemaAttributeGroupPtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlSchemaAttributeGroup *xmlSchemaAttributeGroupPtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31907"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-TYPE-MIXED-CAPS"
-></A
->XML_SCHEMAS_TYPE_MIXED</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_TYPE_MIXED		1 &lt;&lt; 0</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31912"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-ELEM-NILLABLE-CAPS"
-></A
->XML_SCHEMAS_ELEM_NILLABLE</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_ELEM_NILLABLE	1 &lt;&lt; 0</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31917"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-ELEM-GLOBAL-CAPS"
-></A
->XML_SCHEMAS_ELEM_GLOBAL</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_ELEM_GLOBAL		1 &lt;&lt; 1</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31922"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-ELEM-DEFAULT-CAPS"
-></A
->XML_SCHEMAS_ELEM_DEFAULT</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_ELEM_DEFAULT	1 &lt;&lt; 2</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31927"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-ELEM-FIXED-CAPS"
-></A
->XML_SCHEMAS_ELEM_FIXED</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_ELEM_FIXED		1 &lt;&lt; 3</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31932"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-ELEM-ABSTRACT-CAPS"
-></A
->XML_SCHEMAS_ELEM_ABSTRACT</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_ELEM_ABSTRACT	1 &lt;&lt; 4</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31937"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-ELEM-TOPLEVEL-CAPS"
-></A
->XML_SCHEMAS_ELEM_TOPLEVEL</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_ELEM_TOPLEVEL	1 &lt;&lt; 5</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31942"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-ELEM-REF-CAPS"
-></A
->XML_SCHEMAS_ELEM_REF</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_ELEM_REF		1 &lt;&lt; 6</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31947"
-></A
-><H3
-><A
-NAME="XMLSCHEMAELEMENT"
-></A
->struct xmlSchemaElement</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->struct xmlSchemaElement {
+    xmlNodePtr node;
+};
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaAttributeGroupPtr"></a>xmlSchemaAttributeGroupPtr</h3><pre class="programlisting">typedef xmlSchemaAttributeGroup *xmlSchemaAttributeGroupPtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-TYPE-MIXED-CAPS"></a>XML_SCHEMAS_TYPE_MIXED</h3><pre class="programlisting">#define XML_SCHEMAS_TYPE_MIXED		1 &lt;&lt; 0
+</pre><p>
+the element content type is mixed</p><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-ELEM-NILLABLE-CAPS"></a>XML_SCHEMAS_ELEM_NILLABLE</h3><pre class="programlisting">#define XML_SCHEMAS_ELEM_NILLABLE	1 &lt;&lt; 0
+</pre><p>
+the element is nillable</p><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-ELEM-GLOBAL-CAPS"></a>XML_SCHEMAS_ELEM_GLOBAL</h3><pre class="programlisting">#define XML_SCHEMAS_ELEM_GLOBAL		1 &lt;&lt; 1
+</pre><p>
+the element is global</p><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-ELEM-DEFAULT-CAPS"></a>XML_SCHEMAS_ELEM_DEFAULT</h3><pre class="programlisting">#define XML_SCHEMAS_ELEM_DEFAULT	1 &lt;&lt; 2
+</pre><p>
+the element has a default value</p><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-ELEM-FIXED-CAPS"></a>XML_SCHEMAS_ELEM_FIXED</h3><pre class="programlisting">#define XML_SCHEMAS_ELEM_FIXED		1 &lt;&lt; 3
+</pre><p>
+the element has a fixed value</p><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-ELEM-ABSTRACT-CAPS"></a>XML_SCHEMAS_ELEM_ABSTRACT</h3><pre class="programlisting">#define XML_SCHEMAS_ELEM_ABSTRACT	1 &lt;&lt; 4
+</pre><p>
+the element is abstract</p><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-ELEM-TOPLEVEL-CAPS"></a>XML_SCHEMAS_ELEM_TOPLEVEL</h3><pre class="programlisting">#define XML_SCHEMAS_ELEM_TOPLEVEL	1 &lt;&lt; 5
+</pre><p>
+the element is top level</p><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-ELEM-REF-CAPS"></a>XML_SCHEMAS_ELEM_REF</h3><pre class="programlisting">#define XML_SCHEMAS_ELEM_REF		1 &lt;&lt; 6
+</pre><p>
+the element is a reference to a type</p><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaElement"></a>struct xmlSchemaElement</h3><pre class="programlisting">struct xmlSchemaElement {
     xmlSchemaTypeType type;	/* The kind of type */
     struct _xmlSchemaType *next;/* the next type if in a sequence ... */
     xmlChar *name;
@@ -1097,272 +281,46 @@ CLASS="PROGRAMLISTING"
     struct _xmlSchemaElement *refDecl;
     xmlRegexpPtr contModel;
     xmlSchemaContentType contentType;
-};</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31952"
-></A
-><H3
-><A
-NAME="XMLSCHEMAELEMENTPTR"
-></A
->xmlSchemaElementPtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlSchemaElement *xmlSchemaElementPtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31957"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-FACET-UNKNOWN-CAPS"
-></A
->XML_SCHEMAS_FACET_UNKNOWN</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_FACET_UNKNOWN	0</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31962"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-FACET-PRESERVE-CAPS"
-></A
->XML_SCHEMAS_FACET_PRESERVE</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_FACET_PRESERVE	1</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31967"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-FACET-REPLACE-CAPS"
-></A
->XML_SCHEMAS_FACET_REPLACE</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_FACET_REPLACE	2</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31972"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-FACET-COLLAPSE-CAPS"
-></A
->XML_SCHEMAS_FACET_COLLAPSE</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_FACET_COLLAPSE	3</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31977"
-></A
-><H3
-><A
-NAME="XMLSCHEMANOTATION"
-></A
->struct xmlSchemaNotation</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->struct xmlSchemaNotation {
+};
+</pre><p>
+xmlSchemaType, xmlSchemaFacet and xmlSchemaElement start of
+structures must be kept similar</p><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaElementPtr"></a>xmlSchemaElementPtr</h3><pre class="programlisting">typedef xmlSchemaElement *xmlSchemaElementPtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-FACET-UNKNOWN-CAPS"></a>XML_SCHEMAS_FACET_UNKNOWN</h3><pre class="programlisting">#define XML_SCHEMAS_FACET_UNKNOWN	0
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-FACET-PRESERVE-CAPS"></a>XML_SCHEMAS_FACET_PRESERVE</h3><pre class="programlisting">#define XML_SCHEMAS_FACET_PRESERVE	1
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-FACET-REPLACE-CAPS"></a>XML_SCHEMAS_FACET_REPLACE</h3><pre class="programlisting">#define XML_SCHEMAS_FACET_REPLACE	2
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-FACET-COLLAPSE-CAPS"></a>XML_SCHEMAS_FACET_COLLAPSE</h3><pre class="programlisting">#define XML_SCHEMAS_FACET_COLLAPSE	3
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaNotation"></a>struct xmlSchemaNotation</h3><pre class="programlisting">struct xmlSchemaNotation {
     xmlSchemaTypeType type;	/* The kind of type */
     xmlChar *name;
     xmlSchemaAnnotPtr annot;
     xmlChar *identifier;
-};</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31982"
-></A
-><H3
-><A
-NAME="XMLSCHEMANOTATIONPTR"
-></A
->xmlSchemaNotationPtr</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->typedef xmlSchemaNotation *xmlSchemaNotationPtr;</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31987"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-QUALIF-ELEM-CAPS"
-></A
->XML_SCHEMAS_QUALIF_ELEM</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_QUALIF_ELEM		1 &lt;&lt; 0</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31992"
-></A
-><H3
-><A
-NAME="XML-SCHEMAS-QUALIF-ATTR-CAPS"
-></A
->XML_SCHEMAS_QUALIF_ATTR</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->#define XML_SCHEMAS_QUALIF_ATTR		1 &lt;&lt; 1</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN31997"
-></A
-><H3
-><A
-NAME="XMLSCHEMA"
-></A
->struct xmlSchema</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->struct xmlSchema {
+};
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaNotationPtr"></a>xmlSchemaNotationPtr</h3><pre class="programlisting">typedef xmlSchemaNotation *xmlSchemaNotationPtr;
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-QUALIF-ELEM-CAPS"></a>XML_SCHEMAS_QUALIF_ELEM</h3><pre class="programlisting">#define XML_SCHEMAS_QUALIF_ELEM		1 &lt;&lt; 0
+</pre><p>
+the shemas requires qualified elements</p><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="XML-SCHEMAS-QUALIF-ATTR-CAPS"></a>XML_SCHEMAS_QUALIF_ATTR</h3><pre class="programlisting">#define XML_SCHEMAS_QUALIF_ATTR		1 &lt;&lt; 1
+</pre><p>
+the shemas requires qualified attributes</p><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchema"></a>struct xmlSchema</h3><pre class="programlisting">struct xmlSchema {
     xmlChar *name;        /* schema name */
     xmlChar *targetNamespace;     /* the target namespace */
     xmlChar *version;
@@ -1380,168 +338,12 @@ CLASS="PROGRAMLISTING"
     xmlHashTablePtr schemasImports;
 
     void *_private;	/* unused by the library for users or bindings */
-};</PRE
-></TD
-></TR
-></TABLE
-><P
-></P
-></DIV
-><HR><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN32002"
-></A
-><H3
-><A
-NAME="XMLSCHEMAFREETYPE"
-></A
->xmlSchemaFreeType ()</H3
-><TABLE
-BORDER="0"
-BGCOLOR="#D6E8FF"
-WIDTH="100%"
-CELLPADDING="6"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->void        xmlSchemaFreeType               (<A
-HREF="libxml-schemasinternals.html#XMLSCHEMATYPEPTR"
->xmlSchemaTypePtr</A
-> type);</PRE
-></TD
-></TR
-></TABLE
-><P
->Deallocate a Schema Type structure.</P
-><P
-></P
-><DIV
-CLASS="INFORMALTABLE"
-><A
-NAME="AEN32009"><P
-></P
-><TABLE
-BORDER="0"
-WIDTH="100%"
-BGCOLOR="#FFD0D0"
-CELLSPACING="0"
-CELLPADDING="4"
-CLASS="CALSTABLE"
-><TBODY
-><TR
-><TD
-WIDTH="20%"
-ALIGN="RIGHT"
-VALIGN="TOP"
-><TT
-CLASS="PARAMETER"
-><I
->type</I
-></TT
->&nbsp;:</TD
-><TD
-WIDTH="80%"
-ALIGN="LEFT"
-VALIGN="TOP"
->  a schema type structure</TD
-></TR
-></TBODY
-></TABLE
-><P
-></P
-></DIV
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><BR
-CLEAR="all"><BR><TABLE
-WIDTH="100%"
-BORDER="0"
-BGCOLOR="#000000"
-CELLPADDING="1"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="25%"
-BGCOLOR="#C00000"
-ALIGN="left"
-><A
-HREF="libxml-xmlschemastypes.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->&#60;&#60;&#60; Previous Page</B
-></FONT
-></A
-></TD
-><TD
-WIDTH="25%"
-BGCOLOR="#0000C0"
-ALIGN="center"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
-><A
-HREF="book1.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->Home</B
-></FONT
-></A
-></B
-></FONT
-></TD
-><TD
-WIDTH="25%"
-BGCOLOR="#00C000"
-ALIGN="center"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
-><A
-HREF="libxml-lib.html"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->Up</B
-></FONT
-></A
-></B
-></FONT
-></TD
-><TD
-WIDTH="25%"
-BGCOLOR="#C00000"
-ALIGN="right"
->&nbsp;</TD
-></TR
-><TR
-><TD
-COLSPAN="2"
-ALIGN="left"
-><FONT
-COLOR="#FFFFFF"
-SIZE="3"
-><B
->xmlschemastypes</B
-></FONT
-></TD
-><TD
-COLSPAN="2"
-ALIGN="right"
->&nbsp;</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+    xmlHashTablePtr groupDecl;
+};
+</pre><p>
+
+</p></div><hr xmlns="http://www.w3.org/TR/xhtml1/transitional"></hr><div class="refsect2" lang="en"><h3><a name="xmlSchemaFreeType"></a>xmlSchemaFreeType ()</h3><pre class="programlisting">void        xmlSchemaFreeType               (<a href="libxml-schemasInternals.html#xmlSchemaTypePtr">xmlSchemaTypePtr</a> type);</pre><p>
+Deallocate a Schema Type structure.</p><p>
+
+</p><div class="variablelist"><table border="0"><col align="left" valign="top"><tbody><tr><td><span class="term"><i><tt>type</tt></i> :</span></td><td>  a schema type structure
+</td></tr></tbody></table></div></div></div></div><table xmlns="http://www.w3.org/TR/xhtml1/transitional" class="navigation" width="100%" summary="Navigation footer" cellpadding="2" cellspacing="0"><tr valign="middle"><td align="left"><a accesskey="p" href="libxml-xmlschemastypes.html"><b>&lt;&lt; xmlschemastypes</b></a></td><td align="right"></td></tr></table></body></html>

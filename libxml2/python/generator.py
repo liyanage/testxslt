@@ -300,6 +300,9 @@ def skip_function(name):
         return 1
 #    if name[0:11] == "xmlXPathNew":
 #        return 1
+    # the next function is defined in libxml.c
+    if name == "xmlRelaxNGFreeValidCtxt":
+        return 1
     return 0
 
 def print_function_wrapper(name, output, export, include):
@@ -362,8 +365,8 @@ def print_function_wrapper(name, output, export, include):
 	    if args[1][1] == "char *" or args[1][1] == "xmlChar *":
 		c_call = "\n    if (%s->%s != NULL) xmlFree(%s->%s);\n" % (
 		                 args[0][0], args[1][0], args[0][0], args[1][0])
-		c_call = c_call + "    %s->%s = xmlStrdup((const xmlChar *)%s);\n" % (args[0][0],
-		                 args[1][0], args[1][0])
+		c_call = c_call + "    %s->%s = (%s)xmlStrdup((const xmlChar *)%s);\n" % (args[0][0],
+		                 args[1][0], args[1][1], args[1][0])
 	    else:
 		c_call = "\n    %s->%s = %s;\n" % (args[0][0], args[1][0],
 						   args[1][0])
@@ -550,6 +553,7 @@ def buildStubs():
 #    wrapper.write("#include \"config.h\"\n")
     wrapper.write("#include <libxml/xmlversion.h>\n")
     wrapper.write("#include <libxml/tree.h>\n")
+    wrapper.write("#include <libxml/xmlschemastypes.h>\n")
     wrapper.write("#include \"libxml_wrap.h\"\n")
     wrapper.write("#include \"libxml2-py.h\"\n\n")
     for function in functions.keys():
@@ -865,8 +869,6 @@ def buildWrappers():
 		func = nameFixup(name, classe, type, file)
 		info = (1, func, name, ret, args, file)
 		function_classes[classe].append(info)
-	    if found == 1:
-		break
 	if found == 1:
 	    continue
 	if name[0:8] == "xmlXPath":

@@ -14,10 +14,10 @@ libxml2.debugMemory(1)
 err=""
 expect="""../../test/valid/rss.xml:172: validity error: Element rss does not carry attribute version
 </rss>
-     ^
+      ^
 ../../test/valid/xlink.xml:450: validity error: ID dt-arc already defined
-	<p><termdef id="dt-arc" term="Arc">An <term>arc</term> is contained within an 
-                                   ^
+	<p><termdef id="dt-arc" term="Arc">An <ter
+	                                  ^
 ../../test/valid/xlink.xml:530: validity error: attribute def line 199 references an unknown ID "dt-xlg"
 
 ^
@@ -63,17 +63,17 @@ s = """
 """
 expect="""10,test
 1,test
-3,#text
+14,#text
 1,x
 1,c
 3,#text
 15,c
 15,x
-3,#text
+14,#text
 1,b
 3,#text
 15,b
-3,#text
+14,#text
 15,test
 """
 res=""
@@ -113,11 +113,11 @@ s = """<!DOCTYPE test [
 tst_ent = """<x>hello</x>"""
 expect="""10 test
 1 test
-3 #text
+14 #text
 1 x
 3 #text
 15 x
-3 #text
+14 #text
 15 test
 """
 res=""
@@ -165,19 +165,19 @@ s = """<!DOCTYPE test [
 </test>"""
 expect="""10 test 0
 1 test 0
-3 #text 1
+14 #text 1
 1 x 1
 1 y 2
 3 #text 3
 15 y 2
 15 x 1
-3 #text 1
+14 #text 1
 1 x 1
 1 y 2
 3 #text 3
 15 y 2
 15 x 1
-3 #text 1
+14 #text 1
 15 test 0
 """
 res=""
@@ -218,11 +218,11 @@ s = """<!DOCTYPE test [
 </test>"""
 expect="""10 test 0
 1 test 0
-3 #text 1
+14 #text 1
 5 x 1
-3 #text 1
+14 #text 1
 5 x 1
-3 #text 1
+14 #text 1
 15 test 0
 """
 res=""

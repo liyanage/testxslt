@@ -383,6 +383,8 @@ htmlNodeDumpFormat(xmlBufferPtr buf, xmlDocPtr doc, xmlNodePtr cur,
  */
 int
 htmlNodeDump(xmlBufferPtr buf, xmlDocPtr doc, xmlNodePtr cur) {
+    xmlInitParser();
+
     return(htmlNodeDumpFormat(buf, doc, cur, 1));
 }
 
@@ -406,6 +408,8 @@ htmlNodeDumpFileFormat(FILE *out, xmlDocPtr doc,
     xmlOutputBufferPtr buf;
     xmlCharEncodingHandlerPtr handler = NULL;
     int ret;
+
+    xmlInitParser();
 
     if (encoding != NULL) {
 	xmlCharEncoding enc;
@@ -466,6 +470,8 @@ htmlDocDumpMemory(xmlDocPtr cur, xmlChar**mem, int *size) {
     xmlOutputBufferPtr buf;
     xmlCharEncodingHandlerPtr handler = NULL;
     const char *encoding;
+
+    xmlInitParser();
 
     if (cur == NULL) {
 #ifdef DEBUG_TREE
@@ -605,14 +611,17 @@ htmlAttrDumpOutput(xmlOutputBufferPtr buf, xmlDocPtr doc, xmlAttrPtr cur,
 	value = xmlNodeListGetString(doc, cur->children, 0);
 	if (value) {
 	    xmlOutputBufferWriteString(buf, "=");
-	    if ((!xmlStrcasecmp(cur->name, BAD_CAST "href")) ||
-		(!xmlStrcasecmp(cur->name, BAD_CAST "src"))) {
+	    if ((cur->ns == NULL) && (cur->parent != NULL) &&
+		(cur->parent->ns == NULL) &&
+		((!xmlStrcasecmp(cur->name, BAD_CAST "href")) ||
+	         (!xmlStrcasecmp(cur->name, BAD_CAST "action")) ||
+		 (!xmlStrcasecmp(cur->name, BAD_CAST "src")))) {
 		xmlChar *escaped;
 		xmlChar *tmp = value;
 
 		while (IS_BLANK(*tmp)) tmp++;
 
-		escaped = xmlURIEscapeStr(tmp, BAD_CAST"@/:=?;#%&");
+		escaped = xmlURIEscapeStr(tmp, BAD_CAST"@/:=?;#%&,+");
 		if (escaped != NULL) {
 		    xmlBufferWriteQuotedString(buf->buffer, escaped);
 		    xmlFree(escaped);
@@ -691,6 +700,8 @@ void
 htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
 	                 xmlNodePtr cur, const char *encoding, int format) {
     const htmlElemDesc * info;
+
+    xmlInitParser();
 
     if (cur == NULL) {
         xmlGenericError(xmlGenericErrorContext,
@@ -797,6 +808,10 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
 	    xmlOutputBufferWriteString(buf, ">");
 	} else {
 	    xmlOutputBufferWriteString(buf, "></");
+            if ((cur->ns != NULL) && (cur->ns->prefix != NULL)) {
+                xmlOutputBufferWriteString(buf, (const char *)cur->ns->prefix);
+                xmlOutputBufferWriteString(buf, ":");
+            }
 	    xmlOutputBufferWriteString(buf, (const char *)cur->name);
 	    xmlOutputBufferWriteString(buf, ">");
 	}
@@ -882,6 +897,8 @@ htmlDocContentDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr cur,
 	                       const char *encoding, int format) {
     int type;
 
+    xmlInitParser();
+
     /*
      * force to output the stuff as HTML, especially for entities
      */
@@ -932,6 +949,8 @@ htmlDocDump(FILE *f, xmlDocPtr cur) {
     xmlCharEncodingHandlerPtr handler = NULL;
     const char *encoding;
     int ret;
+
+    xmlInitParser();
 
     if (cur == NULL) {
 #ifdef DEBUG_TREE
@@ -993,6 +1012,8 @@ htmlSaveFile(const char *filename, xmlDocPtr cur) {
     const char *encoding;
     int ret;
 
+    xmlInitParser();
+
     encoding = (const char *) htmlGetMetaEncoding(cur);
 
     if (encoding != NULL) {
@@ -1050,6 +1071,8 @@ htmlSaveFileFormat(const char *filename, xmlDocPtr cur,
     xmlOutputBufferPtr buf;
     xmlCharEncodingHandlerPtr handler = NULL;
     int ret;
+
+    xmlInitParser();
 
     if (encoding != NULL) {
 	xmlCharEncoding enc;

@@ -375,7 +375,8 @@ startElementDebug(void *ctx ATTRIBUTE_UNUSED, const xmlChar *name, const xmlChar
 		while ((attlen = strlen((char*)att)) > 0) {
 		    outlen = sizeof output - 1;
 		    htmlEncodeEntities(output, &outlen, att, &attlen, '\'');
-		    fprintf(stdout, "%.*s", outlen, output);
+		    output[outlen] = 0;
+		    fprintf(stdout, "%s", (char *) output);
 		    att += attlen;
 		}
 		fprintf(stdout, "'");
@@ -625,7 +626,7 @@ parseSAXFile(char *filename) {
 	    res = fread(chars, 1, 4, f);
 	    if (res > 0) {
 		ctxt = htmlCreatePushParserCtxt(emptySAXHandler, NULL,
-			    chars, res, filename, 0);
+			    chars, res, filename, XML_CHAR_ENCODING_NONE);
 		while ((res = fread(chars, 1, size, f)) > 0) {
 		    htmlParseChunk(ctxt, chars, res, 0);
 		}
@@ -651,7 +652,7 @@ parseSAXFile(char *filename) {
 		res = fread(chars, 1, 4, f);
 		if (res > 0) {
 		    ctxt = htmlCreatePushParserCtxt(debugSAXHandler, NULL,
-				chars, res, filename, 0);
+				chars, res, filename, XML_CHAR_ENCODING_NONE);
 		    while ((res = fread(chars, 1, size, f)) > 0) {
 			htmlParseChunk(ctxt, chars, res, 0);
 		    }
@@ -707,7 +708,7 @@ parseAndPrintFile(char *filename) {
 	    res = fread(chars, 1, 4, f);
 	    if (res > 0) {
 		ctxt = htmlCreatePushParserCtxt(NULL, NULL,
-			    chars, res, filename, 0);
+			    chars, res, filename, XML_CHAR_ENCODING_NONE);
 		while ((res = fread(chars, 1, size, f)) > 0) {
 		    htmlParseChunk(ctxt, chars, res, 0);
 		}
