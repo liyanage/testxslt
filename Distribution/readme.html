@@ -1,11 +1,11 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Readme for TestXSLT v2.7</title>
+    <title>Readme for TestXSLT v2.8</title>
     <META name="Author" content="Written by Marc Liyanage ">
   </head>
   <body>
-<h1>Readme for TestXSLT v2.7</h1>
+<h1>Readme for TestXSLT v2.8</h1>
 
 <p>
       <b>
@@ -17,8 +17,7 @@
 
 <p> </p>
     <h2>Description</h2>
-<p>TestXSLT is a small tool for experimenting with XSLT in a convenient way
-on Mac OS X. It uses the Sablotron XSL processor from <a href="http://www.gingerall.com/charlie/ga/xml/p_sab.xml">http://www.gingerall.com/charlie/ga/xml/p_sab.xml</a> and the Gnome libxslt processor from <a href="http://xmlsoft.org/XSLT/">http://xmlsoft.org/XSLT/</a>.</p>
+<p>TestXSLT is a free tool for learning, experimenting with and using the XSL language (both the XSLT and the XSL-FO parts) in a convenient way on Mac OS X. It offers several XSLT processors (Sablotron, Gnome LibXSLT, Saxon and Xalan-J) as well as the Apache FOP XSL-FO rendering engine which produces on-screen previews as well as PDF files. For authors of stylesheets which produce HTML, it makes use of the WebKit HTML rendering engine, allowing previews right in the application.</p>
 
 <p>The program takes an .xml and an .xsl file and either displays the result of the transformation in an output window or writes it to a file.</p>
 
@@ -30,9 +29,7 @@ on Mac OS X. It uses the Sablotron XSL processor from <a href="http://www.ginger
 
 <p>Comments, feedback and feature suggestions are welcome to the address above.</p>
 
-<p>If you own BBEdit, I suggest that you check out my "BBEdit XSLT Glossary" package, available from my homepage. TestXSLT has been
-optimized to work well together with BBEdit. You can edit and save an XSLT file in BBEdit, switch back to TestXSLT and
-the XSLT code will be updated from disk immediately.</p>
+<p>If you own BBEdit, I suggest that you check out my "BBEdit XSLT Glossary" package, available from my homepage. TestXSLT has been optimized to work well with BBEdit. You can edit and save an XSLT file in BBEdit, switch back to TestXSLT and the XSLT code will be updated from disk immediately.</p>
 
 <p>The latest version of this software is available at <a href="http://www.entropy.ch/software/macosx/">http://www.entropy.ch/software/macosx/</a>
     </p>
@@ -52,6 +49,17 @@ Mac OS X 10.2., Safari 1.0 must be installed on your system.
         <th bgcolor="#cccccc">Date</th>
         <th bgcolor="#cccccc">Version</th>
         <th bgcolor="#cccccc">Changes</th>
+      </tr>
+
+<tr>
+        <td bgcolor="#eeeeee" valign="top" align="right">17-AUG-2003</td>
+        <td bgcolor="#eeeeee" valign="top" align="center">2.8</td>
+        <td bgcolor="#eeeeee" valign="top">
+          <ul>
+            <li>Embedded the FOP XSL-FO rendering engine from the Apache Project. This means that you can now view the result of a translation which produces XSL-FO instructions directly in the application. You can also save the output as a PDF file. With this addition, TestXSLT is now a useful learning tool for the XSL-FO language.</li>
+            <li>A new, fourth XSLT engine has been added, the Java Xalan processor from the Apache project.</li>
+          </ul>
+        </td>
       </tr>
 
 <tr>

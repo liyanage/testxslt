@@ -6,27 +6,16 @@
 //  Copyright (c) 2003 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "XSLTProcessor.h"
+#import "XSLTProcessorJAXPBase.h"
 
 
-@interface XSLTProcessorSaxon : XSLTProcessor {
+@interface XSLTProcessorSaxon : XSLTProcessorJAXPBase {
 
 }
 
 @end
 
 
-// Java class declarations to keep the compiler happy
-
-@interface JAXPWrapper : NSObject
-{}
-- (int)getErrorSource;
-- (int)getErrorLine;
-- (NSString *)getErrorMessage;
-- (NSString *)getResult;
-- (BOOL)transform:(NSString *)processorClassName :(NSString *)xml :(NSString *)xslt :(NSString *)parameters :(NSString *)baseUri;
-@end
 
 
 

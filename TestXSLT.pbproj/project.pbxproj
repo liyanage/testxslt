@@ -23889,6 +23889,7 @@
 			children = (
 				1B6AEEC80493DF6900000102,
 				1B23468404DEB06C0050A2ED,
+				1BB569F404E3010E0099E21C,
 			);
 			isa = PBXGroup;
 			name = "Java Source";
@@ -41219,6 +41220,133 @@
 			target = 1B09FDE9042BE4B600A8A905;
 			targetProxy = 1B7C2A1904AA3B6A00B1C44B;
 		};
+		1B5E2EF904F102EA00F043CD = {
+			expectedFileType = sourcecode.c.h;
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = XSLTProcessorJAXPBase.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1B5E2EFA04F102EA00F043CD = {
+			expectedFileType = sourcecode.c.objc;
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = XSLTProcessorJAXPBase.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1B5E2EFB04F102EA00F043CD = {
+			fileRef = 1B5E2EF904F102EA00F043CD;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1B5E2EFC04F102EA00F043CD = {
+			fileRef = 1B5E2EFA04F102EA00F043CD;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1B5E2F1D04F1065100F043CD = {
+			expectedFileType = sourcecode.c.h;
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = XSLTProcessorXalan_J.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1B5E2F1E04F1065100F043CD = {
+			expectedFileType = sourcecode.c.objc;
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = XSLTProcessorXalan_J.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1B5E2F1F04F1065100F043CD = {
+			fileRef = 1B5E2F1D04F1065100F043CD;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1B5E2F2004F1065100F043CD = {
+			fileRef = 1B5E2F1E04F1065100F043CD;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1B5E2F3104F1086300F043CD = {
+			children = (
+				1B5E2F7604F108D200F043CD,
+				1B5E2F7704F108D200F043CD,
+				1B5E2F7804F108D200F043CD,
+			);
+			isa = PBXGroup;
+			name = "Xalan-J Processor";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1B5E2F7604F108D200F043CD = {
+			expectedFileType = archive.jar;
+			isa = PBXFileReference;
+			name = "xml-apis.jar";
+			path = "Xalan-J/xml-apis.jar";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1B5E2F7704F108D200F043CD = {
+			expectedFileType = archive.jar;
+			isa = PBXFileReference;
+			name = "xalan-2.4.1.jar";
+			path = "Xalan-J/xalan-2.4.1.jar";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1B5E2F7804F108D200F043CD = {
+			expectedFileType = archive.jar;
+			isa = PBXFileReference;
+			name = "xercesImpl-2.2.1.jar";
+			path = "Xalan-J/xercesImpl-2.2.1.jar";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1B5E2F7904F108D200F043CD = {
+			fileRef = 1B5E2F7604F108D200F043CD;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1B5E2F7A04F108D200F043CD = {
+			fileRef = 1B5E2F7704F108D200F043CD;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1B5E2F7B04F108D200F043CD = {
+			fileRef = 1B5E2F7804F108D200F043CD;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1B5E2F8304F1093300F043CD = {
+			fileRef = 1B5E2F7604F108D200F043CD;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1B5E2F8404F1093300F043CD = {
+			fileRef = 1B5E2F7704F108D200F043CD;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1B5E2F8504F1093300F043CD = {
+			fileRef = 1B5E2F7804F108D200F043CD;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		1B60A6BF04DBD27000ADF3F9 = {
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA;
 			isa = PBXContainerItemProxy;
@@ -41375,6 +41503,12 @@
 			dstSubfolderSpec = 15;
 			files = (
 				1B6AEEC60493459C00000102,
+				1B5E2F8304F1093300F043CD,
+				1B5E2F8404F1093300F043CD,
+				1B5E2F8504F1093300F043CD,
+				1BBE147904F2B1D1004DDAF6,
+				1BBE147A04F2B1D1004DDAF6,
+				1BBE147B04F2B1D1004DDAF6,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52373,6 +52507,14 @@
 			settings = {
 			};
 		};
+		1BB569F404E3010E0099E21C = {
+			expectedFileType = sourcecode.java;
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = FOPWrapper.java;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		1BB9C17204C153A8006508EA = {
 			buildArgumentsString = "libsablot-helper.sh";
 			buildPhases = (
@@ -52433,6 +52575,84 @@
 			isa = PBXTargetDependency;
 			target = 1B45862E04C14DA30097AE1B;
 			targetProxy = 1BB9C19D04C16D70006508EA;
+		};
+		1BBE145E04F29D2D004DDAF6 = {
+			fileRef = 1BB569F404E3010E0099E21C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1BBE146104F29D71004DDAF6 = {
+			children = (
+				1BBE147304F2B1C8004DDAF6,
+				1BBE147404F2B1C8004DDAF6,
+				1BBE147504F2B1C8004DDAF6,
+			);
+			isa = PBXGroup;
+			name = FOP;
+			path = Distribution;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1BBE147304F2B1C8004DDAF6 = {
+			expectedFileType = archive.jar;
+			isa = PBXFileReference;
+			name = "avalon-framework-cvs-20020806.jar";
+			path = "FOP/avalon-framework-cvs-20020806.jar";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		1BBE147404F2B1C8004DDAF6 = {
+			expectedFileType = archive.jar;
+			isa = PBXFileReference;
+			name = batik.jar;
+			path = FOP/batik.jar;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		1BBE147504F2B1C8004DDAF6 = {
+			expectedFileType = archive.jar;
+			isa = PBXFileReference;
+			name = fop.jar;
+			path = FOP/fop.jar;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		1BBE147604F2B1C9004DDAF6 = {
+			fileRef = 1BBE147304F2B1C8004DDAF6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1BBE147704F2B1C9004DDAF6 = {
+			fileRef = 1BBE147404F2B1C8004DDAF6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1BBE147804F2B1C9004DDAF6 = {
+			fileRef = 1BBE147504F2B1C8004DDAF6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1BBE147904F2B1D1004DDAF6 = {
+			fileRef = 1BBE147304F2B1C8004DDAF6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1BBE147A04F2B1D1004DDAF6 = {
+			fileRef = 1BBE147404F2B1C8004DDAF6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1BBE147B04F2B1D1004DDAF6 = {
+			fileRef = 1BBE147504F2B1C8004DDAF6;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		1BC0D4EE04CD12140079373A = {
 			expectedFileType = text.script.sh;
@@ -52537,6 +52757,34 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
+		1BF7F12304F2BE74007723F5 = {
+			expectedFileType = sourcecode.c.h;
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = XSL_FO_Renderer.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1BF7F12404F2BE74007723F5 = {
+			expectedFileType = sourcecode.c.objc;
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = XSL_FO_Renderer.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1BF7F12504F2BE74007723F5 = {
+			fileRef = 1BF7F12304F2BE74007723F5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1BF7F12604F2BE74007723F5 = {
+			fileRef = 1BF7F12404F2BE74007723F5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //1B0
 //1B1
 //1B2
@@ -52548,6 +52796,8 @@
 //2A3
 //2A4
 		2A37F4A9FDCFA73011CA2CEA = {
+			buildSettings = {
+			};
 			buildStyles = (
 				4A9504D0FFE6A4CB11CA0CBA,
 				4A9504D1FFE6A4CB11CA0CBA,
@@ -52581,9 +52831,11 @@
 				F5F178320260CC3601267658,
 				1B23468104DEB03A0050A2ED,
 				F7641DA602FFB2FA01A8A905,
+				1BBE146104F29D71004DDAF6,
 				2A37F4AFFDCFA73011CA2CEA,
 				2A37F4B8FDCFA73011CA2CEA,
 				1BD041D40437194C0094B693,
+				1B5E2F3104F1086300F043CD,
 				1B6AEEC2049344C400000102,
 				2A37F4C3FDCFA73011CA2CEA,
 				1B6E019204272F9300A8A905,
@@ -52822,7 +53074,7 @@
 	<key>CFBundleExecutable</key>
 	<string>TestXSLT</string>
 	<key>CFBundleGetInfoString</key>
-	<string>TestXSLT 2.6 by Marc Liyanage, http://www.entropy.ch</string>
+	<string>TestXSLT 2.8 by Marc Liyanage, http://www.entropy.ch</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>TestXSLT Help</string>
 	<key>CFBundleIconFile</key>
@@ -52834,11 +53086,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.6</string>
+	<string>2.8</string>
 	<key>CFBundleSignature</key>
 	<string>XsLt</string>
 	<key>CFBundleVersion</key>
-	<string>2.7</string>
+	<string>2.8</string>
 	<key>Java</key>
 	<dict>
 		<key>JVMVersion</key>
@@ -52850,8 +53102,14 @@
 	<string>YES</string>
 	<key>NSJavaPath</key>
 	<array>
+		<string>batik.jar</string>
+		<string>xalan-2.4.1.jar</string>
+		<string>xercesImpl-2.2.1.jar</string>
 		<string>TestXSLT.jar</string>
 		<string>saxon.jar</string>
+		<string>xml-apis.jar</string>
+		<string>fop.jar</string>
+		<string>avalon-framework-cvs-20020806.jar</string>
 	</array>
 	<key>NSJavaRoot</key>
 	<string>Contents/Resources/Java</string>
@@ -52882,6 +53140,9 @@
 				1B3BC83D0436364A006C8631,
 				1B3BC92804365914006C8631,
 				1B6AEEC00493442600000102,
+				1B5E2EFB04F102EA00F043CD,
+				1B5E2F1F04F1065100F043CD,
+				1BF7F12504F2BE74007723F5,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52939,7 +53200,11 @@
 				1B3BC83E0436364A006C8631,
 				1B3BC92D04365BC3006C8631,
 				1B6AEEC10493442600000102,
+				1BBE145E04F29D2D004DDAF6,
 				1BB4B85D04E002A500EAE3E7,
+				1B5E2EFC04F102EA00F043CD,
+				1B5E2F2004F1065100F043CD,
+				1BF7F12604F2BE74007723F5,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52975,6 +53240,12 @@
 				1B2B20F0042DFF5200000103,
 				1BB48E5604DC2AA10086FFBB,
 				1B6AEEC40493455900000102,
+				1B5E2F7904F108D200F043CD,
+				1B5E2F7A04F108D200F043CD,
+				1B5E2F7B04F108D200F043CD,
+				1BBE147604F2B1C9004DDAF6,
+				1BBE147704F2B1C9004DDAF6,
+				1BBE147804F2B1C9004DDAF6,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -53095,10 +53366,16 @@
 				F7D20D1602F9AB3B01000103,
 				1B6AEEBE0493442600000102,
 				1B6AEEBF0493442600000102,
+				1B5E2F1D04F1065100F043CD,
+				1B5E2F1E04F1065100F043CD,
+				1B5E2EF904F102EA00F043CD,
+				1B5E2EFA04F102EA00F043CD,
 				F7D20D1902F9B5DF01000103,
 				F7D20D1A02F9B5DF01000103,
 				F739178302FCB43A01000103,
 				F739178402FCB43A01000103,
+				1BF7F12304F2BE74007723F5,
+				1BF7F12404F2BE74007723F5,
 			);
 			isa = PBXGroup;
 			name = "Model Classes";

@@ -8,8 +8,7 @@
 <author>Written by Marc Liyanage <email>liyanage@access.ch</email></author>
 
 <description>
-<para>TestXSLT is a small tool for experimenting with XSLT in a convenient way
-on Mac OS X. It uses the Sablotron XSL processor from <url>http://www.gingerall.com/charlie/ga/xml/p_sab.xml</url> and the Gnome libxslt processor from <url>http://xmlsoft.org/XSLT/</url>.</para>
+<para>TestXSLT is a free tool for learning, experimenting with and using the XSL language (both the XSLT and the XSL-FO parts) in a convenient way on Mac OS X. It offers several XSLT processors (Sablotron, Gnome LibXSLT, Saxon and Xalan-J) as well as the Apache FOP XSL-FO rendering engine which produces on-screen previews as well as PDF files. For authors of stylesheets which produce HTML, it makes use of the WebKit HTML rendering engine, allowing previews right in the application.</para>
 
 <para>The program takes an .xml and an .xsl file and either displays the result of the transformation in an output window or writes it to a file.</para>
 
@@ -21,9 +20,7 @@ on Mac OS X. It uses the Sablotron XSL processor from <url>http://www.gingerall.
 
 <para>Comments, feedback and feature suggestions are welcome to the address above.</para>
 
-<para>If you own BBEdit, I suggest that you check out my "BBEdit XSLT Glossary" package, available from my homepage. TestXSLT has been
-optimized to work well together with BBEdit. You can edit and save an XSLT file in BBEdit, switch back to TestXSLT and
-the XSLT code will be updated from disk immediately.</para>
+<para>If you own BBEdit, I suggest that you check out my "BBEdit XSLT Glossary" package, available from my homepage. TestXSLT has been optimized to work well with BBEdit. You can edit and save an XSLT file in BBEdit, switch back to TestXSLT and the XSLT code will be updated from disk immediately.</para>
 
 <para>The latest version of this software is available at <url>http://www.entropy.ch/software/macosx/</url></para>
 
@@ -34,6 +31,13 @@ Mac OS X 10.2., Safari 1.0 must be installed on your system.
 </requirements>
 
 <history>
+
+<entry>
+	<version>2.8</version>
+	<date>17-AUG-2003</date>
+	<item>Embedded the FOP XSL-FO rendering engine from the Apache Project. This means that you can now view the result of a translation which produces XSL-FO instructions directly in the application. You can also save the output as a PDF file. With this addition, TestXSLT is now a useful learning tool for the XSL-FO language.</item>
+	<item>A new, fourth XSLT engine has been added, the Java Xalan processor from the Apache project.</item>
+</entry>
 
 <entry>
 	<version>2.7</version>

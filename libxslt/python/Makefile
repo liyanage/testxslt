@@ -42,9 +42,9 @@ pkgincludedir = $(includedir)/libxslt
 
 top_builddir = ..
 
-ACLOCAL = /Users/liyanage/Documents/src/TestXSLT/libxslt/missing aclocal-1.4
+ACLOCAL = /Users/liyanage/cvs/entropy/TestXSLT/libxslt/missing aclocal-1.4
 AUTOCONF = autoconf
-AUTOMAKE = /Users/liyanage/Documents/src/TestXSLT/libxslt/missing automake-1.4
+AUTOMAKE = /Users/liyanage/cvs/entropy/TestXSLT/libxslt/missing automake-1.4
 AUTOHEADER = autoheader
 
 INSTALL = /usr/bin/install -c
@@ -68,7 +68,7 @@ CPPFLAGS =
 DLLTOOL = @DLLTOOL@
 ECHO = echo
 EXEEXT = 
-EXTRA_LIBS =  -L/Users/liyanage/Documents/src/TestXSLT/build/libxml2-gnustyle/lib -lxml2 -lz -L/Users/liyanage/Documents/src/TestXSLT/build/libiconv-gnustyle/lib -liconv -lm 
+EXTRA_LIBS =  -L/Users/liyanage/cvs/entropy/TestXSLT/build/libxml2-gnustyle/lib -lxml2 -lz -L/Users/liyanage/cvs/entropy/TestXSLT/build/libiconv-gnustyle/lib -liconv -lm 
 HTML_DIR = $(prefix)/doc
 INSTALLED_XSLT_LIB = 
 LDFLAGS = 
@@ -79,8 +79,8 @@ LIBEXSLT_VERSION = 0.7.18
 LIBEXSLT_VERSION_INFO = 7:18:7
 LIBEXSLT_VERSION_NUMBER = 718
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
-LIBXML_CFLAGS =  -I/Users/liyanage/Documents/src/TestXSLT/build/libxml2-gnustyle/include/libxml2 -I/Users/liyanage/Documents/src/TestXSLT/build/libiconv-gnustyle/include
-LIBXML_LIBS =  -L/Users/liyanage/Documents/src/TestXSLT/build/libxml2-gnustyle/lib -lxml2 -lz -L/Users/liyanage/Documents/src/TestXSLT/build/libiconv-gnustyle/lib -liconv -lm
+LIBXML_CFLAGS =  -I/Users/liyanage/cvs/entropy/TestXSLT/build/libxml2-gnustyle/include/libxml2 -I/Users/liyanage/cvs/entropy/TestXSLT/build/libiconv-gnustyle/include
+LIBXML_LIBS =  -L/Users/liyanage/cvs/entropy/TestXSLT/build/libxml2-gnustyle/lib -lxml2 -lz -L/Users/liyanage/cvs/entropy/TestXSLT/build/libiconv-gnustyle/lib -liconv -lm
 LIBXML_REQUIRED_VERSION = 2.5.2
 LIBXSLTBREAK_MAJOR_VERSION = 1
 LIBXSLTBREAK_MICRO_VERSION = 8
@@ -109,18 +109,18 @@ PYTHON_SITE_PACKAGES =
 PYTHON_SUBDIR = 
 PYTHON_VERSION = 
 RANLIB = ranlib
-RELDATE = Wed Aug  6 2003
+RELDATE = Thu Aug  7 2003
 STRIP = strip
 VERSION = 1.0.27
 WITH_DEBUGGER = 1
 WITH_MEM_DEBUG = 0
 WITH_TRIO = 0
 WITH_XSLT_DEBUG = 1
-XML_CONFIG = /Users/liyanage/Documents/src/TestXSLT/build/libxml2-gnustyle/bin/xml2-config
+XML_CONFIG = /Users/liyanage/cvs/entropy/TestXSLT/build/libxml2-gnustyle/bin/xml2-config
 XSLTPROCDV = 
 XSLT_INCLUDEDIR = -I${includedir}
 XSLT_LIBDIR = -L${libdir}
-XSLT_LIBS = -lxslt  -L/Users/liyanage/Documents/src/TestXSLT/build/libxml2-gnustyle/lib -lxml2 -lz -L/Users/liyanage/Documents/src/TestXSLT/build/libiconv-gnustyle/lib -liconv -lm 
+XSLT_LIBS = -lxslt  -L/Users/liyanage/cvs/entropy/TestXSLT/build/libxml2-gnustyle/lib -lxml2 -lz -L/Users/liyanage/cvs/entropy/TestXSLT/build/libiconv-gnustyle/lib -liconv -lm 
 
 AUTOMAKE_OPTIONS = 1.4 foreign
 

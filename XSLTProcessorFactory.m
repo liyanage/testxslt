@@ -20,6 +20,8 @@
 		return [[XSLTProcessorLibxslt alloc] init];
 	} else if (processorType == PROCESSORTYPE_SAXON) {
 		return [[XSLTProcessorSaxon alloc] init];
+	} else if (processorType == PROCESSORTYPE_XALAN_J) {
+		return [[XSLTProcessorXalan_J alloc] init];
 	}
 
 	NSLog(@"Unknown processor type '%d' passed!", processorType);

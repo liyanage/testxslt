@@ -90,6 +90,9 @@
 
 	if ([[tabViewItem identifier] isEqualToString:@"htmlResult"]) {
 		[self resizeWebView];
+		[self updateResultWebView];
+	} else if ([[tabViewItem identifier] isEqualToString:@"xslfoResult"]) {
+		[self updateResultImageView];
 	}
 	
 }
@@ -155,19 +158,41 @@
 	[self updateWellFormedIcons];
 	
 	[parameterTable reloadData];
+
 	
 	[resultView setString:[workset result]];
-	
-	WebFrame *mainFrame = [resultWebView mainFrame];
-	[mainFrame loadHTMLString:[workset result] baseURL:nil];
 
-	/*
-	NSLog(@"webview frame: %@", NSStringFromRect([resultWebView frame]));
-	NSLog(@"webview main frame: %@", NSStringFromRect([[mainFrame frameView] frame]));
-	NSLog(@"textview frame: %@", NSStringFromRect([resultView frame]));
-	*/
+	if ([[[resultTabView selectedTabViewItem] identifier] isEqualToString:@"htmlResult"]) {
+		[self updateResultWebView];
+	} else if ([[[resultTabView selectedTabViewItem] identifier] isEqualToString:@"xslfoResult"]) {
+		[self updateResultImageView];
+	}
+	
+	[pdfCurrentPageField setIntValue: (pdfPageCount ? (pdfCurrentPage + 1) : 0)];
+	[pdfPageCountField setIntValue:pdfPageCount];
+	
+	[pdfPreviousPageButton setEnabled:pdfCurrentPage > 0];
+	[pdfNextPageButton setEnabled:pdfCurrentPage < (pdfPageCount - 1)];
+	[pdfSaveAsButton setEnabled:(pdfPageCount > 0)];
 	
 	
+}
+
+
+- (void)updateResultWebView {
+	if (!webViewUpToDate) {
+		WebFrame *mainFrame = [resultWebView mainFrame];
+		[mainFrame loadHTMLString:[workset result] baseURL:nil];
+		webViewUpToDate = YES;
+	}
+}
+
+
+- (void)updateResultImageView {
+	if (!imageViewUpToDate) {
+		[self renderFo:self];
+		imageViewUpToDate = YES;
+	}
 }
 
 
@@ -507,6 +532,9 @@
 		[processingTimeField setStringValue:[NSString stringWithFormat:@"Time: %ldms", processingTime]];
 	}
 
+	webViewUpToDate = NO;
+	imageViewUpToDate = NO;
+	
 	[self updateUI];
 }
 
@@ -809,6 +837,10 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 		[self switchProcessorToType:PROCESSORTYPE_SAXON updateUI:YES];
 
+	} else if ([processorType caseInsensitiveCompare:@"xalan-j"] == NSOrderedSame) {
+		
+		[self switchProcessorToType:PROCESSORTYPE_XALAN_J updateUI:YES];
+		
 	} else {
 		NSLog(@"unknown processor");
 	}
@@ -943,6 +975,76 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 }
 
+- (IBAction)renderFo:(id)sender {
+
+	XSL_FO_Renderer *xfr = [[XSL_FO_Renderer alloc] init];
+
+	NSData *resultData = [xfr render:[workset result]];
+
+	[resultData retain];
+	[pdfData release];
+	pdfData = resultData;
+	
+	NSImage *pdfImage = [[[NSImage alloc] initWithData:resultData] autorelease];
+	[pdfImage setBackgroundColor:[NSColor whiteColor]];
+	[pdfImage setCacheMode:NSImageCacheNever];
+	
+	[resultImageView setImage:pdfImage];
+	[resultImageView setFrameSize:[pdfImage size]];
+
+	//:[[[pdfImage representations] objectAtIndex:0] bounds]
+	//[resultImageView sizeToFit];
+	
+	//[resultImageView setNeedsDisplay:YES];
+
+	NSLog(@"image reps: -%@-", [pdfImage representations]);
+	NSLog(@"count: -%d-", [[[pdfImage representations] objectAtIndex:0] pageCount]);
+	
+	pdfPageCount = [[[pdfImage representations] objectAtIndex:0] pageCount];
+	pdfCurrentPage = 0;
+		
+	[xfr release];
+	
+}
+
+
+- (IBAction)pdfPreviousPage:(id)sender {
+	
+	if (pdfCurrentPage > 0) {
+		pdfCurrentPage--;
+		[[[[resultImageView image] representations] objectAtIndex:0] setCurrentPage:pdfCurrentPage];
+		[resultImageView setNeedsDisplay:YES];
+		[self doUpdateUI];
+	}
+	
+}
+
+- (IBAction)pdfNextPage:(id)sender {
+	
+	if (pdfCurrentPage < (pdfPageCount - 1)) {
+		pdfCurrentPage++;
+		[[[[resultImageView image] representations] objectAtIndex:0] setCurrentPage:pdfCurrentPage];
+		[resultImageView setNeedsDisplay:YES];
+		[self doUpdateUI];
+	}
+	
+}
+
+
+- (IBAction)pdfSaveAs:(id)sender {
+
+	NSSavePanel *panel = [NSSavePanel savePanel];
+	
+	if ([panel runModal] == NSFileHandlingPanelOKButton) {
+		
+		[pdfData writeToFile:[panel filename] atomically:YES];
+
+	}
+	
+}
+
+
+
 
 - (void)windowDidBecomeMain:(NSNotification *)aNotification {
 
@@ -985,6 +1087,11 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 	[super windowControllerDidLoadNib:aController];
 
+	[resultImageView setImageAlignment:NSImageAlignTopLeft];
+//	[resultImageView setImageFrameStyle:NSImageFrameGroove];
+	[resultImageView setImageScaling:NSScaleNone];
+	[resultImageView setEditable:NO];
+	
 
 	// Add any code here that need to be executed once the windowController has loaded the document's window.
 

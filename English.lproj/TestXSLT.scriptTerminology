@@ -147,7 +147,7 @@
 					<key>Name</key>
 					<string>Name</string>
 					<key>Description</key>
-					<string>The name of the XSLT processor to use ("Libxslt", "Sablotron" or "Saxon").</string>
+					<string>The name of the XSLT processor to use ("Libxslt", "Sablotron", "Saxon" or "Xalan-J").</string>
 					<key>Sex</key>
 					<string>none</string>
 					<key>Number</key>

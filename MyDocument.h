@@ -20,6 +20,7 @@
 #import "FindPanelController.h"
 #import "JumpToLinePanelController.h"
 #import "UnsavedChangesPanelController.h"
+#import "XSL_FO_Renderer.h"
 
 
 enum {
@@ -36,6 +37,12 @@ enum {
 	BOOL resultDirty;
 	BOOL xmlDirty;
 	BOOL xsltDirty;
+	
+	BOOL webViewUpToDate;
+	BOOL imageViewUpToDate;
+
+	int pdfPageCount, pdfCurrentPage;
+	
 	NSBundle *processorBundle;
 
 	XSLTProcessor *processor;
@@ -58,6 +65,7 @@ enum {
 	IBOutlet NSButton *saveXsltAsButton;
 	IBOutlet NSButton *paramRemoveButton;
 	IBOutlet NSTabView *tabView;
+	IBOutlet NSTabView *resultTabView;
 	IBOutlet XMLTextView *xmlView;
 	IBOutlet XMLTextView *xsltView;
 	IBOutlet NSTextView *resultView;
@@ -67,8 +75,16 @@ enum {
 	IBOutlet NSDrawer *errorDrawer;
 	IBOutlet NSPopUpButton *processorTypePopUp;
 	IBOutlet WebView *resultWebView;
+	IBOutlet NSImageView *resultImageView;
+
+	IBOutlet NSTextField *pdfCurrentPageField;
+	IBOutlet NSTextField *pdfPageCountField;
+	IBOutlet NSButton *pdfPreviousPageButton;
+	IBOutlet NSButton *pdfNextPageButton;
+	IBOutlet NSButton *pdfSaveAsButton;
 
 	IBOutlet NSTextField *drawerMessageField;
+	NSData *pdfData;
 
 	FindPanelController *findPanelController;
 	JumpToLinePanelController *jumpToLinePanelController;
@@ -143,7 +159,16 @@ enum {
 - (IBAction)openResultURL:(id)sender;
 - (void)autoSave;
 
+- (void)updateResultWebView;
+- (void)updateResultImageView;
+
+- (IBAction)renderFo:(id)sender;
+
 - (IBAction)showErrorLocation:(id)sender;
+
+- (IBAction)pdfPreviousPage:(id)sender;
+- (IBAction)pdfNextPage:(id)sender;
+- (IBAction)pdfSaveAs:(id)sender;
 
 - (void)checkForExternalModifications;
 

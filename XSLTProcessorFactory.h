@@ -11,6 +11,7 @@
 #import "XSLTProcessorSablotron.h"
 #import "XSLTProcessorLibxslt.h"
 #import "XSLTProcessorSaxon.h"
+#import "XSLTProcessorXalan_J.h"
 
 
 @interface XSLTProcessorFactory : NSObject {

@@ -16,7 +16,7 @@ SHELL = /bin/sh
 srcdir = .
 top_srcdir = ../..
 
-prefix = /Users/liyanage/Documents/src/TestXSLT/build/libxml2-gnustyle
+prefix = /Users/liyanage/cvs/entropy/TestXSLT/build/libxml2-gnustyle
 exec_prefix = ${prefix}
 
 bindir = ${exec_prefix}/bin
@@ -40,9 +40,9 @@ pkgincludedir = $(includedir)/libxml2
 
 top_builddir = ../..
 
-ACLOCAL = /Users/liyanage/Documents/src/TestXSLT/libxml2/missing aclocal-1.4
+ACLOCAL = /Users/liyanage/cvs/entropy/TestXSLT/libxml2/missing aclocal-1.4
 AUTOCONF = autoconf
-AUTOMAKE = /Users/liyanage/Documents/src/TestXSLT/libxml2/missing automake-1.4
+AUTOMAKE = /Users/liyanage/cvs/entropy/TestXSLT/libxml2/missing automake-1.4
 AUTOHEADER = autoheader
 
 INSTALL = /usr/bin/install -c
@@ -76,7 +76,7 @@ HAVE_ISNAN =
 HTML_DIR = $(prefix)/doc
 HTML_OBJ = HTMLparser.o HTMLtree.o
 HTTP_OBJ = nanohttp.o
-ICONV_LIBS = -L/Users/liyanage/Documents/src/TestXSLT/build/libiconv-gnustyle/lib -liconv
+ICONV_LIBS = -L/Users/liyanage/cvs/entropy/TestXSLT/build/libiconv-gnustyle/lib -liconv
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIBXML_MAJOR_VERSION = 2
 LIBXML_MICRO_VERSION = 4
@@ -99,7 +99,7 @@ PYTHON_SUBDIR =
 PYTHON_VERSION = 
 RANLIB = ranlib
 RDL_LIBS = 
-RELDATE = Tue Aug  5 2003
+RELDATE = Thu Aug  7 2003
 RM = /bin/rm
 STATIC_BINARIES = 
 STRIP = strip
@@ -129,9 +129,9 @@ WITH_XPATH = 1
 WITH_XPTR = 1
 XINCLUDE_OBJ = xinclude.o
 XML_CFLAGS = 
-XML_INCLUDEDIR = -I${includedir}/libxml2 -I/Users/liyanage/Documents/src/TestXSLT/build/libiconv-gnustyle/include
+XML_INCLUDEDIR = -I${includedir}/libxml2 -I/Users/liyanage/cvs/entropy/TestXSLT/build/libiconv-gnustyle/include
 XML_LIBDIR = -L${libdir}
-XML_LIBS = -lxml2 -lz  -L/Users/liyanage/Documents/src/TestXSLT/build/libiconv-gnustyle/lib -liconv -lm 
+XML_LIBS = -lxml2 -lz  -L/Users/liyanage/cvs/entropy/TestXSLT/build/libiconv-gnustyle/lib -liconv -lm 
 XPATH_OBJ = xpath.o
 XPTR_OBJ = xpointer.o
 Z_CFLAGS = 
