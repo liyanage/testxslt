@@ -12,11 +12,11 @@
 @implementation XSL_FO_Renderer
 
 
-- (NSData *)render:(NSString *)foString {
+- (NSData *)render:(NSData *)foData {
 
 	FOPWrapper *fw = (FOPWrapper *)[[NSClassFromString(@"FOPWrapper") alloc] init];
 
-	NSData *resultData = [fw convert:foString];
+	NSData *resultData = [fw convert:foData];
 	
 	// fixme: autorelease on resultData? creation on Java side?
 	

@@ -16,7 +16,7 @@
 
 
 
-- (BOOL)processStrings:(NSString *)xmlCode withXslt:(NSString *)xsltCode andParameters:(const char **)params {
+- (BOOL)processStrings:(NSData *)xmlCode withXslt:(NSData *)xsltCode andParameters:(const char **)params {
 	
 	[self clearError];
 	
@@ -43,7 +43,7 @@
 	JAXPWrapper *jw = (JAXPWrapper *)[[NSClassFromString(@"JAXPWrapper") alloc] init];
 	BOOL swresult = [jw transform:[self getJAXPProcessorName] :xmlCode :xsltCode :paramBuffer :jaxpBaseUri];
 	
-	
+	[self setResultEncodingFromData:xsltCode];
 	
 	if (swresult) {
 		[self setResult:[jw getResult]];

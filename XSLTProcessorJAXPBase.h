@@ -28,7 +28,7 @@
 - (int)getErrorSource;
 - (int)getErrorLine;
 - (NSString *)getErrorMessage;
-- (NSString *)getResult;
-- (BOOL)transform:(NSString *)processorClassName :(NSString *)xml :(NSString *)xslt :(NSString *)parameters :(NSString *)baseUri;
+- (NSData *)getResult;
+- (BOOL)transform:(NSString *)processorClassName :(NSData *)xml :(NSData *)xslt :(NSString *)parameters :(NSString *)baseUri;
 @end
 

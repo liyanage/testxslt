@@ -10,19 +10,32 @@
 #import <DragDestinationTextView.h>
 
 #include <unistd.h>
+#include "expat.h"
+#include "ragel_xmlscanner.h"
+#import "XMLUtils.h"
 
 @interface XMLTextView : DragDestinationTextView
 {
 
+	char (*resultstack)[MAXTAGLENGTH];
+	int stackresult;
+	int tagpositions[STACKDEPTH];
+	XML_Parser parser;
+	BOOL error;
+	int errorLine, errorColumn;
+	NSString *errorString;
 	
 }
 
+-(BOOL)hasError;
+-(void)clearError;
 -(void)flashRange:(NSRange)range;
 -(BOOL)completeAfterSlash;
 -(void)selectLineByNumber:(int)line;
--(NSRange)scanBackwardsForOpeningTagNameInRange:(NSRange)scanRange;
-
-
-
+-(NSString *)calculateTagStack;
+-(NSString *)calculateTagStackAtLocation:(int)location;
+-(BOOL)checkWellFormed;
+-(void)setError:(NSString *)errstring atLine:(int)line atColumn:(int)column;
+-(void)clearError;
 
 @end

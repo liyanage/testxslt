@@ -33,6 +33,14 @@ Mac OS X 10.2., Safari 1.0 must be installed on your system.
 <history>
 
 <entry>
+	<version>2.9</version>
+	<date>xx-SEP-2003</date>
+	<item>Added a tag scanner, resulting in much smarter tag completion, and a list of the currently open tags at the top of the editor.</item>
+	<item>Major internal cleanup regarding encodings. If a dropped/opened file has an XML declaration with encoding information, that will be used, both when reading and when saving out to the file again. Make sure you activate the corresponding option in BBEdit too. If no such declaration exists, the platform default will be used (i.e. Macintosh encoding). Also, the encoding of the result of the transformation is currently assumed to be what's declared in the declaration of the XSLT code. This means you cannot use a different encoding in the xsl:output element.</item>
+
+</entry>
+
+<entry>
 	<version>2.8</version>
 	<date>17-AUG-2003</date>
 	<item>Embedded the FOP XSL-FO rendering engine from the Apache Project. This means that you can now view the result of a translation which produces XSL-FO instructions directly in the application. You can also save the output as a PDF file. With this addition, TestXSLT is now a useful learning tool for the XSL-FO language.</item>

@@ -16,7 +16,7 @@
 	if (self = [super init]) {
 		xmlCode = [[NSString stringWithFormat:@"<text>\nPut your XML code here.\nPut your XSLT code under the XSLT tab.\nThen click on the Process button.\n</text>"] retain];
 		xsltCode = [[NSString stringWithFormat:@"<?xml version='1.0' encoding='iso-8859-1'?>\n\n<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>\n\n<xsl:output method='html' version='1.0' encoding='iso-8859-1' indent='no'/>\n\n</xsl:stylesheet>"] retain];
-		result = [[NSString alloc] init];
+		result = [[NSData alloc] init];
 		parameterSet = [[ParameterSet alloc] init];
 		xmlFilename = nil;
 		xsltFilename = nil;
@@ -109,7 +109,7 @@
 		return FALSE;
 	}
 	
-	[[self xmlCode] writeToFile:[self xmlFilename] atomically:NO];
+	[[XMLUtils getDataWithEncodingFromString:[self xmlCode]] writeToFile:[self xmlFilename] atomically:NO];
 	[self updateXmlFileModificationDate];
 
 	return YES;
@@ -154,13 +154,22 @@
 
 - (void)reloadXmlFromFile {
 
-	[self setXmlCode:[NSString stringWithContentsOfFile:[self xmlFilename]]];
+	[self setXmlCode:[XMLUtils getStringWithEncodingFromFile:[self xmlFilename]]];
 	[self updateXmlFileModificationDate];
 
 }
 
 
 
+
+
+- (int)resultEncoding {
+	return resultEncoding;
+}
+
+- (void)setResultEncoding:(NSStringEncoding)newencoding {
+	resultEncoding = newencoding;
+}
 
 
 
@@ -190,7 +199,7 @@
 		return FALSE;
 	}
 
-	[[self xsltCode] writeToFile:[self xsltFilename] atomically:NO];
+	[[XMLUtils getDataWithEncodingFromString:[self xsltCode]] writeToFile:[self xsltFilename] atomically:NO];
 	[self updateXsltFileModificationDate];
 
 	return YES;
@@ -234,13 +243,10 @@
 
 - (void)reloadXsltFromFile {
 
-	[self setXsltCode:[NSString stringWithContentsOfFile:[self xsltFilename]]];
+	[self setXsltCode:[XMLUtils getStringWithEncodingFromFile:[self xsltFilename]]];
 	[self updateXsltFileModificationDate];
 		
 }
-
-
-
 
 
 
@@ -273,15 +279,22 @@
 	xsltCode = s;
 }
 
-- (NSString *)result {
+- (NSData *)result {
 	return result;
 }
 
-- (void)setResult:(NSString *)s {
+- (void)setResult:(NSData *)s {
 	[s retain];
 	[result release];
 	result = s;
 }
+
+
+- (NSString *)stringResult {
+	return [[[NSString alloc] initWithData:result encoding:[self resultEncoding]] autorelease];
+}
+
+
 
 - (ParameterSet *)parameterSet {
 	return parameterSet;

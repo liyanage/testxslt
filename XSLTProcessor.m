@@ -64,13 +64,13 @@
 }
 
 
-- (NSString *)result {
+- (NSData *)result {
 
 	return result;
 
 }
 
-- (void)setResult:(NSString *)newResult {
+- (void)setResult:(NSData *)newResult {
 
 	[newResult retain];
 	[result autorelease];
@@ -78,6 +78,30 @@
 
 }
 
+- (int)resultEncoding {
+	return resultEncoding;
+}
+
+- (void)setResultEncoding:(NSStringEncoding)newencoding {
+
+	resultEncoding = newencoding;
+}
+
+
+- (void)setResultEncodingFromData:(NSData *)data {
+
+	NSStringEncoding dataencoding = getEncodingFromXmlDecl([data bytes], [data length]);
+
+	if (dataencoding == 0)
+		dataencoding = NSUTF8StringEncoding;
+
+	[self setResultEncoding:dataencoding];
+
+}
+
+- (NSString *)stringResult {
+	return [[[NSString alloc] initWithData:result encoding:[self resultEncoding]] autorelease];
+}
 
 - (int)errorLine {
 
@@ -125,7 +149,7 @@
 
 
 
-- (BOOL)processStrings:(NSString *)xmlCode withXslt:(NSString *)xsltCode andParameters:(const char **)params {
+- (BOOL)processStrings:(NSData *)xmlCode withXslt:(NSData *)xsltCode andParameters:(const char **)params {
 
 	NSLog(@"Subclasses must override this method!");
 	return NO;

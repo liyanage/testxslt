@@ -75,7 +75,7 @@
 
 
 
-- (BOOL)processStrings:(NSString *)xmlCode withXslt:(NSString *)xsltCode andParameters:(const char **)params {
+- (BOOL)processStrings:(NSData *)xmlCode withXslt:(NSData *)xsltCode andParameters:(const char **)params {
 
 	char *resultBuffer;
 
@@ -89,8 +89,16 @@
 		SablotSetBase(processor, [[NSString stringWithFormat:@"%@/", [[self baseUri] stringByDeletingLastPathComponent]] cString]);
 	}
 
-	SablotAddArgBuffer(S, processor, "xslt", (char *)[xsltCode cString]);
-	SablotAddArgBuffer(S, processor, "xml", (char *)[xmlCode cString]);
+	char *xmlBuffer = malloc([xmlCode length] + 1);
+	[xmlCode getBytes:xmlBuffer];
+	xmlBuffer[[xmlCode length]] = '\0';
+	
+	char *xsltBuffer = malloc([xsltCode length] + 1);
+	[xsltCode getBytes:xsltBuffer];
+	xsltBuffer[[xsltCode length]] = '\0';
+
+	SablotAddArgBuffer(S, processor, "xml", (char *)xmlBuffer);
+	SablotAddArgBuffer(S, processor, "xslt", (char *)xsltBuffer);
 
 	while (params && params[i]) {
 		SablotAddParam(S, processor, params[i], params[i+1]);
@@ -101,54 +109,17 @@
 //	resultCode = SablotRunProcessor(processor, "arg:/xslt", "arg:/xml", "arg:/result", params, args);
 	resultCode = SablotRunProcessorGen(S, processor, "arg:/xslt", "arg:/xml", "arg:/result");
 
+	free(xmlBuffer);
+	free(xsltBuffer);
+	
 	if ([self errorOccurred]) {
 		return NO;
 	}
 
 	SablotGetResultArg(processor, "arg:/result", &resultBuffer);
-
-	[self setResult:[NSString stringWithCString:resultBuffer]];
-		 
-	SablotFree(resultBuffer);
-
-	return YES;
 	
-}
-
-
-
-- (BOOL)processStringsOld:(NSString *)xmlCode withXslt:(NSString *)xsltCode andParameters:(const char **)params {
-
-	char *resultBuffer;
-	const char *args[7];
-
-	int resultCode = 0;
-
-	args[0] = "/xml";
-	args[1] = (char *)[xmlCode cString];
-	args[2] = "/xslt";
-	args[3] = (char *)[xsltCode cString];
-	args[4] = "/result";
-	args[5] = (char *)&resultBuffer;
-	args[6] = NULL;
-
-	[self clearError];
-
-
-	if ([self baseUri] != nil) {
-		SablotSetBase(processor, [[self baseUri] cString]);
-	}
-	
-	resultCode = SablotRunProcessor(processor, "arg:/xslt", "arg:/xml", "arg:/result", params, args);
-
-	if ([self errorOccurred]) {
-		return NO;
-	}
-
-	SablotGetResultArg(processor,"arg:/result", &resultBuffer);
-
-	[self setResult:[NSString stringWithCString:resultBuffer]];
-		 
+	[self setResult:[NSData dataWithBytes:resultBuffer length:strlen(resultBuffer)]];
+	[self setResultEncodingFromData:xsltCode];
 	SablotFree(resultBuffer);
 
 	return YES;

@@ -14,7 +14,7 @@ extern void *xmlGenericErrorContext;
 
 @interface XMLParserLibxml : NSObject {
 
-	xmlParserCtxtPtr xmlContext;
+//	xmlParserCtxtPtr xmlContext;
 	xmlDocPtr parsedXmlDoc;
 	NSMutableString *errorMessage;
 	int errorLine;
@@ -26,8 +26,8 @@ extern void *xmlGenericErrorContext;
 
 void makeUnixLineFeeds(char *buffer);
 
-- (BOOL)parseString:(NSString *)xmlCode;
-- (BOOL)checkWellFormedString:(NSString *)xmlCode;
+- (BOOL)parseData:(NSData *)xmlCode;
+- (BOOL)checkWellFormedData:(NSData *)xmlCode;
 - (void)setErrorMessage:(NSString *)message;
 - (void)appendErrorMessage:(NSString *)message;
 - (void)markFirstErrorLine;

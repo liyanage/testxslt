@@ -12,6 +12,7 @@
 #import <WebKit/WebKit.h>
 #include <sys/time.h>
 
+#import "XMLUtils.h"
 #import "Workset.h"
 #import "ParameterSet.h"
 #import "XSLTProcessorFactory.h"
@@ -83,6 +84,9 @@ enum {
 	IBOutlet NSButton *pdfNextPageButton;
 	IBOutlet NSButton *pdfSaveAsButton;
 
+	IBOutlet NSTextField *xmlTagStackField;
+	IBOutlet NSTextField *xsltTagStackField;
+
 	IBOutlet NSTextField *drawerMessageField;
 	NSData *pdfData;
 
@@ -106,7 +110,6 @@ enum {
 
 - (BOOL)showUnsavedChangesPanel;
 
-- (void)updateWellFormedIcons;
 - (void)updateCompleteUI;
 - (void)updateUI;
 - (void)doUpdateUI;
@@ -143,7 +146,6 @@ enum {
 
 // Drag and Drop for our custom NSTextView subclass
 - (BOOL)handleDroppedFile:(NSString *)filename forTextView:(NSTextView *)sender;
-
 
 - (IBAction)process:(id)sender;
 - (IBAction)loadXml:(id)sender;

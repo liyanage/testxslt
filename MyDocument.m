@@ -82,19 +82,16 @@
 
 }
 
+- (void)textViewDidChangeSelection:(NSNotification *)aNotification {
+	[self updateUI];
+}
+
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
 
-	NSLog(@"switch tab xyz x");
 	[[self undoManager] removeAllActions];
 
-	if ([[tabViewItem identifier] isEqualToString:@"htmlResult"]) {
-		[self resizeWebView];
-		[self updateResultWebView];
-	} else if ([[tabViewItem identifier] isEqualToString:@"xslfoResult"]) {
-		[self updateResultImageView];
-	}
-	
+	[self doUpdateUI];
 }
 
 
@@ -107,7 +104,7 @@
 	[uiUpdateTimer invalidate];
 	[uiUpdateTimer release];
 
-	uiUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(uiUpdateTimerTarget:) userInfo:nil repeats:NO];
+	uiUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(uiUpdateTimerTarget:) userInfo:nil repeats:NO];
 
 	[uiUpdateTimer retain];
 
@@ -124,57 +121,88 @@
 
 - (void)doUpdateUI {
 
-//	NSLog(@"doUpdateUI running...");
-//	NSLog(@"debug: %@", [[[NSApp mainWindow] document] tabView]);
+	NSString *activeTabIdentifier = [[tabView selectedTabViewItem] identifier];
+	NSString *activeResultTabIdentifier = [[resultTabView selectedTabViewItem] identifier];
 
-
-	[saveXmlAsButton setEnabled:[workset hasXmlCode]];
-	[saveXsltAsButton setEnabled:[workset hasXsltCode]];
-	[saveResultAsButton setEnabled:[workset hasResult]];
-
-	[saveResultButton setEnabled:[workset hasResultFilename] && resultDirty];
-	[autoSaveCheckbox setEnabled:[workset hasResultFilename]];
-
-	[openResultURLButton setEnabled:[workset hasResultFilename]];
-	[autoShowCheckbox setEnabled:[openResultURLButton isEnabled]];
-
-	[paramRemoveButton setEnabled:[parameterTable selectedRow] != -1];
-
-	[processButton setEnabled:[self canProcessNow]];
-
-	[saveResultFilenameField setObjectValue:[workset resultFilename]];
-	[saveResultFilenameField setToolTip:[workset resultFilename]];
-
-
-	[saveXmlFilenameField setObjectValue:[workset xmlFilename]];
-	[saveXmlFilenameField setToolTip:[workset xmlFilename]];
-	[saveXmlButton setEnabled:[workset hasXmlFilename] && xmlDirty];
-
+	BOOL xmlTabIsVisible = [activeTabIdentifier isEqualToString:@"xmlTab"];
+	BOOL xsltTabIsVisible = !xmlTabIsVisible && [activeTabIdentifier isEqualToString:@"xsltTab"];
+	BOOL paramTabIsVisible = !(xmlTabIsVisible || xsltTabIsVisible) && [activeTabIdentifier isEqualToString:@"parametersTab"];
+	BOOL resultTabIsVisible = !(xmlTabIsVisible || xsltTabIsVisible || paramTabIsVisible);
+	BOOL resultTabHtmlIsVisible = resultTabIsVisible && [activeResultTabIdentifier isEqualToString:@"htmlResult"];
+	BOOL resultTabXslfoIsVisible = resultTabIsVisible && !resultTabHtmlIsVisible && [activeResultTabIdentifier isEqualToString:@"xslfoResult"];
+	BOOL resultTabTextIsVisible = resultTabIsVisible && !(resultTabHtmlIsVisible || resultTabXslfoIsVisible);
 	
-	[saveXsltFilenameField setObjectValue:[workset xsltFilename]];
-	[saveXsltFilenameField setToolTip:[workset xsltFilename]];
-	[saveXsltButton setEnabled:[workset hasXsltFilename] && xsltDirty];
-
-	[self updateWellFormedIcons];
+//	NSLog(@"xml: %d, xslt: %d, param: %d, result: %d, reshtml: %d, resxslfo: %d, restext: %d", xmlTabIsVisible, xsltTabIsVisible, paramTabIsVisible, resultTabIsVisible, resultTabHtmlIsVisible, resultTabXslfoIsVisible, resultTabTextIsVisible);
 	
-	[parameterTable reloadData];
-
+	if (xmlTabIsVisible) {
+		[saveXmlFilenameField setObjectValue:[workset xmlFilename]];
+		[saveXmlFilenameField setToolTip:[workset xmlFilename]];
+		[saveXmlButton setEnabled:[workset hasXmlFilename] && xmlDirty];
+		[saveXmlAsButton setEnabled:[workset hasXmlCode]];
+		[xmlTagStackField setStringValue:[xmlView calculateTagStack]];
 	
-	[resultView setString:[workset result]];
+		[xmlView checkWellFormed];
+		if ([workset hasXmlCode] && [xmlView hasError]) {
+			[xmlWellFormedIcon setImage:warningIcon];
+			[xmlWellFormedIcon setToolTip:[xmlView valueForKey:@"errorString"]];
+		} else {
+			[xmlWellFormedIcon setImage:nil];
+			[xmlWellFormedIcon setToolTip:nil];
+		}
+	
+	} else if (xsltTabIsVisible) {
+		[saveXsltFilenameField setObjectValue:[workset xsltFilename]];
+		[saveXsltFilenameField setToolTip:[workset xsltFilename]];
+		[saveXsltButton setEnabled:[workset hasXsltFilename] && xsltDirty];
+		[saveXsltAsButton setEnabled:[workset hasXsltCode]];
+		[xsltTagStackField setStringValue:[xsltView calculateTagStack]];
 
-	if ([[[resultTabView selectedTabViewItem] identifier] isEqualToString:@"htmlResult"]) {
-		[self updateResultWebView];
-	} else if ([[[resultTabView selectedTabViewItem] identifier] isEqualToString:@"xslfoResult"]) {
-		[self updateResultImageView];
+		[xsltView checkWellFormed];
+		if ([workset hasXsltCode] && [xsltView hasError]) {
+			[xsltWellFormedIcon setImage:warningIcon];
+			[xsltWellFormedIcon setToolTip:[xsltView valueForKey:@"errorString"]];
+		} else {
+			[xsltWellFormedIcon setImage:nil];
+			[xsltWellFormedIcon setToolTip:nil];
+		}
+
+	} else if (paramTabIsVisible) {
+		[paramRemoveButton setEnabled:[parameterTable selectedRow] != -1];
+		[parameterTable reloadData];
+	} else if (resultTabIsVisible) {
+		[saveResultAsButton setEnabled:[workset hasResult]];
+		[saveResultButton setEnabled:[workset hasResultFilename] && resultDirty];
+		[autoSaveCheckbox setEnabled:[workset hasResultFilename]];
+		[openResultURLButton setEnabled:[workset hasResultFilename]];
+		[autoShowCheckbox setEnabled:[openResultURLButton isEnabled]];
+		[saveResultFilenameField setObjectValue:[workset resultFilename]];
+		[saveResultFilenameField setToolTip:[workset resultFilename]];
+
+		if (resultTabHtmlIsVisible) {
+			[self resizeWebView];
+			[self updateResultWebView];
+		} else if (resultTabXslfoIsVisible) {
+			[self updateResultImageView];
+			[pdfCurrentPageField setIntValue: (pdfPageCount ? (pdfCurrentPage + 1) : 0)];
+			[pdfPageCountField setIntValue:pdfPageCount];
+			
+			[pdfPreviousPageButton setEnabled:pdfCurrentPage > 0];
+			[pdfNextPageButton setEnabled:pdfCurrentPage < (pdfPageCount - 1)];
+			[pdfSaveAsButton setEnabled:(pdfPageCount > 0)];
+//		} else if (resultTabTextIsVisible) {
+			
+		}
 	}
 	
-	[pdfCurrentPageField setIntValue: (pdfPageCount ? (pdfCurrentPage + 1) : 0)];
-	[pdfPageCountField setIntValue:pdfPageCount];
+
+	[processButton setEnabled:[self canProcessNow]];
 	
-	[pdfPreviousPageButton setEnabled:pdfCurrentPage > 0];
-	[pdfNextPageButton setEnabled:pdfCurrentPage < (pdfPageCount - 1)];
-	[pdfSaveAsButton setEnabled:(pdfPageCount > 0)];
+	// move this to xmlview.
+//	[self updateWellFormedIcons];
 	
+
+	
+	[resultView setString:[workset stringResult]];
 	
 }
 
@@ -182,7 +210,7 @@
 - (void)updateResultWebView {
 	if (!webViewUpToDate) {
 		WebFrame *mainFrame = [resultWebView mainFrame];
-		[mainFrame loadHTMLString:[workset result] baseURL:nil];
+		[mainFrame loadHTMLString:[workset stringResult] baseURL:nil];
 		webViewUpToDate = YES;
 	}
 }
@@ -195,28 +223,6 @@
 	}
 }
 
-
-- (void)updateWellFormedIcons {
-
-	if (![workset hasXmlCode] || [wellFormedParser checkWellFormedString:[workset xmlCode]]) {
-		[xmlWellFormedIcon setImage:nil];
-		[xmlWellFormedIcon setToolTip:nil];
-	} else {
-		[xmlWellFormedIcon setImage:warningIcon];
-		[xmlWellFormedIcon setToolTip:[NSString stringWithFormat:@"The XML code is not well-formed, error at line %d:\n%@", [wellFormedParser errorLine], [wellFormedParser errorMessage]]];
-	}
-
-
-	if (![workset hasXsltCode] || [wellFormedParser checkWellFormedString:[workset xsltCode]]) {
-		[xsltWellFormedIcon setImage:nil];
-		[xsltWellFormedIcon setToolTip:nil];
-	} else {
-		[xsltWellFormedIcon setImage:warningIcon];
-		[xsltWellFormedIcon setToolTip:[NSString stringWithFormat:@"The XSLT code is not well-formed, error at line %d:\n%@", [wellFormedParser errorLine], [wellFormedParser errorMessage]]];
-	}
-
-	
-}
 
 
 - (BOOL)canProcessNow {
@@ -255,7 +261,8 @@
 		case 16:	// Jump to Line
 			return [self canJumpToLineNow];
 			break;
-
+			
+			
 		default:
 			return YES;
 			break;
@@ -279,8 +286,6 @@
 	[self doUpdateUI];
 	
 }
-
-
 
 - (void)textDidChange:(NSNotification *)aNotification {
 
@@ -510,7 +515,7 @@
 		[processor setBaseUri:[NSString stringWithFormat:@"file://%@", [workset xsltFilename]]];
 	}
 
-	if (![processor processStrings:[workset xmlCode] withXslt:[workset xsltCode] andParameters:params]) {
+	if (![processor processStrings:[XMLUtils getDataWithEncodingFromString:[workset xmlCode]] withXslt:[XMLUtils getDataWithEncodingFromString:[workset xsltCode]] andParameters:params]) {
 
 		[drawerMessageField setStringValue:[NSString stringWithFormat:@"Error on line %d of your %@ code:\n%@", [processor errorLine], ([processor errorSource] == XSLT_ERROR_SOURCE_XML ? @"XML" : @"XSLT"), [processor errorMessage]]];
 
@@ -525,6 +530,7 @@
 		processingTime = ((tend.tv_sec * 1000000 + tend.tv_usec) - (tstart.tv_sec * 1000000 + tstart.tv_usec)) / 1000;
 		
 		[workset setResult:[processor result]];
+		[workset setResultEncoding:[processor resultEncoding]];
 		resultDirty = YES;
 		[self autoSave];
 		[errorDrawer close];
@@ -564,7 +570,7 @@
 
 		//	NSLog(@"choosen: %@", [[panel filenames] objectAtIndex:0]);
 
-		[workset setXmlCode:[NSString stringWithContentsOfFile:[[panel filenames] objectAtIndex:0]]];
+		[workset setXmlCode:[XMLUtils getStringWithEncodingFromFile:[[panel filenames] objectAtIndex:0]]];
 		[workset setXmlFilename:[[panel filenames] objectAtIndex:0]];
 		[self updateChangeCount:NSChangeDone];
 		[self updateCompleteUI];
@@ -583,7 +589,7 @@
 
 		//	NSLog(@"choosen: %@", [[panel filenames] objectAtIndex:0]);
 
-		[workset setXsltCode:[NSString stringWithContentsOfFile:[[panel filenames] objectAtIndex:0]]];
+		[workset setXsltCode:[XMLUtils getStringWithEncodingFromFile:[[panel filenames] objectAtIndex:0]]];
 		[workset setXsltFilename:[[panel filenames] objectAtIndex:0]];
 		[self updateChangeCount:NSChangeDone];
 		[self updateCompleteUI];
@@ -739,8 +745,6 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 	[self switchProcessorToType:newType updateUI:NO];
 
-	NSLog(@"change processor type menu: %d", [sender tag]);
-
 }
 
 
@@ -852,14 +856,9 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 - (BOOL)handleDroppedFile:(NSString *)filename forTextView:(NSTextView *)sender {
 
-	
-	NSString *fileContents = [NSString stringWithContentsOfFile:filename];
+	NSString *fileContents = [XMLUtils getStringWithEncodingFromFile:filename];
 
-	if (fileContents == nil) {
-		return NO;
-	}
-
-	if ([sender isEqual:xmlView]) {
+	if ([sender isEqual: xmlView]) {
 
 		[self setXmlcode:fileContents];
 		[workset setXmlFilename:filename];
@@ -879,6 +878,8 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	return YES;
 	
 }
+
+
 
 
 - (NSString *)xmlcode {
@@ -917,7 +918,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 
 - (NSString *)result {
-	return [workset result];
+	return [workset stringResult];
 }
 
 
@@ -997,8 +998,8 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	
 	//[resultImageView setNeedsDisplay:YES];
 
-	NSLog(@"image reps: -%@-", [pdfImage representations]);
-	NSLog(@"count: -%d-", [[[pdfImage representations] objectAtIndex:0] pageCount]);
+	//NSLog(@"image reps: -%@-", [pdfImage representations]);
+	//NSLog(@"count: -%d-", [[[pdfImage representations] objectAtIndex:0] pageCount]);
 	
 	pdfPageCount = [[[pdfImage representations] objectAtIndex:0] pageCount];
 	pdfCurrentPage = 0;
@@ -1078,45 +1079,33 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {
-	NSFont *computerFont = [resultView font];
+
 	
-	NSLog(@"resultview: ", resultView);
-	NSLog(@"font: ", computerFont);
 		
 	NSSize errorDrawerSize;
 
 	[super windowControllerDidLoadNib:aController];
-
+		
 	[resultImageView setImageAlignment:NSImageAlignTopLeft];
-//	[resultImageView setImageFrameStyle:NSImageFrameGroove];
+	//	[resultImageView setImageFrameStyle:NSImageFrameGroove];
 	[resultImageView setImageScaling:NSScaleNone];
 	[resultImageView setEditable:NO];
+		
 	
-
-	// Add any code here that need to be executed once the windowController has loaded the document's window.
-
-	// register our two input text views to receive file drags
-	//
-//	[xmlView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-//	[xsltView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-
-/*
-	[xmlView setFont:computerFont];
-	[xsltView setFont:computerFont];
-*/
-	[xmlView setAllowsUndo:YES];
-	[xsltView setAllowsUndo:YES];
-
+	
 	[resultWebView setTextSizeMultiplier:0.9];
 	
 	warningIcon = [xmlWellFormedIcon image];
 	
 	[self updateCompleteUI];
-
+	
 	errorDrawerSize = [errorDrawer contentSize];
 	errorDrawerSize.height = 130;
 	[errorDrawer setContentSize:errorDrawerSize];
+	
 
+	
+	
 	if (findPanelController == nil) {
 		findPanelController = [[FindPanelController alloc] initWithWindowNibName:@"FindPanel"];
 //		NSLog(@"init find panel controller: %@", findPanelController);
@@ -1136,7 +1125,6 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 	
 }
-
 
 
 - (IBAction)showErrorLocation:(id)sender {

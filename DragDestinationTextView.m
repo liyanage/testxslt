@@ -45,7 +45,7 @@
 
 	
 	/* some code to handle the case where a user drags the mouse around an edge of the
-	 * text field, triggering an autoscroll. If we don't do anything, our highlight rame
+	 * text field, triggering an autoscroll. If we don't do anything, our highlight frame
 	 * would get scrolled along with the content and then redrawn immediately which
 	 * obviously looks messy.
 	 * Instead we check if the visible rectangle has moved since the last

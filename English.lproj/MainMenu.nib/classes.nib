@@ -16,6 +16,7 @@
                 showFindPanel = id; 
                 showJumpToLinePanel = id; 
                 showUnsavedChangesPanel = id; 
+                toggleContentAnalysis = id; 
                 useSelectionForFind = id; 
             }; 
             CLASS = FirstResponder; 

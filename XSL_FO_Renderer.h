@@ -13,7 +13,7 @@
 
 }
 
-- (NSData *)render:(NSString *)foString;
+- (NSData *)render:(NSData *)foData;
 
 @end
 
@@ -29,6 +29,6 @@
 
 - (NSString *)getErrorMessage;
 - (BOOL)errorOccurred;
-- (NSData *)convert:(NSString *)foString;
+- (NSData *)convert:(NSData *)foData;
 
 @end

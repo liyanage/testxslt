@@ -23,7 +23,7 @@
 
 
 
-- (BOOL)processStrings:(NSString *)xmlCode withXslt:(NSString *)xsltCode andParameters:(const char **)params {
+- (BOOL)processStrings:(NSData *)xmlCode withXslt:(NSData *)xsltCode andParameters:(const char **)params {
 
 	xmlChar *resultBuffer = NULL;
 	int resultSize = 0;
@@ -55,12 +55,12 @@
 	xsltSetGenericErrorFunc(self, (xmlGenericErrorFunc)xsltErrorHandler);
 	while (1) {
 
-		if (![xmlParser parseString:xmlCode]) {
+		if (![xmlParser parseData:xmlCode]) {
 			[self setError:[xmlParser errorMessage] atLine:[xmlParser errorLine] inSource:XSLT_ERROR_SOURCE_XML];
 			break;
 		}
 		
-		if (![xsltParser parseString:xsltCode]) {
+		if (![xsltParser parseData:xsltCode]) {
 			[self setError:[xsltParser errorMessage] atLine:[xsltParser errorLine] inSource:XSLT_ERROR_SOURCE_XSLT];
 			break;
 		}
@@ -90,9 +90,11 @@
 	if (![self errorOccurred]) {
 
 		bytesWritten = xsltSaveResultToString(&resultBuffer, &resultSize, resultDoc, stylesheet);
-		[self setResult:[NSString stringWithCString:resultBuffer]];
 
+		[self setResult:[NSData dataWithBytes:resultBuffer length:resultSize]];
+		[self setResultEncodingFromData:xsltCode];
 
+		
 		/*
 		template = stylesheet->templates;
 		while (template != NULL) {

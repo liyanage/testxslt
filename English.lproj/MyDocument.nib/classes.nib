@@ -63,8 +63,10 @@
                 saveXsltButton = NSButton; 
                 saveXsltFilenameField = NSTextField; 
                 tabView = NSTabView; 
+                xmlTagStackField = NSTextField; 
                 xmlView = XMLTextView; 
                 xmlWellFormedIcon = NSImageView; 
+                xsltTagStackField = NSTextField; 
                 xsltView = XMLTextView; 
                 xsltWellFormedIcon = NSImageView; 
             }; 

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ParameterSet.h"
+#import "XMLUtils.h"
 
 
 @interface Workset : NSObject <NSCoding> {
@@ -19,17 +20,23 @@
 	NSString *xsltFilename;
 	NSDate   *xsltFileModificationDate;
 	NSString *resultFilename;
-	NSString *result;
+	NSData *result;
 	ParameterSet *parameterSet;
+	NSStringEncoding resultEncoding;
 }
 
+
+- (int)resultEncoding;
+- (void)setResultEncoding:(NSStringEncoding)encoding;
+
+- (NSString *)stringResult;
 
 - (NSString *)xmlCode;
 - (void)setXmlCode:(NSString *)s;
 - (NSString *)xsltCode;
 - (void)setXsltCode:(NSString *)s;
-- (NSString *)result;
-- (void)setResult:(NSString *)s;
+- (NSData *)result;
+- (void)setResult:(NSData *)s;
 - (ParameterSet *)parameterSet;
 - (void)setParameterSet:(ParameterSet *)parameterSet;
 

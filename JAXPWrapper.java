@@ -16,6 +16,7 @@ import javax.xml.transform.stream.*;
 import javax.xml.*;
 import javax.xml.parsers.*;
 import org.xml.sax.*;
+import com.apple.cocoa.foundation.*;
 
 /**
  * JAXPWrapper is a helper class to make it easier to access JAXP transformers
@@ -26,7 +27,7 @@ import org.xml.sax.*;
  */
 public class JAXPWrapper {
 	
-	StringWriter resultWriter;
+	ByteArrayOutputStream bos;
 	Exception transformException;
 	String errorMessage = "(no errors)";
 	int errorSource = 0;
@@ -35,13 +36,8 @@ public class JAXPWrapper {
 	public static final int XSLT_ERROR_SOURCE_XML = 1;
 	public static final int XSLT_ERROR_SOURCE_XSLT = 2;
 
-	
-	
-	
-	public String getResult() {
-
-		return resultWriter.toString();
-		
+	public NSData getResult() {
+		return new NSData(bos.toByteArray());
 	}
 	
 	/** 
@@ -54,7 +50,7 @@ public class JAXPWrapper {
 	 * @return        <code>true</code> if something,  
 	 *                <code>false</code> otherwise.
 	 */
-	public boolean transform(String processorClassName, String xml, String xslt, String parameters, String baseUri) {
+	public boolean transform(String processorClassName, NSData xml, NSData xslt, String parameters, String baseUri) {
 
 		java.lang.System.setProperty("javax.xml.transform.TransformerFactory", processorClassName);
 		
@@ -63,7 +59,7 @@ public class JAXPWrapper {
 		try {
 			
 			TransformerFactory tf = TransformerFactory.newInstance();
-			Transformer t = tf.newTransformer(new StreamSource(new StringReader(xslt), baseUri));
+			Transformer t = tf.newTransformer(new StreamSource(new ByteArrayInputStream(xslt.bytes(0, xslt.length())), baseUri));
 
 			
 			if (parameters.length() > 0) {
@@ -95,8 +91,8 @@ public class JAXPWrapper {
 				}
 			}
 			
-			resultWriter = new StringWriter();
-			t.transform(new StreamSource(new StringReader(xml)), new StreamResult(resultWriter));
+			bos = new ByteArrayOutputStream();
+			t.transform(new StreamSource(new ByteArrayInputStream(xml.bytes(0, xml.length()))), new StreamResult(bos));
 
 		} catch (TransformerConfigurationException e) {
 			
@@ -191,7 +187,7 @@ public class JAXPWrapper {
 		String xml = "<?xml version='1.0'?>\n\n\n\n<root/>";
 		String xslt = "<?xml version='1.0' encoding='iso-8859-1'?>\n<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'><xsl:param name='param1' select=\"'wrong1'\"/><xsl:param name='param2' select=\"'wrong2'\"/><xsl:template match='/'>-<xsl:value-of select='$param1'/>--<xsl:value-of select='$param2'/>-</xsl:template></xsl:stylesheet>";
 		String parameters = "param1==_=!=_==right1--_-!-_--param2==_=!=_==right2";
-		ref.transform(processorImpl, xml, xslt, parameters, null);
+		ref.transform(processorImpl, new NSData(xml.getBytes()), new NSData(xslt.getBytes()), parameters, null);
 		System.out.println(ref.getResult());
 		System.out.println("source: " + ref.getErrorSource() + " line: " + ref.getErrorLine() + " msg: " + ref.getErrorMessage());
 
@@ -199,39 +195,39 @@ public class JAXPWrapper {
 		xml = "<?xml version='1.0'?>\n\n\n\n<root/>";
 		xslt = "<?xml version='1.0' encoding='iso-8859-1'?>\n<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'><xsl:param name='param1' select=\"'wrong1'\"/><xsl:param name='param2' select=\"'wrong2'\"/><xsl:template match='/'>-<xsl:value-of select='$param1'/>--<xsl:value-of select='$param2'/>-</xsl:template></xsl:stylesheet>";
 		parameters = "";
-		ref.transform(processorImpl, xml, xslt, parameters, null);
+		ref.transform(processorImpl, new NSData(xml.getBytes()), new NSData(xslt.getBytes()), parameters, null);
 		System.out.println(ref.getResult());
 		System.out.println("source: " + ref.getErrorSource() + " line: " + ref.getErrorLine() + " msg: " + ref.getErrorMessage());
 		
 		System.out.println("\nsystem-property() test\n");
 		xml = "<?xml version='1.0'?>\n\n\n<root/>";
 		xslt = "<?xml version='1.0' encoding='iso-8859-1'?>\n<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'><xsl:template match='/'>vendor: <xsl:value-of select=\"system-property('xsl:vendor')\"/></xsl:template></xsl:stylesheet>";
-		ref.transform(processorImpl, xml, xslt, parameters, null);
+		ref.transform(processorImpl, new NSData(xml.getBytes()), new NSData(xslt.getBytes()), parameters, null);
 		System.out.println(ref.getResult());
 		System.out.println("source: " + ref.getErrorSource() + " line: " + ref.getErrorLine() + " msg: " + ref.getErrorMessage());
 		
 		System.out.println("\nBroken XML Test\n");
 		xml = "<?xml version='1.0'?>\n\n\n<root>\n\n\n</xyz>";
 		xslt = "<?xml version='1.0' encoding='iso-8859-1'?>\n<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'><xsl:template match='/'>match!</xsl:template></xsl:stylesheet>";
-		ref.transform(processorImpl, xml, xslt, parameters, null);
+		ref.transform(processorImpl, new NSData(xml.getBytes()), new NSData(xslt.getBytes()), parameters, null);
 		System.out.println("source: " + ref.getErrorSource() + " line: " + ref.getErrorLine() + " msg: " + ref.getErrorMessage());
 		
 		System.out.println("\nBroken XSLT Test\n");
 		xml = "<?xml version='1.0'?>\n<root/>";
 		xslt = "<?xml version='1.0' encoding='iso-8859-1'?>\n<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'><xsl:template match='/'>match!</xsl:template></xsl:xyz>";
-		ref.transform(processorImpl, xml, xslt, parameters, null);
+		ref.transform(processorImpl, new NSData(xml.getBytes()), new NSData(xslt.getBytes()), parameters, null);
 		System.out.println("source: " + ref.getErrorSource() + " line: " + ref.getErrorLine() + " msg: " + ref.getErrorMessage());
 		
 		System.out.println("\nBroken XML and XSLT Test\n");
 		xml = "<?xml version='1.0'?>\n<root></xyz>";
 		xslt = "<?xml version='1.0' encoding='iso-8859-1'?>\n<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'><xsl:template match='/'>match!</xsl:template></xsl:xyz>";
-		ref.transform(processorImpl, xml, xslt, parameters, null);
+		ref.transform(processorImpl, new NSData(xml.getBytes()), new NSData(xslt.getBytes()), parameters, null);
 		System.out.println("source: " + ref.getErrorSource() + " line: " + ref.getErrorLine() + " msg: " + ref.getErrorMessage());
 		
 		System.out.println("\nBroken XML and XSLT Test 2\n");
 		xml = "<?xml version='1.0'?>\n<root></xyz>";
 		xslt = "<?xml version='1.0' encoding='iso-8859-1'?>\n\n<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>\n\n\n<xsl:value-of select='1'/>\n\n\n<xsl:template match='/'>match!</xsl:template>\n\n\n</xsl:stylesheet>";
-		ref.transform(processorImpl, xml, xslt, parameters, null);
+		ref.transform(processorImpl, new NSData(xml.getBytes()), new NSData(xslt.getBytes()), parameters, null);
 		System.out.println("source: " + ref.getErrorSource() + " line: " + ref.getErrorLine() + " msg: " + ref.getErrorMessage());
 
 		

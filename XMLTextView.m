@@ -12,17 +12,32 @@
 @implementation XMLTextView
 
 
-- (id)init {
 
-	if (self = [super init]) {
-		[self setRichText:NO];
-	}
+-(void)awakeFromNib {
 
-	return self;
+	[self setRichText:NO];
+	resultstack = NULL;
 
+	
+	// register our two input text views to receive file drags
+	//
+ //	[xmlView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+ //	[xsltView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+	
+	NSFont *computerFont = [NSFont fontWithName:@"Courier" size:12.0];
+	[self setFont:computerFont];
+	
+	[self setAllowsUndo:YES];
+	
 }
 
 
+- (void)dealloc {
+	
+	if (resultstack)
+		free(resultstack);
+	[errorString release];
+}
 
 -(void)selectLineByNumber:(int)line {
 
@@ -56,15 +71,6 @@
 
 
 
--(void)pasteAsRichText:(id)sender {
-
-
-	NSLog(@"paste as rich text");
-	//	[self pasteAsPlainText:sender];
-
-}
-
-
 
 
 - (void)keyDown:(NSEvent *)event {
@@ -94,6 +100,16 @@
 		}
 	}
 
+	
+	/*
+	if ([event modifierFlags] & NSFunctionKeyMask) {
+		[self didChangeText];
+	}
+	*/
+	
+	//NSFunctionKeyMask
+	
+	
 	[super keyDown:event];
 
 }
@@ -102,29 +118,27 @@
 
 - (BOOL)completeAfterSlash {
 
-	NSRange selectedRange = [self selectedRange], tagNameRange;
-	NSString *tagName = nil;
-
-	tagNameRange = [self scanBackwardsForOpeningTagNameInRange:NSMakeRange(0, selectedRange.location - 1)];
-
-	if (tagNameRange.location == NSNotFound) {
-		return NO;
-	}
-
-	tagName = [[self string] substringWithRange:tagNameRange];
+	int location = [self selectedRange].location - 1;
 	
-//	NSLog(@"completion!");
-
-	if (tagName == nil) {
+	[self calculateTagStackAtLocation:location];
+	
+	if (stackresult) {
 		return NO;
 	}
 
-	[self insertText:[NSString stringWithFormat:@"/%@>", tagName]];
+	NSTextStorage *storage = [self textStorage];
+	[storage beginEditing];
+	[storage deleteCharactersInRange:NSMakeRange(location, 1)];
+	[storage endEditing];
 
-	[self flashRange:tagNameRange];
-		
+	[self setSelectedRange:NSMakeRange(location, 0)];
+
+	[self complete:nil];
+
+	
 	return YES;
 }
+
 
 
 - (void)flashRange:(NSRange)range {
@@ -154,16 +168,138 @@
 	
 }
 
+-(NSString *)calculateTagStack {
 
+	return [self calculateTagStackAtLocation:[self selectedRange].location];
+	
+}
+
+-(BOOL)checkWellFormed {
+
+	int result;
+	NSData *data = [XMLUtils getDataWithEncodingFromString:[self string]];
+
+	parser = XML_ParserCreate(NULL);
+
+	if (!parser) {
+		NSLog(@"Unable to allocate expat parser in XMLTextView:checkWellFormed!");
+		return NO;
+	}
+
+	result = XML_Parse(parser, [data bytes], [data length], 1);
+
+	if (!result) {
+		[self setError:[NSString stringWithFormat:@"%s, line %d, column %d", XML_ErrorString(XML_GetErrorCode(parser)), XML_GetCurrentLineNumber(parser), XML_GetCurrentColumnNumber(parser)] atLine:XML_GetCurrentLineNumber(parser) atColumn:XML_GetCurrentColumnNumber(parser)];
+	} else if (error) {
+		[self clearError];
+	}
+	
+	XML_ParserFree(parser);
+	
+	return result > 0;
+}
+
+
+
+-(void)clearError {
+	
+	errorLine = errorColumn = 0;
+	error = NO;
+	[errorString release];
+	errorString = @"";
+	
+}
+
+-(BOOL)hasError {
+	
+	return error;
+	
+}
+-(void)setError:(NSString *)errstring atLine:(int)line atColumn:(int)column {
+	
+	errorLine = line;
+	errorColumn = column;
+	error = YES;
+	[errstring retain];
+	[errorString release];
+	errorString = errstring;
+	
+}
+
+
+
+
+
+
+
+-(NSString *)calculateTagStackAtLocation:(int)location {
+
+	char *buffer;
+	int i;
+	NSRange selectedRange;
+	NSMutableString *mystack;
+	
+	buffer = [[self string] lossyCString];
+	selectedRange = [self selectedRange];
+	
+	if (resultstack)
+		free(resultstack);
+
+	stackresult = 0;
+	resultstack = findCompletion(buffer, strlen(buffer), location, &stackresult, tagpositions);
+
+	mystack = [NSMutableString stringWithCapacity:1000];
+	
+	for (i = 0; resultstack && *(resultstack[i]); i++) {
+		if (*(resultstack[i+1])) {
+			[mystack appendFormat:@"%s/", resultstack[i]];
+		} else {
+			if (stackresult) {
+				[mystack appendFormat:@"%s", resultstack[i]];
+			} else {
+				[mystack appendFormat:@"<%s>", resultstack[i]];
+			}
+			
+			
+		}
+
+	}
+
+
+	switch (stackresult) {
+	
+		case 1:
+			[mystack appendString:@" (In tag)"];
+			break;
+
+		case 3:
+			[mystack appendString:@" (In comment section)"];
+			break;
+		case 5:
+			[mystack appendString:@" (In CDATA section)"];
+			break;
+			
+		case 8:
+			[mystack appendString:@" (No open tags)"];
+			break;
+			
+		case 16:
+			[mystack appendString:@" (Tags are balanced)"];
+			break;
+	}
+	
+	
+	return mystack;
+	
+}
 
 - (void)complete:(id)sender {
 
-	NSRange selectedRange, leftRange, rightRange, tagNameRange;
+	NSRange selectedRange, tagNameRange;
 	NSString *tagName = nil;
-	NSString *data = nil;
-	int location;
+	int location, i;
 
-	data = [self string];
+//	data = [self string];
 
 	selectedRange = [self selectedRange];
 	location = selectedRange.location;
@@ -171,145 +307,28 @@
 	/* May not have a selection, and insertion point must be preceded by at
 		* least one tag, which means at least 3 characters must be to its left
 		*/
-	if (selectedRange.length > 0 || location < 3) {
+	if (selectedRange.length > 0 || location < 3 || stackresult) {
 		NSBeep();
 		return;
 	}
 
-	/* leftRange is everything from beginning of data to the insertion point.
-		* rightRange is everything after the insertion point to the end of the data
-		*/
-	leftRange  = NSMakeRange(0, location);
-	rightRange = NSMakeRange(location, [data length] - leftRange.length);
 
-
-
-	tagNameRange = [self scanBackwardsForOpeningTagNameInRange:leftRange];
-
-	if (tagNameRange.location == NSNotFound) {
-		NSBeep();
-		return;
+	for (i = 0; resultstack && *(resultstack[i]); i++) {
+		if (!*(resultstack[i+1])) {
+			tagName = [NSString stringWithCString:resultstack[i]];
+			tagNameRange = NSMakeRange(tagpositions[i*2], tagpositions[i*2+1]- tagpositions[i*2]);
+		}
 	}
-
-	tagName = [data substringWithRange:tagNameRange];
 	
+
 	[self insertText:[NSString stringWithFormat:@"</%@>", tagName]];
 	[self setSelectedRange:selectedRange];
 
 	[self flashRange:tagNameRange];
+	[self calculateTagStack];
 	
 }
 
-
-
--(NSRange)scanBackwardsForOpeningTagNameInRange:(NSRange)scanRange {
-
-	NSRange tagNameEndRange, tagContentPlusEndRange, leftAngleRange, openingTagRange, slashRange;
-	NSCharacterSet *angleSet = [NSCharacterSet characterSetWithCharactersInString:@"<>"];
-	NSCharacterSet *tagNameDelimiterSet = [NSCharacterSet characterSetWithCharactersInString:@" <>"];
-	NSString *tagName = nil;
-	NSString *data = [self string];
-	NSString *character;
-	NSRange tagNameRange;
-
-	
-	/* find the first occurence of angle brackets, both opening or closing,
-	* in the range to the left of the insertion point, searching backwards
-	* from the insertion point
-	*/
-	leftAngleRange = [data rangeOfCharacterFromSet:angleSet options:NSBackwardsSearch range:scanRange];
-
-	/* abort unless we found something */
-	if (leftAngleRange.location == NSNotFound) {
-		return NSMakeRange(NSNotFound, 0);
-	}
-
-	//	NSLog(@"leftbracket: %d %d", leftAngleRange.location, leftAngleRange.length);
-
-
-	/* We expect the nearest angle bracket to our left to be a closing one, we will
-		* not try to complete an open tag if we find an opening bracket instead.
-		*/
-	character = [data substringWithRange:leftAngleRange];
-	if (![character isEqual:@">"]) {
-		return NSMakeRange(NSNotFound, 0);
-	}
-
-	/* shift end of scanRange so it ends after the closing angle bracket we just found */
-	scanRange = NSMakeRange(0, leftAngleRange.location);
-
-
-	/* Now search again from the end of that range backward to the beginning of the data
-		* and look for another angle bracket.
-		*/
-	leftAngleRange = [data rangeOfCharacterFromSet:angleSet options:NSBackwardsSearch range:NSMakeRange(0, scanRange.length - 1)];
-
-	/* again abort unless we found something */
-	if (leftAngleRange.location == NSNotFound) {
-		return NSMakeRange(NSNotFound, 0);
-	}
-
-	//NSLog(@"leftbracket: %d %d", leftAngleRange.location, leftAngleRange.length);
-
-	/* This time we expect to see an opening angle bracket */
-	character = [data substringWithRange:leftAngleRange];
-	if (![character isEqual:@"<"]) {
-		return NSMakeRange(NSNotFound, 0);
-	}
-
-
-	/* This will indicate the range of the entire nearest tag to our left,
-		* we assume that's the opening tag */
-	openingTagRange = NSMakeRange(leftAngleRange.location, (scanRange.length - leftAngleRange.location) + 1);
-
-	/* check if it is indeed an opening tag, i.e. no slash after the opening bracket */
-	slashRange = NSMakeRange(openingTagRange.location + 1, 1);
-	character = [data substringWithRange:slashRange];
-	if ([character isEqual:@"/"]) {
-		return NSMakeRange(NSNotFound, 0);
-	}
-
-	/* Don't complete processing instructions, comments etc. */
-	if ([character isEqual:@"?"] || [character isEqual:@"!"]) {
-		return NSMakeRange(NSNotFound, 0);
-	}
-	
-	
-	/* check if it is a merged start and end tag, i.e. slash before closing bracket */
-	slashRange = NSMakeRange((openingTagRange.location + openingTagRange.length) - 2, 1);
-	character = [data substringWithRange:slashRange];
-	if ([character isEqual:@"/"]) {
-		return NSMakeRange(NSNotFound, 0);
-	}
-
-
-	tagContentPlusEndRange = NSMakeRange(openingTagRange.location + 1, openingTagRange.length - 1);
-
-	//NSLog(@"tagcontent: %d %d", tagContentPlusEndRange.location, tagContentPlusEndRange.length);
-
-	tagNameEndRange = [data rangeOfCharacterFromSet:tagNameDelimiterSet options:0 range:tagContentPlusEndRange];
-
-
-	tagNameRange = NSMakeRange(tagContentPlusEndRange.location, tagNameEndRange.location - tagContentPlusEndRange.location);
-
-	tagName = [data substringWithRange:tagNameRange];
-
-	if ([tagName length] < 1) {
-		return NSMakeRange(NSNotFound, 0);
-	}
-
-
-	return tagNameRange;
-	
-	//NSLog(@"tagrange: %d %d / %@", tagNameEndRange.location, tagNameEndRange.length, tagName);
-
-	
-
-
-
-
-
-}
 
 
 

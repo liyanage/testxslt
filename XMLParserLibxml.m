@@ -19,12 +19,13 @@
 		errorMessage = [[NSMutableString alloc] init];
 		errorLine = 0;
 		errorOccurred = NO;
-		xmlContext = NULL;
+		//xmlContext = malloc(sizeof(xmlParserCtxt));
+		//bzero(xmlContext, sizeof(xmlParserCtxt));
 		parsedXmlDoc = NULL;
 		baseUri = NULL;
 		
 	}
-
+	
 	return self;
 }
 
@@ -38,9 +39,11 @@
 - (void)dealloc {
 
 	[errorMessage release];
+	[baseUri release];
 
 	if (parsedXmlDoc) {
 		xmlFreeDoc(parsedXmlDoc);
+//		free(xmlContext);
 	}
 
 	
@@ -129,9 +132,12 @@ void makeUnixLineFeeds(char *buffer) {
 }
 
 
-- (BOOL)checkWellFormedString:(NSString *)xmlCode {
+- (BOOL)checkWellFormedData:(NSData *)xmlCode {
 
-	char *xmlString = (char *)[xmlCode cString];
+	/*
+	// fixme: using nsdata now, not null-terminated. maybe replace with expat.
+	return YES;
+	char *xmlString = (char *)[xmlCode bytes];
 	//const char *xmlString = [stringData bytes];
 	int error = 0;
 
@@ -148,8 +154,8 @@ void makeUnixLineFeeds(char *buffer) {
 	 */
 		
 
-	xmlContext = xmlCreateDocParserCtxt(xmlString);
-	
+//	xmlContext = xmlCreateDocParserCtxt(xmlString);
+	/*
 	if (!xmlContext) {
 		return NO;
 	}
@@ -174,49 +180,35 @@ void makeUnixLineFeeds(char *buffer) {
 		return YES;
 	}
 
-
+*/
+	 
 }
 
 
 
 
-- (BOOL)parseString:(NSString *)xmlCode {
+- (BOOL)parseData:(NSData *)xmlCode {
 
-	char *xmlString = (char *)[xmlCode cString];
 	int error = 0;
 
-	makeUnixLineFeeds(xmlString);
-
-	xmlContext = xmlCreateDocParserCtxt(xmlString);
+//	makeUnixLineFeeds(xmlString);
 
     xmlSubstituteEntitiesDefault(1);
 	xmlLoadExtDtdDefaultValue = 1;
 
-	if (!xmlContext) {
-		return NO;
-	}
-
-
 	[self clearError];
 	xmlSetGenericErrorFunc(self, (xmlGenericErrorFunc)XMLParserLibxml_xmlErrorHandler);
-
-	error = xmlParseDocument(xmlContext);
-
 
 	if (parsedXmlDoc) {
 		xmlFreeDoc(parsedXmlDoc);
 	}
-
-	parsedXmlDoc = xmlContext->myDoc;
-
 	
-	xmlFreeParserCtxt(xmlContext);
-	xmlContext = NULL;
+	parsedXmlDoc = xmlParseMemory([xmlCode bytes], [xmlCode length]);
 
-	if (error != XML_ERR_OK) {
+	if (!parsedXmlDoc) {
 		return NO;
 	}
-
+	
 	if ([self baseUri] != nil) {
 		xmlNodeSetBase((xmlNodePtr)parsedXmlDoc, (xmlChar *)[[self baseUri] cString]);
 	}
@@ -230,9 +222,9 @@ void makeUnixLineFeeds(char *buffer) {
 
 - (void)markFirstErrorLine {
 
-	if (errorLine == 0 && xmlContext && xmlContext->input) {
-		errorLine = xmlContext->input->line;
-	}
+//	if (errorLine == 0 && xmlContext && xmlContext->input) {
+//		errorLine = xmlContext->input->line;
+//	}
 
 	
 }

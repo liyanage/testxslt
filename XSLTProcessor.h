@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#include "ragel_xmldeclscanner.h"
 
 
 enum {
@@ -25,13 +26,14 @@ enum {
 
 @interface XSLTProcessor : NSObject {
 
-	NSString *result;
+	NSData *result;
 
 	NSString *errorMessage;
 	NSString *baseUri;
 	int errorLine;
 	int errorSource;
 	BOOL errorOccurred;
+	NSStringEncoding resultEncoding;
 	
 }
 
@@ -43,16 +45,19 @@ enum {
 - (int)errorSource;
 - (void)setErrorSource:(int)newSource;
 - (NSString *)errorMessage;
+- (int)resultEncoding;
+- (void)setResultEncoding:(NSStringEncoding)encoding;
+- (void)setResultEncodingFromData:(NSData *)data;
 
-
-- (BOOL)processStrings:(NSString *)xmlCode withXslt:(NSString *)xsltCode andParameters:(const char **)params;
+- (BOOL)processStrings:(NSData *)xmlCode withXslt:(NSData *)xsltCode andParameters:(const char **)params;
 
 - (void)setBaseUri:(NSString *)uri;
 - (NSString *)baseUri;
 
 - (void)clearResult;
-- (NSString *)result;
-- (void)setResult:(NSString *)newResult;
+- (NSData *)result;
+- (NSString *)stringResult;
+- (void)setResult:(NSData *)newResult;
 - (int)processorType;
 
 

@@ -23,7 +23,7 @@ public class FOPWrapper {
     String error;
     boolean errorOccurred = false;
 	
-	public NSData convert(String foString) throws IOException, FOPException {
+	public NSData convert(NSData foData) throws IOException, FOPException {
         
 		//Construct driver
 		Driver driver = new Driver();
@@ -42,7 +42,7 @@ public class FOPWrapper {
 			driver.setOutputStream(out);
 			
 			//Setup input
-			InputStream in = new java.io.ByteArrayInputStream(foString.getBytes("UTF-8"));
+			InputStream in = new java.io.ByteArrayInputStream(foData.bytes(0, foData.length()));
 			try {
 				driver.setInputSource(new InputSource(in));
 				
