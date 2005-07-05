@@ -11,37 +11,61 @@
 
 @implementation Workset
 
++ (void)initialize {
+	[Workset setKeys:[NSArray arrayWithObject:@"xmlCode"] triggerChangeNotificationsForDependentKey:@"hasXmlCode"];
+	[Workset setKeys:[NSArray arrayWithObject:@"xsltCode"] triggerChangeNotificationsForDependentKey:@"hasXsltCode"];
+	[Workset setKeys:[NSArray arrayWithObject:@"result"] triggerChangeNotificationsForDependentKey:@"hasResult"];
+	[Workset setKeys:[NSArray arrayWithObject:@"resultFilename"] triggerChangeNotificationsForDependentKey:@"hasResultFilename"];
+	[Workset setKeys:[NSArray arrayWithObject:@"xmlFilename"] triggerChangeNotificationsForDependentKey:@"hasXmlFilename"];
+	[Workset setKeys:[NSArray arrayWithObject:@"xsltFilename"] triggerChangeNotificationsForDependentKey:@"hasXsltFilename"];
+
+	[Workset setKeys:[NSArray arrayWithObject:@"result"] triggerChangeNotificationsForDependentKey:@"stringResult"];
+
+}
+
+
+
 - (id)init {
 	
 	self = [super init];
 	if (!self) return nil;
 	
-	xmlCode = [[NSUserDefaults standardUserDefaults] stringForKey:@"templateXML"];
-	xsltCode = [[NSUserDefaults standardUserDefaults] stringForKey:@"templateXSLT"];
+	id defaults = [NSUserDefaults standardUserDefaults];
 	
-//	xmlCode = [[NSString stringWithFormat:@"<text>\nPut your XML code here.\nPut your XSLT code under the XSLT tab.\nThen click on the Process button.\n</text>"] retain];
-//	xsltCode = [[NSString stringWithFormat:@"<?xml version='1.0' encoding='iso-8859-1'?>\n\n<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>\n\n<xsl:output method='html' version='1.0' encoding='iso-8859-1' indent='no'/>\n\n</xsl:stylesheet>"] retain];
+	[self setValue:[defaults stringForKey:@"templateXML"] forKey:@"xmlCode"];
+	[self setValue:[defaults stringForKey:@"templateXSLT"] forKey:@"xsltCode"];
+
+	[self setValue:nil forKey:@"resultFilename"];
+	
 	result = [[NSData alloc] init];
 	parameterSet = [[ParameterSet alloc] init];
-	xmlFilename = nil;
-	xsltFilename = nil;
-	resultFilename = nil;
 
 	return self;
 	
 }
 
+
+- (NSArray *)coderKeys {
+	return [NSArray arrayWithObjects:
+		@"xmlCode",
+		@"xsltCode",
+		@"result",
+		@"parameterSet",
+		@"xmlFilename",
+		@"xsltFilename",
+		@"resultFilename",
+		nil];
+}
+
+
 - (id)initWithCoder:(NSCoder *)coder {
 
 	if (self = [super init]) {
-		[self setXmlCode:[coder decodeObject]];
-		[self setXsltCode:[coder decodeObject]];
-		[self setResult:[coder decodeObject]];
-		[self setParameterSet:[coder decodeObject]];
-		[self setXmlFilename:[coder decodeObject]];
-		[self setXsltFilename:[coder decodeObject]];
-		[self setResultFilename:[coder decodeObject]];
-		
+		NSEnumerator *keys = [[self coderKeys] objectEnumerator];
+		id key;
+		while (key = [keys nextObject]) {
+			[self setValue:[coder decodeObjectForKey:key] forKey:key];
+		}
 	}
 	return self;
 
@@ -50,13 +74,11 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder {
 
-	[coder encodeObject:xmlCode];
-	[coder encodeObject:xsltCode];
-	[coder encodeObject:result];
-	[coder encodeObject:parameterSet];
-	[coder encodeObject:xmlFilename];
-	[coder encodeObject:xsltFilename];
-	[coder encodeObject:resultFilename];
+	NSEnumerator *keys = [[self coderKeys] objectEnumerator];
+	id key;
+	while (key = [keys nextObject]) {
+		[coder encodeObject:[self valueForKey:key] forKey:key];
+	}
 
 }
 
@@ -75,33 +97,6 @@
 
 }
 
-- (NSString *)xmlCode {
-	return xmlCode;
-}
-
-- (void)setXmlCode:(NSString *)s {
-	[s retain];
-	[xmlCode release];
-	xmlCode = s;
-}
-
-
-
-
-
-
-- (NSString *)xmlFilename {
-	return xmlFilename;
-}
-
-- (void)setXmlFilename:(NSString *)s {
-
-	[s retain];
-	[xmlFilename release];
-	xmlFilename = s;
-
-	[self updateXmlFileModificationDate];
-}
 
 - (BOOL)hasXmlFilename {
 	return xmlFilename != nil;
@@ -113,7 +108,7 @@
 		return FALSE;
 	}
 	
-	[[XMLUtils getDataWithEncodingFromString:[self xmlCode]] writeToFile:[self xmlFilename] atomically:NO];
+	[[XMLUtils getDataWithEncodingFromString:xmlCode] writeToFile:xmlFilename atomically:NO];
 	[self updateXmlFileModificationDate];
 
 	return YES;
@@ -128,7 +123,7 @@
 		return FALSE;
 	}
 
-	fileAttr = [[NSFileManager defaultManager] fileAttributesAtPath:[self xmlFilename] traverseLink:YES];
+	fileAttr = [[NSFileManager defaultManager] fileAttributesAtPath:xmlFilename traverseLink:YES];
 
 	if (fileAttr == nil || xmlFileModificationDate == nil) {
 		return FALSE;
@@ -147,7 +142,7 @@
 	NSDictionary *fileAttr;
 
 	if ([self hasXmlFilename]) {
-		fileAttr = [[NSFileManager defaultManager] fileAttributesAtPath:[self xmlFilename] traverseLink:YES];
+		fileAttr = [[NSFileManager defaultManager] fileAttributesAtPath:xmlFilename traverseLink:YES];
 		[xmlFileModificationDate release];
 		xmlFileModificationDate = [fileAttr objectForKey:NSFileModificationDate];
 		[xmlFileModificationDate retain];
@@ -157,10 +152,8 @@
 }
 
 - (void)reloadXmlFromFile {
-
-	[self setXmlCode:[XMLUtils getStringWithEncodingFromFile:[self xmlFilename]]];
+	[self setValue:[XMLUtils getStringWithEncodingFromFile:xmlFilename] forKey:@"xmlCode"];
 	[self updateXmlFileModificationDate];
-
 }
 
 
@@ -177,22 +170,6 @@
 
 
 
-
-
-- (NSString *)xsltFilename {
-	return xsltFilename;
-}
-
-- (void)setXsltFilename:(NSString *)s {
-
-	[s retain];
-	[xsltFilename release];
-	xsltFilename = s;
-
-	[self updateXsltFileModificationDate];
-	
-}
-
 - (BOOL)hasXsltFilename {
 	return xsltFilename != nil;
 }
@@ -203,7 +180,7 @@
 		return FALSE;
 	}
 
-	[[XMLUtils getDataWithEncodingFromString:[self xsltCode]] writeToFile:[self xsltFilename] atomically:NO];
+	[[XMLUtils getDataWithEncodingFromString:xsltCode] writeToFile:xsltFilename atomically:NO];
 	[self updateXsltFileModificationDate];
 
 	return YES;
@@ -218,7 +195,7 @@
 		return FALSE;
 	}
 
-	fileAttr = [[NSFileManager defaultManager] fileAttributesAtPath:[self xsltFilename] traverseLink:YES];
+	fileAttr = [[NSFileManager defaultManager] fileAttributesAtPath:xsltFilename traverseLink:YES];
 
 	if (fileAttr == nil || xsltFileModificationDate == nil) {
 		return FALSE;
@@ -237,7 +214,7 @@
 	NSDictionary *fileAttr;
 
 	if ([self hasXsltFilename]) {
-		fileAttr = [[NSFileManager defaultManager] fileAttributesAtPath:[self xsltFilename] traverseLink:YES];
+		fileAttr = [[NSFileManager defaultManager] fileAttributesAtPath:xsltFilename traverseLink:YES];
 		[xsltFileModificationDate release];
 		xsltFileModificationDate = [fileAttr objectForKey:NSFileModificationDate];
 		[xsltFileModificationDate retain];
@@ -246,51 +223,13 @@
 }
 
 - (void)reloadXsltFromFile {
-
-	[self setXsltCode:[XMLUtils getStringWithEncodingFromFile:[self xsltFilename]]];
+	[self setValue:[XMLUtils getStringWithEncodingFromFile:xsltFilename] forKey:@"xsltCode"];
 	[self updateXsltFileModificationDate];
-		
 }
 
-
-
-
-
-- (NSString *)resultFilename {
-	return resultFilename;
-}
-
-- (void)setResultFilename:(NSString *)s {
-	[s retain];
-	[resultFilename release];
-	resultFilename = s;
-}
 
 - (BOOL)hasResultFilename {
 	return resultFilename != nil;
-}
-
-
-
-
-- (NSString *)xsltCode {
-	return xsltCode;
-}
-
-- (void)setXsltCode:(NSString *)s {
-	[s retain];
-	[xsltCode release];
-	xsltCode = s;
-}
-
-- (NSData *)result {
-	return result;
-}
-
-- (void)setResult:(NSData *)s {
-	[s retain];
-	[result release];
-	result = s;
 }
 
 
@@ -298,17 +237,15 @@
 	return [[[NSString alloc] initWithData:result encoding:[self resultEncoding]] autorelease];
 }
 
-
-
-- (ParameterSet *)parameterSet {
-	return parameterSet;
+- (void)saveResult {
+	
+	if (![self hasResultFilename]) {
+		NSLog(@"saveResult called but no filename is available");
+		return;
+	}
+	[result writeToFile:resultFilename atomically:NO];
 }
 
-- (void)setParameterSet:(ParameterSet *)newParams {
-	[newParams retain];
-	[parameterSet release];
-	parameterSet = newParams;
-}
 
 - (BOOL)hasXmlCode {
 	return ([xmlCode length] > 0);

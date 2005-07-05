@@ -10,6 +10,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
+#import <Quartz/Quartz.h>
 #include <sys/time.h>
 
 #import "XMLUtils.h"
@@ -31,8 +32,8 @@ enum {
 	RESULT,
 };
 
-@interface MyDocument : NSDocument
-{
+@interface MyDocument : NSDocument {
+
 	Workset *workset;
 	NSTimer *uiUpdateTimer;
 	BOOL resultDirty;
@@ -40,12 +41,13 @@ enum {
 	BOOL xsltDirty;
 	
 	BOOL webViewUpToDate;
-	BOOL imageViewUpToDate;
+	BOOL PDFViewUpToDate;
 
 	int pdfPageCount, pdfCurrentPage;
-	
+
 	NSBundle *processorBundle;
 
+	int processorType;
 	XSLTProcessor *processor;
 	XMLParserLibxml *wellFormedParser;
 	
@@ -76,7 +78,6 @@ enum {
 	IBOutlet NSDrawer *errorDrawer;
 	IBOutlet NSPopUpButton *processorTypePopUp;
 	IBOutlet WebView *resultWebView;
-	IBOutlet NSImageView *resultImageView;
 
 	IBOutlet NSTextField *pdfCurrentPageField;
 	IBOutlet NSTextField *pdfPageCountField;
@@ -87,10 +88,13 @@ enum {
 	IBOutlet NSTextField *xmlTagStackField;
 	IBOutlet NSTextField *xsltTagStackField;
 
+	IBOutlet PDFView *resultPDFView;
+
 	NSData *pdfData, *xslfoRendererResultData;
 	NSConditionLock *xslfoRendererLock;
 
 	NSString *drawerMessage;
+	NSString *messageLog;
 	
 	IBOutlet NSTextField *webViewBaseURL;
 
@@ -110,6 +114,8 @@ enum {
 - (IBAction)useSelectionForFind:(id)sender;
 - (void)findStringWithSearchFlags:(int)flags;
 
+- (IBAction)switchProcessor:(id)sender;
+
 - (BOOL)canJumpToLineNow;
 - (IBAction)showJumpToLinePanel:(id)sender;
 
@@ -122,7 +128,7 @@ enum {
 - (IBAction)selectTab:(id)sender;
 - (IBAction)selectTabById:(int)tabId;
 
-- (IBAction)setProcessorType:(id)sender;
+//- (IBAction)setProcessorType:(id)sender;
 - (IBAction)switchProcessorToType:(int)newType updateUI:(BOOL)updateUI;
 
 - (IBAction)showInBrowser:(id)sender;
@@ -156,11 +162,8 @@ enum {
 - (IBAction)loadXml:(id)sender;
 - (IBAction)loadXslt:(id)sender;
 
-- (BOOL)canSaveXmlAsNow;
 - (BOOL)canSaveXmlNow;
-- (BOOL)canSaveXsltAsNow;
 - (BOOL)canSaveXsltNow;
-- (BOOL)canSaveResultAsNow;
 - (BOOL)canSaveResultNow;
 
 - (IBAction)saveResultAs:(id)sender;
@@ -177,17 +180,18 @@ enum {
 - (void)autoSave;
 
 - (void)updateResultWebView;
-- (void)updateResultImageView;
+- (void)updateResultPDFView;
 
 - (IBAction)renderFo:(id)sender;
 
 - (IBAction)showErrorLocation:(id)sender;
 
-- (IBAction)pdfPreviousPage:(id)sender;
-- (IBAction)pdfNextPage:(id)sender;
 - (IBAction)pdfSaveAs:(id)sender;
 
 - (void)checkForExternalModifications;
+
+- (void)logMessage:(NSString *)string;
+- (void)clearMessageLog;
 
 /*
 - (IBAction)showXmlTab:(id)sender;

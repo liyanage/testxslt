@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <Foundation/NSDebug.h>
 
 @implementation AppDelegate
 
@@ -16,9 +17,11 @@
 	self = [super init];
 	if (!self) return nil;
 
+	NSZombieEnabled = YES;
+
 	NSString *templateXML = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"template" ofType:@"xml"]];
 	NSString *templateXSLT = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"template" ofType:@"xslt"]];
-	
+	NSLog(@"AppDelegate init");
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"YES", @"enableWellformedCheck",
 		@"YES", @"enableSyntaxAnalysis",
@@ -26,7 +29,7 @@
 		templateXSLT, @"templateXSLT",
 		nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
-	
+		
 	return self;
 	
 }

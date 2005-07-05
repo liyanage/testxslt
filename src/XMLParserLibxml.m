@@ -46,7 +46,7 @@
 //		free(xmlContext);
 	}
 
-	
+	[super dealloc];
 }
 
 

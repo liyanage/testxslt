@@ -37,14 +37,14 @@
 
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-	[coder encodeObject:parameters];
+	[coder encodeObject:parameters forKey:@"parameters"];
 }
 
 
 - (id)initWithCoder:(NSCoder *)coder {
 
 	if (self = [super init]) {
-		[self setParameterSet:[coder decodeObject]];
+		[self setParameterSet:[coder decodeObjectForKey:@"parameters"]];
 	}
 	return self;
 

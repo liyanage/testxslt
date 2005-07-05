@@ -26,10 +26,7 @@
 	
 	if (encoding == 0)
 		encoding = [NSString defaultCStringEncoding];
-	
-	NSLog(@"picked encoding: %d", encoding);
-	
-	
+		
 	fileString = [[[NSString alloc] initWithData:fileContents encoding:encoding] autorelease];
 	
 	if (fileString)

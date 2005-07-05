@@ -1,0 +1,1373 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		1B894BE407CA6023005318E9 /* Compile C Libs */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 1B7C99AF085760BA008E55C2 /* Build configuration list for PBXAggregateTarget "Compile C Libs" */;
+			buildPhases = (
+				1B894BE307CA6023005318E9 /* ShellScript */,
+			);
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Compile C Libs";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			dependencies = (
+			);
+			name = "Compile C Libs";
+			productName = "Compile C Libs";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		1B02A8C004FFD65100D27002 /* ragel_xmlscanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B17499B04FEB2BE00E5CBC3 /* ragel_xmlscanner.h */; };
+		1B02A8C204FFD65100D27002 /* ragel_xmlscanner_out.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B1749C304FEB65B00E5CBC3 /* ragel_xmlscanner_out.c */; };
+		1B02A8C304FFD65100D27002 /* test_ragel_xmlscanner.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B02A8AC04FFD5E400D27002 /* test_ragel_xmlscanner.c */; };
+		1B3CBBAF07CBEF77008B4FAA /* FOPWrapper.java in Sources */ = {isa = PBXBuildFile; fileRef = 1BB569F404E3010E0099E21C /* FOPWrapper.java */; };
+		1B3CBBB007CBEF77008B4FAA /* JAXPWrapper.java in Sources */ = {isa = PBXBuildFile; fileRef = 1B23468404DEB06C0050A2ED /* JAXPWrapper.java */; };
+		1B3CBBB107CBEF9D008B4FAA /* avalon-framework-cvs-20020806.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBE147304F2B1C8004DDAF6 /* avalon-framework-cvs-20020806.jar */; };
+		1B3CBBB207CBEF9D008B4FAA /* batik.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBE147404F2B1C8004DDAF6 /* batik.jar */; };
+		1B3CBBB307CBEF9D008B4FAA /* fop.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBE147504F2B1C8004DDAF6 /* fop.jar */; };
+		1B3CBBB407CBEF9D008B4FAA /* jai_codec.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BD650B50507E01D006A2A12 /* jai_codec.jar */; };
+		1B3CBBB507CBEF9D008B4FAA /* jai_core.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BD650B60507E01D006A2A12 /* jai_core.jar */; };
+		1B3CBBB607CBEF9D008B4FAA /* jimi-1.0.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BD650B70507E01D006A2A12 /* jimi-1.0.jar */; };
+		1B3CBBB707CBEF9D008B4FAA /* mlibwrapper_jai.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BD650B80507E01D006A2A12 /* mlibwrapper_jai.jar */; };
+		1B3CBC2A07CBF598008B4FAA /* MyDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A37F4AEFDCFA73011CA2CEA /* MyDocument.h */; };
+		1B3CBC2B07CBF598008B4FAA /* Workset.h in Headers */ = {isa = PBXBuildFile; fileRef = F56420C102329DDD01000103 /* Workset.h */; };
+		1B3CBC2C07CBF598008B4FAA /* ParameterSet.h in Headers */ = {isa = PBXBuildFile; fileRef = F57C933A023A9A0701000103 /* ParameterSet.h */; };
+		1B3CBC2D07CBF598008B4FAA /* NSApplicationScriptingCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = F7D29C2402D6439F013CD129 /* NSApplicationScriptingCategory.h */; };
+		1B3CBC2E07CBF598008B4FAA /* DragDestinationTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = F755EF1602E9C0F2014C0C38 /* DragDestinationTextView.h */; };
+		1B3CBC2F07CBF598008B4FAA /* XSLTProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F7D20D1102F9A9BE01000103 /* XSLTProcessor.h */; };
+		1B3CBC3007CBF598008B4FAA /* XSLTProcessorSablotron.h in Headers */ = {isa = PBXBuildFile; fileRef = F7D20D1502F9AB3B01000103 /* XSLTProcessorSablotron.h */; };
+		1B3CBC3107CBF598008B4FAA /* XSLTProcessorFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = F7D20D5002F9CFDC01000103 /* XSLTProcessorFactory.h */; };
+		1B3CBC3207CBF598008B4FAA /* XSLTProcessorLibxslt.h in Headers */ = {isa = PBXBuildFile; fileRef = F7D20D1902F9B5DF01000103 /* XSLTProcessorLibxslt.h */; };
+		1B3CBC3307CBF598008B4FAA /* XMLTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = F786D09302FB227701000103 /* XMLTextView.h */; };
+		1B3CBC3407CBF598008B4FAA /* XMLParserLibxml.h in Headers */ = {isa = PBXBuildFile; fileRef = F739178302FCB43A01000103 /* XMLParserLibxml.h */; };
+		1B3CBC3507CBF598008B4FAA /* FindPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = F7232FA60312E65D018C60E9 /* FindPanelController.h */; };
+		1B3CBC3607CBF598008B4FAA /* JumpToLinePanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = F7AE2416032024D601000103 /* JumpToLinePanelController.h */; };
+		1B3CBC3707CBF598008B4FAA /* UnsavedChangesPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B3BC83B0436364A006C8631 /* UnsavedChangesPanelController.h */; };
+		1B3CBC3807CBF598008B4FAA /* AppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B3BC92604365914006C8631 /* AppDelegate.h */; };
+		1B3CBC3907CBF598008B4FAA /* XSLTProcessorSaxon.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B6AEEBE0493442600000102 /* XSLTProcessorSaxon.h */; };
+		1B3CBC3A07CBF598008B4FAA /* XSLTProcessorJAXPBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5E2EF904F102EA00F043CD /* XSLTProcessorJAXPBase.h */; };
+		1B3CBC3B07CBF598008B4FAA /* XSLTProcessorXalan_J.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5E2F1D04F1065100F043CD /* XSLTProcessorXalan_J.h */; };
+		1B3CBC3C07CBF598008B4FAA /* XSL_FO_Renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BF7F12304F2BE74007723F5 /* XSL_FO_Renderer.h */; };
+		1B3CBC3D07CBF598008B4FAA /* ragel_xmlscanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B17499B04FEB2BE00E5CBC3 /* ragel_xmlscanner.h */; };
+		1B3CBC3E07CBF598008B4FAA /* ragel_xmldeclscanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BD3D5C705015C8400FF9835 /* ragel_xmldeclscanner.h */; };
+		1B3CBC3F07CBF598008B4FAA /* XMLUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BD3D6560501681E00FF9835 /* XMLUtils.h */; };
+		1B3CBC4007CBF598008B4FAA /* TabViewDraggingCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDE2ED4054C28BB00D5B2E9 /* TabViewDraggingCategory.h */; };
+		1B3CBC4207CBF598008B4FAA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
+		1B3CBC4307CBF598008B4FAA /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
+		1B3CBC4407CBF598008B4FAA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
+		1B3CBC4507CBF598008B4FAA /* TestXSLT.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = F7984B7002D626B50156A887 /* TestXSLT.scriptSuite */; };
+		1B3CBC4607CBF598008B4FAA /* TestXSLT.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = F7BEF93502D6273601F46A01 /* TestXSLT.scriptTerminology */; };
+		1B3CBC4807CBF598008B4FAA /* TestXSLT.icns in Resources */ = {isa = PBXBuildFile; fileRef = F7E9761C02EAE5BF01CD68AE /* TestXSLT.icns */; };
+		1B3CBC4907CBF598008B4FAA /* WarningIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = F7D210D302FA755701000103 /* WarningIcon.tif */; };
+		1B3CBC4A07CBF598008B4FAA /* MyDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */; };
+		1B3CBC4D07CBF598008B4FAA /* FindPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = F73C8200031598F4010D3857 /* FindPanel.nib */; };
+		1B3CBC4F07CBF598008B4FAA /* Demo AppleScript.sit in Resources */ = {isa = PBXBuildFile; fileRef = F71AD9E4032A9B5A01000103 /* Demo AppleScript.sit */; };
+		1B3CBC5007CBF598008B4FAA /* TestXSLT Help in Resources */ = {isa = PBXBuildFile; fileRef = F70DC0B90334879E01000103 /* TestXSLT Help */; };
+		1B3CBC5107CBF598008B4FAA /* template.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1B64BC8507C6AB120014535B /* template.xml */; };
+		1B3CBC5207CBF598008B4FAA /* template.xslt in Resources */ = {isa = PBXBuildFile; fileRef = 1B64BC9307C6AB3D0014535B /* template.xslt */; };
+		1B3CBC5407CBF598008B4FAA /* MyDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */; settings = {ATTRIBUTES = (); }; };
+		1B3CBC5507CBF598008B4FAA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		1B3CBC5607CBF598008B4FAA /* Workset.m in Sources */ = {isa = PBXBuildFile; fileRef = F56420C202329DDD01000103 /* Workset.m */; };
+		1B3CBC5707CBF598008B4FAA /* ParameterSet.m in Sources */ = {isa = PBXBuildFile; fileRef = F57C933B023A9A0701000103 /* ParameterSet.m */; };
+		1B3CBC5807CBF598008B4FAA /* NSApplicationScriptingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D29C2102D64179013CD129 /* NSApplicationScriptingCategory.m */; };
+		1B3CBC5907CBF598008B4FAA /* DragDestinationTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F755EF1702E9C0F2014C0C38 /* DragDestinationTextView.m */; };
+		1B3CBC5A07CBF598008B4FAA /* XSLTProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D20D1202F9A9BE01000103 /* XSLTProcessor.m */; };
+		1B3CBC5B07CBF598008B4FAA /* XSLTProcessorSablotron.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D20D1602F9AB3B01000103 /* XSLTProcessorSablotron.m */; };
+		1B3CBC5C07CBF598008B4FAA /* XSLTProcessorFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D20D5102F9CFDC01000103 /* XSLTProcessorFactory.m */; };
+		1B3CBC5D07CBF598008B4FAA /* XSLTProcessorLibxslt.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D20D1A02F9B5DF01000103 /* XSLTProcessorLibxslt.m */; };
+		1B3CBC5E07CBF598008B4FAA /* XMLTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F786D09402FB227701000103 /* XMLTextView.m */; };
+		1B3CBC5F07CBF598008B4FAA /* XMLParserLibxml.m in Sources */ = {isa = PBXBuildFile; fileRef = F739178402FCB43A01000103 /* XMLParserLibxml.m */; };
+		1B3CBC6007CBF598008B4FAA /* FindPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7232FA70312E65D018C60E9 /* FindPanelController.m */; };
+		1B3CBC6107CBF598008B4FAA /* JumpToLinePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7AE2417032024D601000103 /* JumpToLinePanelController.m */; };
+		1B3CBC6207CBF598008B4FAA /* UnsavedChangesPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3BC83C0436364A006C8631 /* UnsavedChangesPanelController.m */; };
+		1B3CBC6307CBF598008B4FAA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3BC92B04365B9B006C8631 /* AppDelegate.m */; };
+		1B3CBC6407CBF598008B4FAA /* XSLTProcessorSaxon.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6AEEBF0493442600000102 /* XSLTProcessorSaxon.m */; };
+		1B3CBC6507CBF598008B4FAA /* XSLTProcessorJAXPBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5E2EFA04F102EA00F043CD /* XSLTProcessorJAXPBase.m */; };
+		1B3CBC6607CBF598008B4FAA /* XSLTProcessorXalan_J.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5E2F1E04F1065100F043CD /* XSLTProcessorXalan_J.m */; };
+		1B3CBC6707CBF598008B4FAA /* XSL_FO_Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF7F12404F2BE74007723F5 /* XSL_FO_Renderer.m */; };
+		1B3CBC6807CBF598008B4FAA /* ragel_xmlscanner_out.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B1749C304FEB65B00E5CBC3 /* ragel_xmlscanner_out.c */; };
+		1B3CBC6907CBF598008B4FAA /* ragel_xmldeclscanner_out.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BD3D60E050160EC00FF9835 /* ragel_xmldeclscanner_out.c */; };
+		1B3CBC6A07CBF598008B4FAA /* XMLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD3D6570501681E00FF9835 /* XMLUtils.m */; };
+		1B3CBC6B07CBF598008B4FAA /* TabViewDraggingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDE2ED5054C28BB00D5B2E9 /* TabViewDraggingCategory.m */; };
+		1B3CBC6D07CBF598008B4FAA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		1B3CBC6E07CBF598008B4FAA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
+		1B3CBC6F07CBF598008B4FAA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
+		1B3CBC7007CBF598008B4FAA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BB48E5504DC2AA10086FFBB /* WebKit.framework */; };
+		1B3CBC7107CBF598008B4FAA /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F7CB6ED202F669FD01A8AA07 /* libz.1.1.3.dylib */; };
+		1B3CBC7207CBF598008B4FAA /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3CBAE407CBDCCF008B4FAA /* libxml2.dylib */; };
+		1B3CBC7307CBF598008B4FAA /* libexpat.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3CBB9207CBEC36008B4FAA /* libexpat.dylib */; };
+		1B3CBC7407CBF598008B4FAA /* libexslt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3CBB9307CBEC37008B4FAA /* libexslt.dylib */; };
+		1B3CBC7507CBF598008B4FAA /* libxslt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3CBB9407CBEC37008B4FAA /* libxslt.dylib */; };
+		1B3CBC7607CBF598008B4FAA /* libSablot.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3CBBA807CBEF12008B4FAA /* libSablot.dylib */; };
+		1B3CBC7807CBF598008B4FAA /* libSablot.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B3CBBA807CBEF12008B4FAA /* libSablot.dylib */; };
+		1B3CBC7907CBF598008B4FAA /* libexpat.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B3CBB9207CBEC36008B4FAA /* libexpat.dylib */; };
+		1B3CBC7A07CBF598008B4FAA /* libexslt.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B3CBB9307CBEC37008B4FAA /* libexslt.dylib */; };
+		1B3CBC7B07CBF598008B4FAA /* libxslt.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B3CBB9407CBEC37008B4FAA /* libxslt.dylib */; };
+		1B3CBC7C07CBF598008B4FAA /* libxml2.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B3CBAE407CBDCCF008B4FAA /* libxml2.dylib */; };
+		1B3CBC7E07CBF598008B4FAA /* JavaUtils.jar in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B3CBBAE07CBEF5B008B4FAA /* JavaUtils.jar */; };
+		1B3CBC7F07CBF598008B4FAA /* saxon8-sql.jar in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BE3506107C5D11B00D05BE4 /* saxon8-sql.jar */; };
+		1B3CBC8007CBF598008B4FAA /* saxon8.jar in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BE3506207C5D11B00D05BE4 /* saxon8.jar */; };
+		1B3CBC8107CBF598008B4FAA /* jai_codec.jar in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BD650B50507E01D006A2A12 /* jai_codec.jar */; };
+		1B3CBC8207CBF598008B4FAA /* jai_core.jar in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BD650B60507E01D006A2A12 /* jai_core.jar */; };
+		1B3CBC8307CBF598008B4FAA /* mlibwrapper_jai.jar in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BD650B80507E01D006A2A12 /* mlibwrapper_jai.jar */; };
+		1B3CBC8407CBF598008B4FAA /* jimi-1.0.jar in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BD650B70507E01D006A2A12 /* jimi-1.0.jar */; };
+		1B3CBC8507CBF598008B4FAA /* avalon-framework-cvs-20020806.jar in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BBE147304F2B1C8004DDAF6 /* avalon-framework-cvs-20020806.jar */; };
+		1B3CBC8607CBF598008B4FAA /* batik.jar in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BBE147404F2B1C8004DDAF6 /* batik.jar */; };
+		1B3CBC8707CBF598008B4FAA /* fop.jar in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BBE147504F2B1C8004DDAF6 /* fop.jar */; };
+		1B3CBC8807CBF598008B4FAA /* xalan.jar in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B64BBA507C5E1710014535B /* xalan.jar */; };
+		1B3CBC8D07CBF635008B4FAA /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1B3CBC8907CBF598008B4FAA /* Info.plist */; };
+		1BB501DF07CDC8B30015DFDC /* JumpToLine.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BB501DE07CDC8B30015DFDC /* JumpToLine.nib */; };
+		1BB501E107CDC8C50015DFDC /* UnsavedChanges.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BB501E007CDC8C50015DFDC /* UnsavedChanges.nib */; };
+		1BB8E36E085F71A2009FA114 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BB8E36D085F71A2009FA114 /* Quartz.framework */; };
+		1BD3D5C905015C8400FF9835 /* ragel_xmldeclscanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BD3D5C705015C8400FF9835 /* ragel_xmldeclscanner.h */; };
+		1BD3D60F050160EC00FF9835 /* ragel_xmldeclscanner_out.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BD3D60E050160EC00FF9835 /* ragel_xmldeclscanner_out.c */; };
+		1BDDEBF1087ACAAE009CD0B1 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDDEBF0087ACAAE009CD0B1 /* libiconv.2.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		4A9504D0FFE6A4CB11CA0CBA /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		4A9504D1FFE6A4CB11CA0CBA /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				INSTALL_MODE_FLAG = "";
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		1B3CBBEC07CBF070008B4FAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1B3CBBAD07CBEF5B008B4FAA;
+			remoteInfo = JavaUtils;
+		};
+		1B3CBBEE07CBF074008B4FAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1B894BE407CA6023005318E9;
+			remoteInfo = "Compile C Libs";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1B3CBC7707CBF598008B4FAA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1B3CBC7807CBF598008B4FAA /* libSablot.dylib in CopyFiles */,
+				1B3CBC7907CBF598008B4FAA /* libexpat.dylib in CopyFiles */,
+				1B3CBC7A07CBF598008B4FAA /* libexslt.dylib in CopyFiles */,
+				1B3CBC7B07CBF598008B4FAA /* libxslt.dylib in CopyFiles */,
+				1B3CBC7C07CBF598008B4FAA /* libxml2.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B3CBC7D07CBF598008B4FAA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 15;
+			files = (
+				1B3CBC7E07CBF598008B4FAA /* JavaUtils.jar in CopyFiles */,
+				1B3CBC7F07CBF598008B4FAA /* saxon8-sql.jar in CopyFiles */,
+				1B3CBC8007CBF598008B4FAA /* saxon8.jar in CopyFiles */,
+				1B3CBC8107CBF598008B4FAA /* jai_codec.jar in CopyFiles */,
+				1B3CBC8207CBF598008B4FAA /* jai_core.jar in CopyFiles */,
+				1B3CBC8307CBF598008B4FAA /* mlibwrapper_jai.jar in CopyFiles */,
+				1B3CBC8407CBF598008B4FAA /* jimi-1.0.jar in CopyFiles */,
+				1B3CBC8507CBF598008B4FAA /* avalon-framework-cvs-20020806.jar in CopyFiles */,
+				1B3CBC8607CBF598008B4FAA /* batik.jar in CopyFiles */,
+				1B3CBC8707CBF598008B4FAA /* fop.jar in CopyFiles */,
+				1B3CBC8807CBF598008B4FAA /* xalan.jar in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B02A8AC04FFD5E400D27002 /* test_ragel_xmlscanner.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = test_ragel_xmlscanner.c; path = src/test_ragel_xmlscanner.c; sourceTree = "<group>"; };
+		1B02A8B404FFD5F700D27002 /* ragel-xmlscanner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "ragel-xmlscanner"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B17499B04FEB2BE00E5CBC3 /* ragel_xmlscanner.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ragel_xmlscanner.h; path = src/ragel_xmlscanner.h; sourceTree = "<group>"; };
+		1B17499C04FEB2BE00E5CBC3 /* ragel_xmlscanner.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = ragel_xmlscanner.c; path = src/ragel_xmlscanner.c; sourceTree = "<group>"; };
+		1B1749C304FEB65B00E5CBC3 /* ragel_xmlscanner_out.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = ragel_xmlscanner_out.c; path = src/ragel_xmlscanner_out.c; sourceTree = "<group>"; };
+		1B23468404DEB06C0050A2ED /* JAXPWrapper.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; name = JAXPWrapper.java; path = "src-java/JAXPWrapper.java"; sourceTree = "<group>"; };
+		1B3BC839043618A6006C8631 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/UnsavedChanges.nib; sourceTree = "<group>"; };
+		1B3BC83B0436364A006C8631 /* UnsavedChangesPanelController.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = UnsavedChangesPanelController.h; path = src/UnsavedChangesPanelController.h; sourceTree = "<group>"; };
+		1B3BC83C0436364A006C8631 /* UnsavedChangesPanelController.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = UnsavedChangesPanelController.m; path = src/UnsavedChangesPanelController.m; sourceTree = "<group>"; };
+		1B3BC92604365914006C8631 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = src/AppDelegate.h; sourceTree = "<group>"; };
+		1B3BC92B04365B9B006C8631 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = src/AppDelegate.m; sourceTree = "<group>"; usesTabs = 1; };
+		1B3CBAE407CBDCCF008B4FAA /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = build/libs/libxml2.dylib; sourceTree = "<group>"; };
+		1B3CBB3D07CBE20B008B4FAA /* fix_install_paths.pl */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.perl; name = fix_install_paths.pl; path = libs/fix_install_paths.pl; sourceTree = SOURCE_ROOT; };
+		1B3CBB9207CBEC36008B4FAA /* libexpat.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libexpat.dylib; path = build/libs/libexpat.dylib; sourceTree = "<group>"; };
+		1B3CBB9307CBEC37008B4FAA /* libexslt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libexslt.dylib; path = build/libs/libexslt.dylib; sourceTree = "<group>"; };
+		1B3CBB9407CBEC37008B4FAA /* libxslt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxslt.dylib; path = build/libs/libxslt.dylib; sourceTree = "<group>"; };
+		1B3CBBA807CBEF12008B4FAA /* libSablot.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSablot.dylib; path = build/libs/libSablot.dylib; sourceTree = "<group>"; };
+		1B3CBBAE07CBEF5B008B4FAA /* JavaUtils.jar */ = {isa = PBXFileReference; explicitFileType = archive.jar; includeInIndex = 0; path = JavaUtils.jar; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B3CBC8907CBF598008B4FAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		1B3CBC8A07CBF598008B4FAA /* TestXSLT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestXSLT.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B5E2EF904F102EA00F043CD /* XSLTProcessorJAXPBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XSLTProcessorJAXPBase.h; path = src/XSLTProcessorJAXPBase.h; sourceTree = "<group>"; };
+		1B5E2EFA04F102EA00F043CD /* XSLTProcessorJAXPBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XSLTProcessorJAXPBase.m; path = src/XSLTProcessorJAXPBase.m; sourceTree = "<group>"; };
+		1B5E2F1D04F1065100F043CD /* XSLTProcessorXalan_J.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XSLTProcessorXalan_J.h; path = src/XSLTProcessorXalan_J.h; sourceTree = "<group>"; };
+		1B5E2F1E04F1065100F043CD /* XSLTProcessorXalan_J.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XSLTProcessorXalan_J.m; path = src/XSLTProcessorXalan_J.m; sourceTree = "<group>"; };
+		1B64BBA507C5E1710014535B /* xalan.jar */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = archive.jar; name = xalan.jar; path = "libs/Xalan-J/xalan.jar"; sourceTree = SOURCE_ROOT; };
+		1B64BC8507C6AB120014535B /* template.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = template.xml; sourceTree = "<group>"; };
+		1B64BC9307C6AB3D0014535B /* template.xslt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = template.xslt; sourceTree = "<group>"; };
+		1B6AEEBE0493442600000102 /* XSLTProcessorSaxon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XSLTProcessorSaxon.h; path = src/XSLTProcessorSaxon.h; sourceTree = "<group>"; };
+		1B6AEEBF0493442600000102 /* XSLTProcessorSaxon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XSLTProcessorSaxon.m; path = src/XSLTProcessorSaxon.m; sourceTree = "<group>"; };
+		1B6AEEC80493DF6900000102 /* StringErrorListener.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; name = StringErrorListener.java; path = "src-java/StringErrorListener.java"; sourceTree = "<group>"; };
+		1B894BD307CA5FE1005318E9 /* compile_libs.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; name = compile_libs.sh; path = libs/compile_libs.sh; sourceTree = SOURCE_ROOT; };
+		1BB48E5504DC2AA10086FFBB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		1BB569F404E3010E0099E21C /* FOPWrapper.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; name = FOPWrapper.java; path = "src-java/FOPWrapper.java"; sourceTree = "<group>"; };
+		1BB8E22C0858E363009FA114 /* compile_libs_universal.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; name = compile_libs_universal.sh; path = libs/compile_libs_universal.sh; sourceTree = SOURCE_ROOT; };
+		1BB8E36D085F71A2009FA114 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
+		1BBE147304F2B1C8004DDAF6 /* avalon-framework-cvs-20020806.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = "avalon-framework-cvs-20020806.jar"; path = "libs/FOP/avalon-framework-cvs-20020806.jar"; sourceTree = SOURCE_ROOT; };
+		1BBE147404F2B1C8004DDAF6 /* batik.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = batik.jar; path = libs/FOP/batik.jar; sourceTree = SOURCE_ROOT; };
+		1BBE147504F2B1C8004DDAF6 /* fop.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = fop.jar; path = libs/FOP/fop.jar; sourceTree = SOURCE_ROOT; };
+		1BD3D5C605015C8400FF9835 /* ragel_xmldeclscanner.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = ragel_xmldeclscanner.c; path = src/ragel_xmldeclscanner.c; sourceTree = "<group>"; };
+		1BD3D5C705015C8400FF9835 /* ragel_xmldeclscanner.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ragel_xmldeclscanner.h; path = src/ragel_xmldeclscanner.h; sourceTree = "<group>"; };
+		1BD3D60E050160EC00FF9835 /* ragel_xmldeclscanner_out.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = ragel_xmldeclscanner_out.c; path = src/ragel_xmldeclscanner_out.c; sourceTree = "<group>"; };
+		1BD3D6560501681E00FF9835 /* XMLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLUtils.h; path = src/XMLUtils.h; sourceTree = "<group>"; };
+		1BD3D6570501681E00FF9835 /* XMLUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XMLUtils.m; path = src/XMLUtils.m; sourceTree = "<group>"; };
+		1BD650B50507E01D006A2A12 /* jai_codec.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = jai_codec.jar; path = libs/FOP/jai_codec.jar; sourceTree = SOURCE_ROOT; };
+		1BD650B60507E01D006A2A12 /* jai_core.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = jai_core.jar; path = libs/FOP/jai_core.jar; sourceTree = SOURCE_ROOT; };
+		1BD650B70507E01D006A2A12 /* jimi-1.0.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = "jimi-1.0.jar"; path = "libs/FOP/jimi-1.0.jar"; sourceTree = SOURCE_ROOT; };
+		1BD650B80507E01D006A2A12 /* mlibwrapper_jai.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = mlibwrapper_jai.jar; path = libs/FOP/mlibwrapper_jai.jar; sourceTree = SOURCE_ROOT; };
+		1BDDEBF0087ACAAE009CD0B1 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = /usr/lib/libiconv.2.dylib; sourceTree = "<absolute>"; };
+		1BDE2ED4054C28BB00D5B2E9 /* TabViewDraggingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabViewDraggingCategory.h; path = src/TabViewDraggingCategory.h; sourceTree = "<group>"; };
+		1BDE2ED5054C28BB00D5B2E9 /* TabViewDraggingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabViewDraggingCategory.m; path = src/TabViewDraggingCategory.m; sourceTree = "<group>"; };
+		1BE3506107C5D11B00D05BE4 /* saxon8-sql.jar */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = archive.jar; name = "saxon8-sql.jar"; path = "libs/Saxon/saxon8-sql.jar"; sourceTree = "<group>"; };
+		1BE3506207C5D11B00D05BE4 /* saxon8.jar */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = archive.jar; name = saxon8.jar; path = libs/Saxon/saxon8.jar; sourceTree = "<group>"; };
+		1BF5374807C753B400D6EBDB /* readme2fo.xsl */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = readme2fo.xsl; sourceTree = "<group>"; };
+		1BF7F12304F2BE74007723F5 /* XSL_FO_Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XSL_FO_Renderer.h; path = src/XSL_FO_Renderer.h; sourceTree = "<group>"; };
+		1BF7F12404F2BE74007723F5 /* XSL_FO_Renderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XSL_FO_Renderer.m; path = src/XSL_FO_Renderer.m; sourceTree = "<group>"; };
+		2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = MyDocument.m; path = src/MyDocument.m; sourceTree = "<group>"; };
+		2A37F4AEFDCFA73011CA2CEA /* MyDocument.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = MyDocument.h; path = src/MyDocument.h; sourceTree = "<group>"; };
+		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = main.m; path = src/main.m; sourceTree = "<group>"; };
+		2A37F4B5FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MyDocument.nib; sourceTree = "<group>"; };
+		2A37F4B7FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		2A37F4BAFDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
+		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		F56420C102329DDD01000103 /* Workset.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = Workset.h; path = src/Workset.h; sourceTree = "<group>"; };
+		F56420C202329DDD01000103 /* Workset.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = Workset.m; path = src/Workset.m; sourceTree = "<group>"; };
+		F57C933A023A9A0701000103 /* ParameterSet.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = ParameterSet.h; path = src/ParameterSet.h; sourceTree = "<group>"; };
+		F57C933B023A9A0701000103 /* ParameterSet.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = ParameterSet.m; path = src/ParameterSet.m; sourceTree = "<group>"; };
+		F70DC0B40334879501000103 /* English */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = English; path = "TestXSLT Help"; sourceTree = "<group>"; };
+		F71AD9E4032A9B5A01000103 /* Demo AppleScript.sit */ = {isa = PBXFileReference; lastKnownFileType = archive.stuffit; path = "Demo AppleScript.sit"; sourceTree = "<group>"; };
+		F7232FA60312E65D018C60E9 /* FindPanelController.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = FindPanelController.h; path = src/FindPanelController.h; sourceTree = "<group>"; };
+		F7232FA70312E65D018C60E9 /* FindPanelController.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = FindPanelController.m; path = src/FindPanelController.m; sourceTree = "<group>"; };
+		F739177802FCAAF401000103 /* todo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = todo.txt; sourceTree = "<group>"; };
+		F739178302FCB43A01000103 /* XMLParserLibxml.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = XMLParserLibxml.h; path = src/XMLParserLibxml.h; sourceTree = "<group>"; };
+		F739178402FCB43A01000103 /* XMLParserLibxml.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = XMLParserLibxml.m; path = src/XMLParserLibxml.m; sourceTree = "<group>"; };
+		F73C8201031598F4010D3857 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FindPanel.nib; sourceTree = "<group>"; };
+		F755EF1602E9C0F2014C0C38 /* DragDestinationTextView.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = DragDestinationTextView.h; path = src/DragDestinationTextView.h; sourceTree = "<group>"; };
+		F755EF1702E9C0F2014C0C38 /* DragDestinationTextView.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = DragDestinationTextView.m; path = src/DragDestinationTextView.m; sourceTree = "<group>"; };
+		F7641DAC02FFB2FA01A8A905 /* readme.html */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text.html; path = readme.html; sourceTree = "<group>"; };
+		F7641DAD02FFB2FA01A8A905 /* readme.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = readme.rtf; sourceTree = "<group>"; };
+		F7641DAF02FFB2FA01A8A905 /* readme.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = readme.xml; sourceTree = "<group>"; };
+		F7641DB002FFB2FA01A8A905 /* readme2html.xsl */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text.xml; path = readme2html.xsl; sourceTree = "<group>"; };
+		F7641DB102FFB2FA01A8A905 /* readme2rtf.xsl */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text.xml; path = readme2rtf.xsl; sourceTree = "<group>"; };
+		F786D09302FB227701000103 /* XMLTextView.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = XMLTextView.h; path = src/XMLTextView.h; sourceTree = "<group>"; };
+		F786D09402FB227701000103 /* XMLTextView.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = XMLTextView.m; path = src/XMLTextView.m; sourceTree = "<group>"; };
+		F7984B7002D626B50156A887 /* TestXSLT.scriptSuite */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TestXSLT.scriptSuite; sourceTree = "<group>"; };
+		F7AE24140320247101000103 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JumpToLine.nib; sourceTree = "<group>"; };
+		F7AE2416032024D601000103 /* JumpToLinePanelController.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = JumpToLinePanelController.h; path = src/JumpToLinePanelController.h; sourceTree = "<group>"; };
+		F7AE2417032024D601000103 /* JumpToLinePanelController.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = JumpToLinePanelController.m; path = src/JumpToLinePanelController.m; sourceTree = "<group>"; };
+		F7BEF93602D6273601F46A01 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = English; path = English.lproj/TestXSLT.scriptTerminology; sourceTree = "<group>"; };
+		F7CB6ED202F669FD01A8AA07 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = /usr/lib/libz.1.1.3.dylib; sourceTree = "<absolute>"; };
+		F7D20D1102F9A9BE01000103 /* XSLTProcessor.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = XSLTProcessor.h; path = src/XSLTProcessor.h; sourceTree = "<group>"; };
+		F7D20D1202F9A9BE01000103 /* XSLTProcessor.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = XSLTProcessor.m; path = src/XSLTProcessor.m; sourceTree = "<group>"; };
+		F7D20D1502F9AB3B01000103 /* XSLTProcessorSablotron.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = XSLTProcessorSablotron.h; path = src/XSLTProcessorSablotron.h; sourceTree = "<group>"; };
+		F7D20D1602F9AB3B01000103 /* XSLTProcessorSablotron.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = XSLTProcessorSablotron.m; path = src/XSLTProcessorSablotron.m; sourceTree = "<group>"; };
+		F7D20D1902F9B5DF01000103 /* XSLTProcessorLibxslt.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = XSLTProcessorLibxslt.h; path = src/XSLTProcessorLibxslt.h; sourceTree = "<group>"; };
+		F7D20D1A02F9B5DF01000103 /* XSLTProcessorLibxslt.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = XSLTProcessorLibxslt.m; path = src/XSLTProcessorLibxslt.m; sourceTree = "<group>"; };
+		F7D20D5002F9CFDC01000103 /* XSLTProcessorFactory.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = XSLTProcessorFactory.h; path = src/XSLTProcessorFactory.h; sourceTree = "<group>"; };
+		F7D20D5102F9CFDC01000103 /* XSLTProcessorFactory.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = XSLTProcessorFactory.m; path = src/XSLTProcessorFactory.m; sourceTree = "<group>"; };
+		F7D210D302FA755701000103 /* WarningIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = WarningIcon.tif; path = artwork/WarningIcon.tif; sourceTree = "<group>"; };
+		F7D29C2102D64179013CD129 /* NSApplicationScriptingCategory.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = NSApplicationScriptingCategory.m; path = src/NSApplicationScriptingCategory.m; sourceTree = "<group>"; };
+		F7D29C2402D6439F013CD129 /* NSApplicationScriptingCategory.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = NSApplicationScriptingCategory.h; path = src/NSApplicationScriptingCategory.h; sourceTree = "<group>"; };
+		F7E9761C02EAE5BF01CD68AE /* TestXSLT.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = TestXSLT.icns; path = artwork/TestXSLT.icns; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1B3CBBAC07CBEF5B008B4FAA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B3CBBB107CBEF9D008B4FAA /* avalon-framework-cvs-20020806.jar in Frameworks */,
+				1B3CBBB207CBEF9D008B4FAA /* batik.jar in Frameworks */,
+				1B3CBBB307CBEF9D008B4FAA /* fop.jar in Frameworks */,
+				1B3CBBB407CBEF9D008B4FAA /* jai_codec.jar in Frameworks */,
+				1B3CBBB507CBEF9D008B4FAA /* jai_core.jar in Frameworks */,
+				1B3CBBB607CBEF9D008B4FAA /* jimi-1.0.jar in Frameworks */,
+				1B3CBBB707CBEF9D008B4FAA /* mlibwrapper_jai.jar in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B3CBC6C07CBF598008B4FAA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B3CBC6D07CBF598008B4FAA /* Cocoa.framework in Frameworks */,
+				1B3CBC6E07CBF598008B4FAA /* Foundation.framework in Frameworks */,
+				1B3CBC6F07CBF598008B4FAA /* AppKit.framework in Frameworks */,
+				1B3CBC7007CBF598008B4FAA /* WebKit.framework in Frameworks */,
+				1B3CBC7107CBF598008B4FAA /* libz.1.1.3.dylib in Frameworks */,
+				1B3CBC7207CBF598008B4FAA /* libxml2.dylib in Frameworks */,
+				1B3CBC7307CBF598008B4FAA /* libexpat.dylib in Frameworks */,
+				1B3CBC7407CBF598008B4FAA /* libexslt.dylib in Frameworks */,
+				1B3CBC7507CBF598008B4FAA /* libxslt.dylib in Frameworks */,
+				1B3CBC7607CBF598008B4FAA /* libSablot.dylib in Frameworks */,
+				1BB8E36E085F71A2009FA114 /* Quartz.framework in Frameworks */,
+				1BDDEBF1087ACAAE009CD0B1 /* libiconv.2.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1BDDEBF0087ACAAE009CD0B1 /* libiconv.2.dylib */,
+				1BB8E36D085F71A2009FA114 /* Quartz.framework */,
+				F7CB6ED202F669FD01A8AA07 /* libz.1.1.3.dylib */,
+				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
+				1BB48E5504DC2AA10086FFBB /* WebKit.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
+				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB0FE9D524F11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1B02A8B404FFD5F700D27002 /* ragel-xmlscanner */,
+				1B3CBBAE07CBEF5B008B4FAA /* JavaUtils.jar */,
+				1B3CBC8A07CBF598008B4FAA /* TestXSLT.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1B02A8AB04FFD5B600D27002 /* Ragel XML Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				1B17499B04FEB2BE00E5CBC3 /* ragel_xmlscanner.h */,
+				1B17499C04FEB2BE00E5CBC3 /* ragel_xmlscanner.c */,
+				1B1749C304FEB65B00E5CBC3 /* ragel_xmlscanner_out.c */,
+				1BD3D60E050160EC00FF9835 /* ragel_xmldeclscanner_out.c */,
+				1B02A8AC04FFD5E400D27002 /* test_ragel_xmlscanner.c */,
+				1BD3D5C605015C8400FF9835 /* ragel_xmldeclscanner.c */,
+				1BD3D5C705015C8400FF9835 /* ragel_xmldeclscanner.h */,
+			);
+			name = "Ragel XML Scanner";
+			sourceTree = "<group>";
+		};
+		1B23468104DEB03A0050A2ED /* Java Source */ = {
+			isa = PBXGroup;
+			children = (
+				1B6AEEC80493DF6900000102 /* StringErrorListener.java */,
+				1B23468404DEB06C0050A2ED /* JAXPWrapper.java */,
+				1BB569F404E3010E0099E21C /* FOPWrapper.java */,
+			);
+			name = "Java Source";
+			sourceTree = "<group>";
+		};
+		1B3CBAE107CBDCB3008B4FAA /* Built Libs */ = {
+			isa = PBXGroup;
+			children = (
+				1B3CBBA807CBEF12008B4FAA /* libSablot.dylib */,
+				1B3CBB9207CBEC36008B4FAA /* libexpat.dylib */,
+				1B3CBB9307CBEC37008B4FAA /* libexslt.dylib */,
+				1B3CBB9407CBEC37008B4FAA /* libxslt.dylib */,
+				1B3CBAE407CBDCCF008B4FAA /* libxml2.dylib */,
+			);
+			name = "Built Libs";
+			sourceTree = "<group>";
+		};
+		1B5E2F3104F1086300F043CD /* Xalan-J Processor */ = {
+			isa = PBXGroup;
+			children = (
+				1B64BBA507C5E1710014535B /* xalan.jar */,
+			);
+			name = "Xalan-J Processor";
+			sourceTree = "<group>";
+		};
+		1B6AEEC2049344C400000102 /* Saxon Processor */ = {
+			isa = PBXGroup;
+			children = (
+				1BE3506107C5D11B00D05BE4 /* saxon8-sql.jar */,
+				1BE3506207C5D11B00D05BE4 /* saxon8.jar */,
+			);
+			name = "Saxon Processor";
+			sourceTree = "<group>";
+		};
+		1BBE146104F29D71004DDAF6 /* FOP */ = {
+			isa = PBXGroup;
+			children = (
+				1BBE147304F2B1C8004DDAF6 /* avalon-framework-cvs-20020806.jar */,
+				1BBE147404F2B1C8004DDAF6 /* batik.jar */,
+				1BBE147504F2B1C8004DDAF6 /* fop.jar */,
+				1BD650B50507E01D006A2A12 /* jai_codec.jar */,
+				1BD650B60507E01D006A2A12 /* jai_core.jar */,
+				1BD650B70507E01D006A2A12 /* jimi-1.0.jar */,
+				1BD650B80507E01D006A2A12 /* mlibwrapper_jai.jar */,
+			);
+			name = FOP;
+			path = libs/FOP;
+			sourceTree = "<group>";
+		};
+		1BD041D40437194C0094B693 /* Libs Build Support */ = {
+			isa = PBXGroup;
+			children = (
+				1B3CBB3D07CBE20B008B4FAA /* fix_install_paths.pl */,
+				1BB8E22C0858E363009FA114 /* compile_libs_universal.sh */,
+				1B894BD307CA5FE1005318E9 /* compile_libs.sh */,
+			);
+			name = "Libs Build Support";
+			path = Distribution;
+			sourceTree = "<group>";
+		};
+		2A37F4AAFDCFA73011CA2CEA /* TestXSLT */ = {
+			isa = PBXGroup;
+			children = (
+				F739177802FCAAF401000103 /* todo.txt */,
+				2A37F4ABFDCFA73011CA2CEA /* View/Controller Classes */,
+				F5F178320260CC3601267658 /* Model Classes */,
+				1B02A8AB04FFD5B600D27002 /* Ragel XML Scanner */,
+				1B23468104DEB03A0050A2ED /* Java Source */,
+				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
+				F7641DA602FFB2FA01A8A905 /* Distribution */,
+				2A37F4B8FDCFA73011CA2CEA /* Resources */,
+				1BD041D40437194C0094B693 /* Libs Build Support */,
+				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
+				19C28FB0FE9D524F11CA2CBB /* Products */,
+			);
+			name = TestXSLT;
+			sourceTree = "<group>";
+		};
+		2A37F4ABFDCFA73011CA2CEA /* View/Controller Classes */ = {
+			isa = PBXGroup;
+			children = (
+				2A37F4AEFDCFA73011CA2CEA /* MyDocument.h */,
+				2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */,
+				F7D29C2402D6439F013CD129 /* NSApplicationScriptingCategory.h */,
+				F7D29C2102D64179013CD129 /* NSApplicationScriptingCategory.m */,
+				1B3BC92604365914006C8631 /* AppDelegate.h */,
+				1B3BC92B04365B9B006C8631 /* AppDelegate.m */,
+				F755EF1602E9C0F2014C0C38 /* DragDestinationTextView.h */,
+				F755EF1702E9C0F2014C0C38 /* DragDestinationTextView.m */,
+				F786D09302FB227701000103 /* XMLTextView.h */,
+				F786D09402FB227701000103 /* XMLTextView.m */,
+				F7232FA60312E65D018C60E9 /* FindPanelController.h */,
+				F7232FA70312E65D018C60E9 /* FindPanelController.m */,
+				F7AE2416032024D601000103 /* JumpToLinePanelController.h */,
+				F7AE2417032024D601000103 /* JumpToLinePanelController.m */,
+				1B3BC83B0436364A006C8631 /* UnsavedChangesPanelController.h */,
+				1B3BC83C0436364A006C8631 /* UnsavedChangesPanelController.m */,
+				1BDE2ED4054C28BB00D5B2E9 /* TabViewDraggingCategory.h */,
+				1BDE2ED5054C28BB00D5B2E9 /* TabViewDraggingCategory.m */,
+			);
+			name = "View/Controller Classes";
+			sourceTree = "<group>";
+		};
+		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				2A37F4B0FDCFA73011CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1B3CBC8907CBF598008B4FAA /* Info.plist */,
+				1B64BC9307C6AB3D0014535B /* template.xslt */,
+				1B64BC8507C6AB120014535B /* template.xml */,
+				F7E9761C02EAE5BF01CD68AE /* TestXSLT.icns */,
+				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
+				1BB501DE07CDC8B30015DFDC /* JumpToLine.nib */,
+				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
+				2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */,
+				1BB501E007CDC8C50015DFDC /* UnsavedChanges.nib */,
+				F73C8200031598F4010D3857 /* FindPanel.nib */,
+				F7984B7002D626B50156A887 /* TestXSLT.scriptSuite */,
+				F7BEF93502D6273601F46A01 /* TestXSLT.scriptTerminology */,
+				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
+				F7D210D302FA755701000103 /* WarningIcon.tif */,
+				F70DC0B90334879E01000103 /* TestXSLT Help */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1BBE146104F29D71004DDAF6 /* FOP */,
+				1B5E2F3104F1086300F043CD /* Xalan-J Processor */,
+				1B6AEEC2049344C400000102 /* Saxon Processor */,
+				1B3CBAE107CBDCB3008B4FAA /* Built Libs */,
+				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
+				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F5F178320260CC3601267658 /* Model Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F57C933A023A9A0701000103 /* ParameterSet.h */,
+				F57C933B023A9A0701000103 /* ParameterSet.m */,
+				F56420C102329DDD01000103 /* Workset.h */,
+				F56420C202329DDD01000103 /* Workset.m */,
+				F7D20D5002F9CFDC01000103 /* XSLTProcessorFactory.h */,
+				F7D20D5102F9CFDC01000103 /* XSLTProcessorFactory.m */,
+				F7D20D1102F9A9BE01000103 /* XSLTProcessor.h */,
+				F7D20D1202F9A9BE01000103 /* XSLTProcessor.m */,
+				F7D20D1502F9AB3B01000103 /* XSLTProcessorSablotron.h */,
+				F7D20D1602F9AB3B01000103 /* XSLTProcessorSablotron.m */,
+				1B6AEEBE0493442600000102 /* XSLTProcessorSaxon.h */,
+				1B6AEEBF0493442600000102 /* XSLTProcessorSaxon.m */,
+				1B5E2F1D04F1065100F043CD /* XSLTProcessorXalan_J.h */,
+				1B5E2F1E04F1065100F043CD /* XSLTProcessorXalan_J.m */,
+				1B5E2EF904F102EA00F043CD /* XSLTProcessorJAXPBase.h */,
+				1B5E2EFA04F102EA00F043CD /* XSLTProcessorJAXPBase.m */,
+				F7D20D1902F9B5DF01000103 /* XSLTProcessorLibxslt.h */,
+				F7D20D1A02F9B5DF01000103 /* XSLTProcessorLibxslt.m */,
+				F739178302FCB43A01000103 /* XMLParserLibxml.h */,
+				F739178402FCB43A01000103 /* XMLParserLibxml.m */,
+				1BF7F12304F2BE74007723F5 /* XSL_FO_Renderer.h */,
+				1BF7F12404F2BE74007723F5 /* XSL_FO_Renderer.m */,
+				1BD3D6560501681E00FF9835 /* XMLUtils.h */,
+				1BD3D6570501681E00FF9835 /* XMLUtils.m */,
+			);
+			name = "Model Classes";
+			sourceTree = "<group>";
+		};
+		F7641DA602FFB2FA01A8A905 /* Distribution */ = {
+			isa = PBXGroup;
+			children = (
+				F71AD9E4032A9B5A01000103 /* Demo AppleScript.sit */,
+				F7641DAC02FFB2FA01A8A905 /* readme.html */,
+				F7641DAD02FFB2FA01A8A905 /* readme.rtf */,
+				F7641DAF02FFB2FA01A8A905 /* readme.xml */,
+				F7641DB002FFB2FA01A8A905 /* readme2html.xsl */,
+				F7641DB102FFB2FA01A8A905 /* readme2rtf.xsl */,
+				1BF5374807C753B400D6EBDB /* readme2fo.xsl */,
+			);
+			path = Distribution;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		1B02A8B104FFD5F700D27002 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B02A8C004FFD65100D27002 /* ragel_xmlscanner.h in Headers */,
+				1BD3D5C905015C8400FF9835 /* ragel_xmldeclscanner.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B3CBC2907CBF598008B4FAA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B3CBC2A07CBF598008B4FAA /* MyDocument.h in Headers */,
+				1B3CBC2B07CBF598008B4FAA /* Workset.h in Headers */,
+				1B3CBC2C07CBF598008B4FAA /* ParameterSet.h in Headers */,
+				1B3CBC2D07CBF598008B4FAA /* NSApplicationScriptingCategory.h in Headers */,
+				1B3CBC2E07CBF598008B4FAA /* DragDestinationTextView.h in Headers */,
+				1B3CBC2F07CBF598008B4FAA /* XSLTProcessor.h in Headers */,
+				1B3CBC3007CBF598008B4FAA /* XSLTProcessorSablotron.h in Headers */,
+				1B3CBC3107CBF598008B4FAA /* XSLTProcessorFactory.h in Headers */,
+				1B3CBC3207CBF598008B4FAA /* XSLTProcessorLibxslt.h in Headers */,
+				1B3CBC3307CBF598008B4FAA /* XMLTextView.h in Headers */,
+				1B3CBC3407CBF598008B4FAA /* XMLParserLibxml.h in Headers */,
+				1B3CBC3507CBF598008B4FAA /* FindPanelController.h in Headers */,
+				1B3CBC3607CBF598008B4FAA /* JumpToLinePanelController.h in Headers */,
+				1B3CBC3707CBF598008B4FAA /* UnsavedChangesPanelController.h in Headers */,
+				1B3CBC3807CBF598008B4FAA /* AppDelegate.h in Headers */,
+				1B3CBC3907CBF598008B4FAA /* XSLTProcessorSaxon.h in Headers */,
+				1B3CBC3A07CBF598008B4FAA /* XSLTProcessorJAXPBase.h in Headers */,
+				1B3CBC3B07CBF598008B4FAA /* XSLTProcessorXalan_J.h in Headers */,
+				1B3CBC3C07CBF598008B4FAA /* XSL_FO_Renderer.h in Headers */,
+				1B3CBC3D07CBF598008B4FAA /* ragel_xmlscanner.h in Headers */,
+				1B3CBC3E07CBF598008B4FAA /* ragel_xmldeclscanner.h in Headers */,
+				1B3CBC3F07CBF598008B4FAA /* XMLUtils.h in Headers */,
+				1B3CBC4007CBF598008B4FAA /* TabViewDraggingCategory.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXJavaArchiveBuildPhase section */
+		1B3CBBAB07CBEF5B008B4FAA /* JavaArchive */ = {
+			isa = PBXJavaArchiveBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXJavaArchiveBuildPhase section */
+
+/* Begin PBXLibraryTarget section */
+		1B3CBBAD07CBEF5B008B4FAA /* JavaUtils */ = {
+			isa = PBXLibraryTarget;
+			buildConfigurationList = 1B7C99AB085760BA008E55C2 /* Build configuration list for PBXLibraryTarget "JavaUtils" */;
+			buildPhases = (
+				1B3CBBAA07CBEF5B008B4FAA /* Sources */,
+				1B3CBBAB07CBEF5B008B4FAA /* JavaArchive */,
+				1B3CBBAC07CBEF5B008B4FAA /* Frameworks */,
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				JAVA_ARCHIVE_CLASSES = YES;
+				JAVA_ARCHIVE_TYPE = JAR;
+				JAVA_COMPILER = /usr/bin/javac;
+				JAVA_SOURCE_SUBDIR = .;
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOL_FLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = JavaUtils;
+				PURE_JAVA = YES;
+				REZ_EXECUTABLE = YES;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			dependencies = (
+			);
+			name = JavaUtils;
+			productInstallPath = /usr/local/lib;
+			productName = JavaUtils;
+			productReference = 1B3CBBAE07CBEF5B008B4FAA /* JavaUtils.jar */;
+		};
+/* End PBXLibraryTarget section */
+
+/* Begin PBXNativeTarget section */
+		1B02A8B304FFD5F700D27002 /* ragel-xmlscanner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1B7C99B7085760BA008E55C2 /* Build configuration list for PBXNativeTarget "ragel-xmlscanner" */;
+			buildPhases = (
+				1B02A8CD04FFD67900D27002 /* ShellScript */,
+				1B02A8B104FFD5F700D27002 /* Headers */,
+				1B02A8B204FFD5F700D27002 /* Sources */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "ragel-xmlscanner";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			dependencies = (
+			);
+			name = "ragel-xmlscanner";
+			productName = "ragel-xmlscanner";
+			productReference = 1B02A8B404FFD5F700D27002 /* ragel-xmlscanner */;
+			productType = "com.apple.product-type.tool";
+		};
+		1B3CBC2607CBF598008B4FAA /* TestXSLT */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1B7C99B3085760BA008E55C2 /* Build configuration list for PBXNativeTarget "TestXSLT" */;
+			buildPhases = (
+				1B3CBC2907CBF598008B4FAA /* Headers */,
+				1B3CBC4107CBF598008B4FAA /* Resources */,
+				1B3CBC5307CBF598008B4FAA /* Sources */,
+				1B3CBC6C07CBF598008B4FAA /* Frameworks */,
+				1B3CBC7707CBF598008B4FAA /* CopyFiles */,
+				1B3CBC7D07CBF598008B4FAA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					build/libs/inst/include/libxml2,
+					build/libs/inst/include,
+				);
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = build/libs;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = TestXSLT;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+			};
+			dependencies = (
+				1B3CBC2707CBF598008B4FAA /* PBXTargetDependency */,
+				1B3CBC2807CBF598008B4FAA /* PBXTargetDependency */,
+			);
+			name = TestXSLT;
+			productName = TestXSLT;
+			productReference = 1B3CBC8A07CBF598008B4FAA /* TestXSLT.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1B7C99BB085760BA008E55C2 /* Build configuration list for PBXProject "TestXSLT" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				4A9504D0FFE6A4CB11CA0CBA /* Development */,
+				4A9504D1FFE6A4CB11CA0CBA /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* TestXSLT */;
+			projectDirPath = "";
+			targets = (
+				1B3CBC2607CBF598008B4FAA /* TestXSLT */,
+				1B894BE407CA6023005318E9 /* Compile C Libs */,
+				1B3CBBAD07CBEF5B008B4FAA /* JavaUtils */,
+				1B02A8B304FFD5F700D27002 /* ragel-xmlscanner */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1B3CBC4107CBF598008B4FAA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B3CBC4207CBF598008B4FAA /* Credits.rtf in Resources */,
+				1B3CBC4307CBF598008B4FAA /* MainMenu.nib in Resources */,
+				1B3CBC4407CBF598008B4FAA /* InfoPlist.strings in Resources */,
+				1B3CBC4507CBF598008B4FAA /* TestXSLT.scriptSuite in Resources */,
+				1B3CBC4607CBF598008B4FAA /* TestXSLT.scriptTerminology in Resources */,
+				1B3CBC4807CBF598008B4FAA /* TestXSLT.icns in Resources */,
+				1B3CBC4907CBF598008B4FAA /* WarningIcon.tif in Resources */,
+				1B3CBC4A07CBF598008B4FAA /* MyDocument.nib in Resources */,
+				1BB501E107CDC8C50015DFDC /* UnsavedChanges.nib in Resources */,
+				1B3CBC4D07CBF598008B4FAA /* FindPanel.nib in Resources */,
+				1BB501DF07CDC8B30015DFDC /* JumpToLine.nib in Resources */,
+				1B3CBC4F07CBF598008B4FAA /* Demo AppleScript.sit in Resources */,
+				1B3CBC5007CBF598008B4FAA /* TestXSLT Help in Resources */,
+				1B3CBC5107CBF598008B4FAA /* template.xml in Resources */,
+				1B3CBC5207CBF598008B4FAA /* template.xslt in Resources */,
+				1B3CBC8D07CBF635008B4FAA /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1B02A8CD04FFD67900D27002 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/ragel -o ragel_xmldeclscanner_out.c ragel_xmldeclscanner.c\n/usr/local/bin/ragel -o ragel_xmlscanner_out.c ragel_xmlscanner.c\n";
+		};
+		1B894BE307CA6023005318E9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here\nsh libs/compile_libs.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1B02A8B204FFD5F700D27002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B02A8C204FFD65100D27002 /* ragel_xmlscanner_out.c in Sources */,
+				1B02A8C304FFD65100D27002 /* test_ragel_xmlscanner.c in Sources */,
+				1BD3D60F050160EC00FF9835 /* ragel_xmldeclscanner_out.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B3CBBAA07CBEF5B008B4FAA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B3CBBAF07CBEF77008B4FAA /* FOPWrapper.java in Sources */,
+				1B3CBBB007CBEF77008B4FAA /* JAXPWrapper.java in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B3CBC5307CBF598008B4FAA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B3CBC5407CBF598008B4FAA /* MyDocument.m in Sources */,
+				1B3CBC5507CBF598008B4FAA /* main.m in Sources */,
+				1B3CBC5607CBF598008B4FAA /* Workset.m in Sources */,
+				1B3CBC5707CBF598008B4FAA /* ParameterSet.m in Sources */,
+				1B3CBC5807CBF598008B4FAA /* NSApplicationScriptingCategory.m in Sources */,
+				1B3CBC5907CBF598008B4FAA /* DragDestinationTextView.m in Sources */,
+				1B3CBC5A07CBF598008B4FAA /* XSLTProcessor.m in Sources */,
+				1B3CBC5B07CBF598008B4FAA /* XSLTProcessorSablotron.m in Sources */,
+				1B3CBC5C07CBF598008B4FAA /* XSLTProcessorFactory.m in Sources */,
+				1B3CBC5D07CBF598008B4FAA /* XSLTProcessorLibxslt.m in Sources */,
+				1B3CBC5E07CBF598008B4FAA /* XMLTextView.m in Sources */,
+				1B3CBC5F07CBF598008B4FAA /* XMLParserLibxml.m in Sources */,
+				1B3CBC6007CBF598008B4FAA /* FindPanelController.m in Sources */,
+				1B3CBC6107CBF598008B4FAA /* JumpToLinePanelController.m in Sources */,
+				1B3CBC6207CBF598008B4FAA /* UnsavedChangesPanelController.m in Sources */,
+				1B3CBC6307CBF598008B4FAA /* AppDelegate.m in Sources */,
+				1B3CBC6407CBF598008B4FAA /* XSLTProcessorSaxon.m in Sources */,
+				1B3CBC6507CBF598008B4FAA /* XSLTProcessorJAXPBase.m in Sources */,
+				1B3CBC6607CBF598008B4FAA /* XSLTProcessorXalan_J.m in Sources */,
+				1B3CBC6707CBF598008B4FAA /* XSL_FO_Renderer.m in Sources */,
+				1B3CBC6807CBF598008B4FAA /* ragel_xmlscanner_out.c in Sources */,
+				1B3CBC6907CBF598008B4FAA /* ragel_xmldeclscanner_out.c in Sources */,
+				1B3CBC6A07CBF598008B4FAA /* XMLUtils.m in Sources */,
+				1B3CBC6B07CBF598008B4FAA /* TabViewDraggingCategory.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1B3CBC2707CBF598008B4FAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1B3CBBAD07CBEF5B008B4FAA /* JavaUtils */;
+			targetProxy = 1B3CBBEC07CBF070008B4FAA /* PBXContainerItemProxy */;
+		};
+		1B3CBC2807CBF598008B4FAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1B894BE407CA6023005318E9 /* Compile C Libs */;
+			targetProxy = 1B3CBBEE07CBF074008B4FAA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1660FE840EACC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1BB501DE07CDC8B30015DFDC /* JumpToLine.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F7AE24140320247101000103 /* English */,
+			);
+			name = JumpToLine.nib;
+			sourceTree = "<group>";
+		};
+		1BB501E007CDC8C50015DFDC /* UnsavedChanges.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B3BC839043618A6006C8631 /* English */,
+			);
+			name = UnsavedChanges.nib;
+			sourceTree = "<group>";
+		};
+		2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A37F4B5FDCFA73011CA2CEA /* English */,
+			);
+			name = MyDocument.nib;
+			sourceTree = "<group>";
+		};
+		2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A37F4B7FDCFA73011CA2CEA /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A37F4BAFDCFA73011CA2CEA /* English */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		F70DC0B90334879E01000103 /* TestXSLT Help */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F70DC0B40334879501000103 /* English */,
+			);
+			name = "TestXSLT Help";
+			sourceTree = "<group>";
+		};
+		F73C8200031598F4010D3857 /* FindPanel.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F73C8201031598F4010D3857 /* English */,
+			);
+			name = FindPanel.nib;
+			sourceTree = "<group>";
+		};
+		F7BEF93502D6273601F46A01 /* TestXSLT.scriptTerminology */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F7BEF93602D6273601F46A01 /* English */,
+			);
+			name = TestXSLT.scriptTerminology;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1B7C99AC085760BA008E55C2 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				JAVA_ARCHIVE_CLASSES = YES;
+				JAVA_ARCHIVE_TYPE = JAR;
+				JAVA_COMPILER = /usr/bin/javac;
+				JAVA_SOURCE_SUBDIR = .;
+				LIBRARY_STYLE = STATIC;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOL_FLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = JavaUtils;
+				PURE_JAVA = YES;
+				REZ_EXECUTABLE = YES;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		1B7C99AD085760BA008E55C2 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				INSTALL_MODE_FLAG = "";
+				JAVA_ARCHIVE_CLASSES = YES;
+				JAVA_ARCHIVE_TYPE = JAR;
+				JAVA_COMPILER = /usr/bin/javac;
+				JAVA_SOURCE_SUBDIR = .;
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOL_FLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = JavaUtils;
+				PURE_JAVA = YES;
+				REZ_EXECUTABLE = YES;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		1B7C99AE085760BA008E55C2 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				JAVA_ARCHIVE_CLASSES = YES;
+				JAVA_ARCHIVE_TYPE = JAR;
+				JAVA_COMPILER = /usr/bin/javac;
+				JAVA_SOURCE_SUBDIR = .;
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOL_FLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = JavaUtils;
+				PURE_JAVA = YES;
+				REZ_EXECUTABLE = YES;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
+		1B7C99B0085760BA008E55C2 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Compile C Libs";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		1B7C99B1085760BA008E55C2 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				INSTALL_MODE_FLAG = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Compile C Libs";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		1B7C99B2085760BA008E55C2 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Compile C Libs";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
+		1B7C99B4085760BA008E55C2 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					build/libs/inst/include/libxml2,
+					build/libs/inst/include,
+				);
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = build/libs;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = TestXSLT;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		1B7C99B5085760BA008E55C2 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					build/libs/inst/include/libxml2,
+					build/libs/inst/include,
+				);
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_MODE_FLAG = "";
+				LIBRARY_SEARCH_PATHS = build/libs;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = TestXSLT;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		1B7C99B6085760BA008E55C2 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					build/libs/inst/include/libxml2,
+					build/libs/inst/include,
+				);
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = build/libs;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = TestXSLT;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+			};
+			name = Default;
+		};
+		1B7C99B8085760BA008E55C2 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INSTALL_PATH = /usr/local/bin;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "ragel-xmlscanner";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		1B7C99B9085760BA008E55C2 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INSTALL_MODE_FLAG = "";
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "ragel-xmlscanner";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		1B7C99BA085760BA008E55C2 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "ragel-xmlscanner";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			name = Default;
+		};
+		1B7C99BC085760BA008E55C2 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Development;
+		};
+		1B7C99BD085760BA008E55C2 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Deployment;
+		};
+		1B7C99BE085760BA008E55C2 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1B7C99AB085760BA008E55C2 /* Build configuration list for PBXLibraryTarget "JavaUtils" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B7C99AC085760BA008E55C2 /* Development */,
+				1B7C99AD085760BA008E55C2 /* Deployment */,
+				1B7C99AE085760BA008E55C2 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		1B7C99AF085760BA008E55C2 /* Build configuration list for PBXAggregateTarget "Compile C Libs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B7C99B0085760BA008E55C2 /* Development */,
+				1B7C99B1085760BA008E55C2 /* Deployment */,
+				1B7C99B2085760BA008E55C2 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		1B7C99B3085760BA008E55C2 /* Build configuration list for PBXNativeTarget "TestXSLT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B7C99B4085760BA008E55C2 /* Development */,
+				1B7C99B5085760BA008E55C2 /* Deployment */,
+				1B7C99B6085760BA008E55C2 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		1B7C99B7085760BA008E55C2 /* Build configuration list for PBXNativeTarget "ragel-xmlscanner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B7C99B8085760BA008E55C2 /* Development */,
+				1B7C99B9085760BA008E55C2 /* Deployment */,
+				1B7C99BA085760BA008E55C2 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		1B7C99BB085760BA008E55C2 /* Build configuration list for PBXProject "TestXSLT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B7C99BC085760BA008E55C2 /* Development */,
+				1B7C99BD085760BA008E55C2 /* Deployment */,
+				1B7C99BE085760BA008E55C2 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+}

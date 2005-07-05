@@ -24,11 +24,11 @@
                 saveXslt = id; 
                 saveXsltAs = id; 
                 selectTab = id; 
-                setProcessorType = id; 
                 showErrorLocation = id; 
                 showFindPanel = id; 
                 showInBrowser = id; 
                 showJumpToLinePanel = id; 
+                switchProcessor = id; 
                 useSelectionForFind = id; 
             }; 
             CLASS = MyDocument; 
@@ -48,7 +48,7 @@
                 processButton = NSButton; 
                 processingTimeField = NSTextField; 
                 processorTypePopUp = NSPopUpButton; 
-                resultImageView = NSImageView; 
+                resultPDFView = PDFView; 
                 resultTabView = NSTabView; 
                 resultView = NSTextView; 
                 resultWebView = WebView; 

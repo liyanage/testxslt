@@ -21,20 +21,20 @@
 	int stackresult;
 	int tagpositions[STACKDEPTH];
 	XML_Parser parser;
-	BOOL error;
+	BOOL hasError;
 	int errorLine, errorColumn;
 	NSString *errorString;
 	NSUserDefaults *defaults;
+	NSString *tagStack;
 	
 }
 
--(BOOL)hasError;
 -(void)clearError;
 -(void)flashRange:(NSRange)range;
 -(BOOL)completeAfterSlash;
 -(void)selectLineByNumber:(int)line;
--(NSString *)calculateTagStack;
--(NSString *)calculateTagStackAtLocation:(int)location;
+-(void)calculateTagStack;
+-(void)calculateTagStackAtLocation:(int)location;
 -(BOOL)checkWellFormed;
 -(void)setError:(NSString *)errstring atLine:(int)line atColumn:(int)column;
 -(void)clearError;

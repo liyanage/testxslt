@@ -8,40 +8,62 @@
 // $Id$
 
 #import "MyDocument.h"
-#import "Workset.h"
-#import <Foundation/NSDebug.h>
 
 
 
 @implementation MyDocument
 
++ (void)initialize {
+	[MyDocument setKeys:[NSArray arrayWithObject:@"xmlDirty"] triggerChangeNotificationsForDependentKey:@"canSaveXmlNow"];
+	[MyDocument setKeys:[NSArray arrayWithObject:@"xsltDirty"] triggerChangeNotificationsForDependentKey:@"canSaveXsltNow"];
+	[MyDocument setKeys:[NSArray arrayWithObject:@"resultDirty"] triggerChangeNotificationsForDependentKey:@"canSaveResultNow"];
+}
+
+
 - (id)init {
 
-//	NSZombieEnabled = YES;
-	
 	if (self = [super init]) {
 		workset = [[Workset alloc] init];
 		processor = [XSLTProcessorFactory makeProcessorOfType:PROCESSORTYPE_SABLOTRON];
 		wellFormedParser = [[XMLParserLibxml alloc] init];
-		xmlDirty = NO;
-		xsltDirty = NO;
+		[self setValue:[NSNumber numberWithBool:NO] forKey:@"xmlDirty"];
+		[self setValue:[NSNumber numberWithBool:NO] forKey:@"xsltDirty"];
+		[self setValue:[NSNumber numberWithBool:NO] forKey:@"resultDirty"];
+		[self setValue:@"" forKey:@"messageLog"];
 	}
 
 	defaults = [NSUserDefaults standardUserDefaults];
-	
+
+	[self setValue:[NSNumber numberWithInt:2] forKey:@"processorType"];
+
 	return self;
 }
 
 - (void)dealloc {
 
-	[uiUpdateTimer invalidate];
-	[uiUpdateTimer release];
+//	NSLog(@"doc dealloc");
+
 	[workset release];
 	[processor release];
 	[wellFormedParser release];
 	[findPanelController release];
 	[jumpToLinePanelController release];
 	[unsavedChangesPanelController release];
+	[messageLog release];
+	[super dealloc];
+
+}
+
+
+
+
+- (void)windowWillClose:(NSNotification *)aNotification {
+
+	[uiUpdateTimer invalidate];
+	[uiUpdateTimer release];
+	uiUpdateTimer = nil;
+
+//	NSLog(@"windowwillclose");
 
 }
 
@@ -113,13 +135,19 @@
 
 - (void)uiUpdateTimerTarget:(NSTimer *)timer {
 
-	[self doUpdateUI];
+//	NSLog(@"timer target");
+
 	[timer release];
 	uiUpdateTimer = nil;
+	[self doUpdateUI];
+
 }
 
 
+
 - (void)doUpdateUI {
+
+//	NSLog(@"keypath test: %@", [self valueForKeyPath:@"xmlView.hasError"]);
 
 	NSString *activeTabIdentifier = [[tabView selectedTabViewItem] identifier];
 	NSString *activeResultTabIdentifier = [[resultTabView selectedTabViewItem] identifier];
@@ -135,42 +163,28 @@
 //	NSLog(@"xml: %d, xslt: %d, param: %d, result: %d, reshtml: %d, resxslfo: %d, restext: %d", xmlTabIsVisible, xsltTabIsVisible, paramTabIsVisible, resultTabIsVisible, resultTabHtmlIsVisible, resultTabXslfoIsVisible, resultTabTextIsVisible);
 	
 	if (xmlTabIsVisible) {
-		[saveXmlFilenameField setObjectValue:[workset xmlFilename]];
-		[saveXmlFilenameField setToolTip:[workset xmlFilename]];
-		[saveXmlButton setEnabled:[self canSaveXmlNow]];
-		[saveXmlAsButton setEnabled:[self canSaveXmlAsNow]];
-		[xmlTagStackField setStringValue:[xmlView calculateTagStack]];
+		[xmlView calculateTagStack];
 
 		if ([defaults boolForKey:@"enableWellformedCheck"]) {
 			[xmlView checkWellFormed];
-			if ([workset hasXmlCode] && [xmlView hasError]) {
-				[xmlWellFormedIcon setImage:warningIcon];
-				[xmlWellFormedIcon setToolTip:[xmlView valueForKey:@"errorString"]];
-				[self setValue:[xmlView valueForKey:@"errorString"] forKey:@"drawerMessage"];
+			if ([workset hasXmlCode] && [xmlView valueForKey:@"hasError"]) {
+//				[self setValue:[xmlView valueForKey:@"errorString"] forKey:@"drawerMessage"];
+				[self logMessage:[xmlView valueForKey:@"errorString"]];
 			} else {
-				[xmlWellFormedIcon setImage:nil];
-				[xmlWellFormedIcon setToolTip:nil];
-				[self setValue:nil forKey:@"drawerMessage"];
+				[self clearMessageLog];
+//				[self setValue:nil forKey:@"drawerMessage"];
 			}
 		}
 
 	} else if (xsltTabIsVisible) {
-		[saveXsltFilenameField setObjectValue:[workset xsltFilename]];
-		[saveXsltFilenameField setToolTip:[workset xsltFilename]];
-		[saveXsltButton setEnabled:[self canSaveXsltNow]];
-		[saveXsltAsButton setEnabled:[self canSaveXsltAsNow]];
-		[xsltTagStackField setStringValue:[xsltView calculateTagStack]];
+		[xsltView calculateTagStack];
 
 		if ([defaults boolForKey:@"enableWellformedCheck"]) {
 			[xsltView checkWellFormed];
-			if ([workset hasXsltCode] && [xsltView hasError]) {
-				[xsltWellFormedIcon setImage:warningIcon];
-				[xsltWellFormedIcon setToolTip:[xsltView valueForKey:@"errorString"]];
-				[self setValue:[xsltView valueForKey:@"errorString"] forKey:@"drawerMessage"];
+			if ([workset hasXsltCode] && [xsltView valueForKey:@"hasError"]) {
+//				[self setValue:[xsltView valueForKey:@"errorString"] forKey:@"drawerMessage"];
 			} else {
-				[xsltWellFormedIcon setImage:nil];
-				[xsltWellFormedIcon setToolTip:nil];
-				[self setValue:nil forKey:@"drawerMessage"];
+//				[self setValue:nil forKey:@"drawerMessage"];
 			}
 		}
 		
@@ -178,24 +192,18 @@
 		[paramRemoveButton setEnabled:[parameterTable selectedRow] != -1];
 		[parameterTable reloadData];
 	} else if (resultTabIsVisible) {
-		[saveResultAsButton setEnabled:[self canSaveResultAsNow]];
-		[saveResultButton setEnabled:[self canSaveResultNow]];
-		[autoSaveCheckbox setEnabled:[workset hasResultFilename]];
-		[openResultURLButton setEnabled:[workset hasResultFilename]];
 		[autoShowCheckbox setEnabled:[openResultURLButton isEnabled]];
-		[saveResultFilenameField setObjectValue:[workset resultFilename]];
-		[saveResultFilenameField setToolTip:[workset resultFilename]];
 
 		if (resultTabHtmlIsVisible) {
 			[self resizeWebView];
 			[self updateResultWebView];
 		} else if (resultTabXslfoIsVisible) {
-			[self updateResultImageView];
+			[self updateResultPDFView];
 			[pdfCurrentPageField setIntValue: (pdfPageCount ? (pdfCurrentPage + 1) : 0)];
 			[pdfPageCountField setIntValue:pdfPageCount];
 			
-			[pdfPreviousPageButton setEnabled:pdfCurrentPage > 0];
-			[pdfNextPageButton setEnabled:pdfCurrentPage < (pdfPageCount - 1)];
+//			[pdfPreviousPageButton setEnabled:pdfCurrentPage > 0];
+//			[pdfNextPageButton setEnabled:pdfCurrentPage < (pdfPageCount - 1)];
 			[pdfSaveAsButton setEnabled:(pdfPageCount > 0)];
 //		} else if (resultTabTextIsVisible) {
 			
@@ -207,37 +215,29 @@
 	
 	// move this to xmlview.
 //	[self updateWellFormedIcons];
-	
 
-	
-	[resultView setString:[workset stringResult]];
-	
 }
 
 
 - (void)updateResultWebView {
 	if (!webViewUpToDate) {
 		WebFrame *mainFrame = [resultWebView mainFrame];
-//		[mainFrame loadHTMLString:[workset stringResult] baseURL:nil];
 		[mainFrame loadHTMLString:[workset stringResult] baseURL:[NSURL URLWithString:[webViewBaseURL stringValue]]];
-//		[mainFrame loadHTMLString:[workset stringResult] baseURL:[NSURL URLWithString:@"file:///Users/liyanage/Sites/primavera/images/x"]];
 		webViewUpToDate = YES;
 	}
 }
 
 
-- (void)updateResultImageView {
-	if (!imageViewUpToDate) {
+- (void)updateResultPDFView {
+	if (!PDFViewUpToDate) { // todo rename method name and instance variable
 		[self renderFo:self];
-		imageViewUpToDate = YES;
+		PDFViewUpToDate = YES;
 	}
 }
 
 
 - (BOOL)canProcessNow {
-
 	return [workset hasXmlCode] && [workset hasXsltCode];
-
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -290,11 +290,11 @@
 			
 		case 18:	// Save Current Pane As...
 			if (xmlTabIsVisible) {
-				return [self canSaveXmlAsNow];
+				return [workset hasXmlCode];
 			} else if (xsltTabIsVisible) {
-				return [self canSaveXsltAsNow];
+				return [workset hasXsltCode];
 			} else if (resultTabIsVisible) {
-				return [self canSaveResultAsNow];
+				return [workset hasResult];
 			}
 			break;
 			
@@ -317,8 +317,8 @@
 
 - (void)updateCompleteUI {
 
-	[xmlView setString:[workset xmlCode]];
-	[xsltView setString:[workset xsltCode]];
+	[xmlView setString:[workset valueForKey:@"xmlCode"]];
+	[xsltView setString:[workset valueForKey:@"xsltCode"]];
 	[self doUpdateUI];
 	
 }
@@ -328,11 +328,11 @@
 	id sender = [aNotification object];
 
 	if ([sender isEqual:xmlView]) {
-		[workset setXmlCode:[xmlView string]];
-		xmlDirty = YES;
+		[workset setValue:[xmlView string] forKey:@"xmlCode"];
+		[self setValue:[NSNumber numberWithBool:YES] forKey:@"xmlDirty"];
 	} else if ([sender isEqual:xsltView]) {
-		[workset setXsltCode:[xsltView string]];
-		xsltDirty = YES;
+		[workset setValue:[xsltView string] forKey:@"xsltCode"];
+		[self setValue:[NSNumber numberWithBool:YES] forKey:@"xsltDirty"];
 	}
 
 	[self updateChangeCount:NSChangeDone];
@@ -536,22 +536,20 @@
 
 
 
-
 - (IBAction)process:(id)sender {
 
-	
-	const char **params = [[workset parameterSet] cArray];
-	
+	const char **params = [[workset valueForKey:@"parameterSet"] cArray];
+
 	struct timeval tstart, tend;
 	gettimeofday(&tstart, NULL);
-	
+
 	long processingTime;
 
 	if ([workset hasXsltFilename]) {
-		[processor setBaseUri:[NSString stringWithFormat:@"file://%@", [workset xsltFilename]]];
+		[processor setBaseUri:[NSString stringWithFormat:@"file://%@", [workset valueForKey:@"xsltFilename"]]];
 	}
 
-	if (![processor processStrings:[XMLUtils getDataWithEncodingFromString:[workset xmlCode]] withXslt:[XMLUtils getDataWithEncodingFromString:[workset xsltCode]] andParameters:params]) {
+	if (![processor processStrings:[XMLUtils getDataWithEncodingFromString:[workset valueForKey:@"xmlCode"]] withXslt:[XMLUtils getDataWithEncodingFromString:[workset valueForKey:@"xsltCode"]] andParameters:params]) {
 
 		[self setValue:[NSString stringWithFormat:@"Error on line %d of your %@ code:\n%@", [processor errorLine], ([processor errorSource] == XSLT_ERROR_SOURCE_XML ? @"XML" : @"XSLT"), [processor errorMessage]] forKey:@"drawerMessage"];
 
@@ -565,9 +563,9 @@
 
 		processingTime = ((tend.tv_sec * 1000000 + tend.tv_usec) - (tstart.tv_sec * 1000000 + tstart.tv_usec)) / 1000;
 		
-		[workset setResult:[processor result]];
+		[workset setValue:[processor result] forKey:@"result"];
 		[workset setResultEncoding:[processor resultEncoding]];
-		resultDirty = YES;
+		[self setValue:[NSNumber numberWithBool:YES] forKey:@"resultDirty"];
 		[self autoSave];
 //		[errorDrawer close];
 		[self selectTabById:RESULT];
@@ -575,7 +573,7 @@
 	}
 
 	webViewUpToDate = NO;
-	imageViewUpToDate = NO;
+	PDFViewUpToDate = NO;
 	
 	[self updateUI];
 }
@@ -598,6 +596,8 @@
 }
 
 
+
+
 - (IBAction)loadXml:(id)sender {
 
 	NSOpenPanel *panel = [NSOpenPanel openPanel];
@@ -606,14 +606,12 @@
 
 		//	NSLog(@"choosen: %@", [[panel filenames] objectAtIndex:0]);
 
-		[workset setXmlCode:[XMLUtils getStringWithEncodingFromFile:[[panel filenames] objectAtIndex:0]]];
-		[workset setXmlFilename:[[panel filenames] objectAtIndex:0]];
+		[workset setValue:[XMLUtils getStringWithEncodingFromFile:[[panel filenames] objectAtIndex:0]] forKey:@"xmlCode"];
+		[workset setValue:[[panel filenames] objectAtIndex:0] forKey:@"xmlFilename"];
 		[self updateChangeCount:NSChangeDone];
 		[self updateCompleteUI];
 	}
 }
-
-
 
 
 
@@ -625,8 +623,8 @@
 
 		//	NSLog(@"choosen: %@", [[panel filenames] objectAtIndex:0]);
 
-		[workset setXsltCode:[XMLUtils getStringWithEncodingFromFile:[[panel filenames] objectAtIndex:0]]];
-		[workset setXsltFilename:[[panel filenames] objectAtIndex:0]];
+		[workset setValue:[XMLUtils getStringWithEncodingFromFile:[[panel filenames] objectAtIndex:0]] forKey:@"xsltCode"];
+		[workset setValue:[[panel filenames] objectAtIndex:0] forKey:@"xsltFilename"];
 		[self updateChangeCount:NSChangeDone];
 		[self updateCompleteUI];
 
@@ -636,24 +634,12 @@
 
 
 
-- (BOOL)canSaveXmlAsNow {
-	return [workset hasXmlCode];
-}
-
 - (BOOL)canSaveXmlNow {
 	return [workset hasXmlFilename] && xmlDirty;
 }
 
-- (BOOL)canSaveXsltAsNow {
-	return [workset hasXsltCode];
-}
-
 - (BOOL)canSaveXsltNow {
 	return [workset hasXsltFilename] && xsltDirty;
-}
-
-- (BOOL)canSaveResultAsNow {
-	return [workset hasResult];
 }
 
 - (BOOL)canSaveResultNow {
@@ -669,7 +655,7 @@
 
 	if ([panel runModal] == NSFileHandlingPanelOKButton) {
 
-		[workset setXmlFilename:[panel filename]];
+		[workset setValue:[panel filename] forKey:@"xmlFilename"];
 		[self saveXml:nil];
 
 	}
@@ -682,7 +668,7 @@
 
 	if ([workset hasXmlFilename]) {
 		[workset saveXml];
-		xmlDirty = NO;
+		[self setValue:[NSNumber numberWithBool:NO] forKey:@"xmlDirty"];
 	}
 
 	[self updateUI];
@@ -695,7 +681,7 @@
 
 	if ([panel runModal] == NSFileHandlingPanelOKButton) {
 
-		[workset setXsltFilename:[panel filename]];
+		[workset setValue:[panel filename] forKey:@"xsltFilename"];
 		[self saveXslt:nil];
 
 	}
@@ -707,7 +693,7 @@
 
 	if ([workset hasXsltFilename]) {
 		[workset saveXslt];
-		xsltDirty = NO;
+		[self setValue:[NSNumber numberWithBool:NO] forKey:@"xsltDirty"];
 	}
 
 	[self updateUI];
@@ -721,7 +707,7 @@
 
 	if ([panel runModal] == NSFileHandlingPanelOKButton) {
 
-		[workset setResultFilename:[panel filename]];
+		[workset setValue:[panel filename] forKey:@"resultFilename"];
 
 		[self saveResult:nil];
 		
@@ -730,13 +716,8 @@
 
 - (IBAction)saveResult:(id)sender {
 
-	if ([workset hasResultFilename]) {
-
-		[[workset result] writeToFile:[workset resultFilename] atomically:NO];
-		resultDirty = NO;
-
-	}
-
+	[workset saveResult];
+	[self setValue:[NSNumber numberWithBool:NO] forKey:@"resultDirty"];
 	[self updateUI];
 	[self autoShow];
 	
@@ -793,7 +774,7 @@
 	
 	if ([workset hasResultFilename]) {
 
-		[[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:[workset resultFilename]]];
+		[[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:[workset valueForKey:@"resultFilename"]]];
 
 	}
 }
@@ -801,7 +782,7 @@
 
 - (IBAction)newParameter:(id)sender {
 
-	[[workset parameterSet] addParameter:@"name" withValue:@"value"];
+	[[workset valueForKey:@"parameterSet"] addParameter:@"name" withValue:@"value"];
 	[self doUpdateUI];
 	
 }
@@ -811,7 +792,7 @@
 	int row = [parameterTable selectedRow];
 
 	if (row != -1) {
-		[[workset parameterSet] removeParameterAtIndex:row];
+		[[workset valueForKey:@"parameterSet"] removeParameterAtIndex:row];
 		[self doUpdateUI];
 	} else {
 		NSBeep();
@@ -820,14 +801,14 @@
 }
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView {
-	return [[workset parameterSet] count];
+	return [(ParameterSet *)[workset valueForKey:@"parameterSet"] count];
 }
 
 - (id)tableView:(NSTableView *)aTableView
 objectValueForTableColumn:(NSTableColumn *)aTableColumn
 					 row:(int)rowIndex {
 
-	return [[workset parameterSet] getField:[aTableColumn identifier] atIndex:rowIndex];
+	return [[workset valueForKey:@"parameterSet"] getField:[aTableColumn identifier] atIndex:rowIndex];
 }
 
 
@@ -837,12 +818,12 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
    forTableColumn:(NSTableColumn *)aTableColumn
 			  row:(int)rowIndex {
 
-	[[workset parameterSet] setField:[aTableColumn identifier] atIndex:rowIndex toString:anObject];
+	[[workset valueForKey:@"parameterSet"] setField:[aTableColumn identifier] atIndex:rowIndex toString:anObject];
 }
 
 
 
-
+/*
 - (IBAction)setProcessorType:(id)sender {
 
 	int newType = [sender tag];
@@ -854,7 +835,14 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	[self switchProcessorToType:newType updateUI:NO];
 
 }
+*/
 
+- (IBAction)switchProcessor:(id)sender {
+// sender -> selected item?
+//	[self setValue:[NSNumber numberWithInt:[[sender selectedItem] tag]] forKey:@"processorType"];
+	[self switchProcessorToType:[[sender selectedItem] tag] updateUI:YES];
+
+}
 
 - (IBAction)switchProcessorToType:(int)newType updateUI:(BOOL)updateUI {
 
@@ -866,13 +854,12 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 		NSLog(@"Unable to create new processor of type '%d'", newType);
 	}
 
-	[processor release];
-	processor = newProcessor;
-
+	[self setValue:newProcessor forKey:@"processor"];
+	[self setValue:[NSNumber numberWithInt:newType] forKey:@"processorType"];
+	
 	if (updateUI) {
 		[processorTypePopUp selectItemAtIndex:[processorTypePopUp indexOfItemWithTag:newType]];
 	}
-
 
 }
 
@@ -898,7 +885,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 	if (file != nil) {
 
-		[workset setResultFilename:file];
+		[workset setValue:file forKey:@"resultFilename"];
 
 		[self saveResult:nil];
 	}
@@ -913,9 +900,9 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
     NSString *paramName = [args objectForKey:@"Name"];
     NSString *paramValue = [args objectForKey:@"Value"];
 
-	[[workset parameterSet] removeParameterByName:paramName];
+	[[workset valueForKey:@"parameterSet"] removeParameterByName:paramName];
 	
-	[[workset parameterSet] addParameter:paramName withValue:paramValue];
+	[[workset valueForKey:@"parameterSet"] addParameter:paramName withValue:paramValue];
 	[self doUpdateUI];
 
 	return nil;
@@ -927,7 +914,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	NSDictionary *args = [command evaluatedArguments];
     NSString *paramName = [args objectForKey:@"Name"];
 
-	[[workset parameterSet] removeParameterByName:paramName];
+	[[workset valueForKey:@"parameterSet"] removeParameterByName:paramName];
 	return nil;
 	
 }
@@ -935,21 +922,21 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 - (id)handleSetProcessorTypeScriptCommand:(NSScriptCommand *)command {
 
 	NSDictionary *args = [command evaluatedArguments];
-    NSString *processorType = [args objectForKey:@"Name"];
+    NSString *processorTypeString = [args objectForKey:@"Name"];
 	
-	if ([processorType caseInsensitiveCompare:@"libxslt"] == NSOrderedSame) {
+	if ([processorTypeString caseInsensitiveCompare:@"libxslt"] == NSOrderedSame) {
 
 		[self switchProcessorToType:PROCESSORTYPE_LIBXSLT updateUI:YES];
 
-	} else if ([processorType caseInsensitiveCompare:@"sablotron"] == NSOrderedSame) {
+	} else if ([processorTypeString caseInsensitiveCompare:@"sablotron"] == NSOrderedSame) {
 
 		[self switchProcessorToType:PROCESSORTYPE_SABLOTRON updateUI:YES];
 
-	} else if ([processorType caseInsensitiveCompare:@"saxon"] == NSOrderedSame) {
+	} else if ([processorTypeString caseInsensitiveCompare:@"saxon"] == NSOrderedSame) {
 
 		[self switchProcessorToType:PROCESSORTYPE_SAXON updateUI:YES];
 
-	} else if ([processorType caseInsensitiveCompare:@"xalan-j"] == NSOrderedSame) {
+	} else if ([processorTypeString caseInsensitiveCompare:@"xalan-j"] == NSOrderedSame) {
 		
 		[self switchProcessorToType:PROCESSORTYPE_XALAN_J updateUI:YES];
 		
@@ -969,12 +956,12 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	if ([sender isEqual: xmlView]) {
 
 		[self setXmlcode:fileContents];
-		[workset setXmlFilename:filename];
+		[workset setValue:filename forKey:@"xmlFilename"];
 		
 	} else if ([sender isEqual:xsltView]) {
 
 		[self setXsltcode:fileContents];
-		[workset setXsltFilename:filename];
+		[workset setValue:filename forKey:@"xsltFilename"];
 		
 	} else {
 
@@ -988,10 +975,18 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 }
 
 
+- (void)logMessage:(NSString *)string {
+	[self setValue:[NSString stringWithFormat:@"%@\n---\n%@", string, messageLog] forKey:@"messageLog"];
+}
+
+- (void)clearMessageLog {
+	[self setValue:@"" forKey:@"messageLog"];
+}
+
 
 
 - (NSString *)xmlcode {
-	return [workset xmlCode];
+	return [workset valueForKey:@"xmlCode"];
 }
 
 - (void)setXmlcode:(NSString *)s {
@@ -1002,14 +997,14 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 								   selector:@selector(setXmlcode:)
 									 object:currentContents];
 
-	[workset setXmlCode:s];
+	[workset setValue:s forKey:@"xmlCode"];
 	[self updateCompleteUI];
 }
 
 
 
 - (NSString *)xsltcode {
-	return [workset xsltCode];
+	return [workset valueForKey:@"xsltCode"];
 }
 
 - (void)setXsltcode:(NSString *)s {
@@ -1020,7 +1015,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 									  selector:@selector(setXsltcode:)
 									    object:currentContents];
 
-	[workset setXsltCode:s];
+	[workset setValue:s forKey:@"xsltCode"];
 	[self updateCompleteUI];
 }
 
@@ -1050,17 +1045,17 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	}
 
 	if ([workset xmlModifiedExternally] && !(xmlDirty && keep)) {
-			[workset reloadXmlFromFile];
-			[self updateChangeCount:NSChangeDone];
-			[self updateCompleteUI];
-			xmlDirty = NO;
+		[workset reloadXmlFromFile];
+		[self updateChangeCount:NSChangeDone];
+		[self updateCompleteUI];
+		[self setValue:[NSNumber numberWithBool:NO] forKey:@"xmlDirty"];
 	}
 
 	if ([workset xsltModifiedExternally] && !(xsltDirty && keep)) {
-			[workset reloadXsltFromFile];
-			[self updateChangeCount:NSChangeDone];
-			[self updateCompleteUI];
-			xsltDirty = NO;
+		[workset reloadXsltFromFile];
+		[self updateChangeCount:NSChangeDone];
+		[self updateCompleteUI];
+		[self setValue:[NSNumber numberWithBool:NO] forKey:@"xsltDirty"];
 	}
 
 	[self updateUI];
@@ -1089,7 +1084,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	XSL_FO_Renderer *xfr = [[[XSL_FO_Renderer alloc] init] autorelease];
-	xslfoRendererResultData = [xfr render:[workset result]];
+	xslfoRendererResultData = [xfr render:[workset valueForKey:@"result"]];
 
 	[pool release];
 	[xslfoRendererLock unlockWithCondition:2];
@@ -1109,52 +1104,19 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 		return;
 	}
 	
-	[xslfoRendererResultData retain];
-	[pdfData release];
-	pdfData = xslfoRendererResultData;
-	
-	NSImage *pdfImage = [[[NSImage alloc] initWithData:xslfoRendererResultData] autorelease];
-	[pdfImage setBackgroundColor:[NSColor whiteColor]];
-	[pdfImage recache];
-	[pdfImage setCacheMode:NSImageCacheNever];
-	
-	NSClipView *clipView = (NSClipView *)[resultImageView superview];
-	NSScrollView *scrollView = (NSScrollView *)[clipView superview];
-	
-	[resultImageView setImage:pdfImage];
-	[resultImageView setFrameSize:[pdfImage size]];
-	[resultImageView display];
+	[self setValue:xslfoRendererResultData forKey:@"pdfData"];
 
-	[clipView scrollToPoint:NSMakePoint([resultImageView frame].origin.x, [resultImageView frame].size.height - [clipView frame].size.height + [resultImageView frame].origin.y)];
-	[scrollView reflectScrolledClipView:clipView];
-	
-	pdfPageCount = [[[pdfImage representations] objectAtIndex:0] pageCount];
-	pdfCurrentPage = 0;
+// todo fixe these
+//	pdfPageCount = [[[pdfImage representations] objectAtIndex:0] pageCount];
+//	pdfCurrentPage = 0;
+
+	PDFDocument *doc = [[[PDFDocument alloc] initWithData:xslfoRendererResultData] autorelease];
+	[resultPDFView setDocument:doc];
+	NSLog(@"pdfview %@", resultPDFView);
 		
 }
 
 
-- (IBAction)pdfPreviousPage:(id)sender {
-	
-	if (pdfCurrentPage > 0) {
-		pdfCurrentPage--;
-		[[[[resultImageView image] representations] objectAtIndex:0] setCurrentPage:pdfCurrentPage];
-		[resultImageView setNeedsDisplay:YES];
-		[self doUpdateUI];
-	}
-	
-}
-
-- (IBAction)pdfNextPage:(id)sender {
-	
-	if (pdfCurrentPage < (pdfPageCount - 1)) {
-		pdfCurrentPage++;
-		[[[[resultImageView image] representations] objectAtIndex:0] setCurrentPage:pdfCurrentPage];
-		[resultImageView setNeedsDisplay:YES];
-		[self doUpdateUI];
-	}
-	
-}
 
 
 - (IBAction)pdfSaveAs:(id)sender {
@@ -1202,19 +1164,17 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
     return @"MyDocument";
 }
 
-- (void)windowControllerDidLoadNib:(NSWindowController *) aController
-{
 
-	
-		
+//- (void)awakeFromNib {
+//	NSLog(@"awake %@", [self valueForKey:@"processorType"]);
+//	[self switchProcessorToType:2 updateUI:YES];
+//}
+
+- (void)windowControllerDidLoadNib:(NSWindowController *) aController {
+
 	NSSize errorDrawerSize;
 
 	[super windowControllerDidLoadNib:aController];
-
-	[resultImageView setImageFrameStyle:NSImageFramePhoto];
-	[resultImageView setImageScaling:NSScaleNone];
-	[resultImageView setImageAlignment:NSImageAlignCenter];
-	[resultImageView setEditable:NO];
 	
 	[resultWebView setTextSizeMultiplier:0.9];
 	
@@ -1230,8 +1190,6 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	[resultView setFont:computerFont];
 
 	[tabView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-
-	
 	
 	if (findPanelController == nil) {
 		findPanelController = [[FindPanelController alloc] initWithWindowNibName:@"FindPanel"];
@@ -1247,7 +1205,13 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 		unsavedChangesPanelController = [[UnsavedChangesPanelController alloc] initWithWindowNibName:@"UnsavedChanges"];
 //		NSLog(@"init unsaved changes panel controller: %@", unsavedChangesPanelController);
 	}
-	
+
+//	[self switchProcessorToType:2 updateUI:YES];
+
+//	[processorTypePopUp selectItemAtIndex:[processorTypePopUp indexOfItemWithTag:[[self valueForKey:@"processorType"] intValue]]];
+
+	[self switchProcessorToType:[[self valueForKey:@"processorType"] intValue] updateUI:YES];
+
 }
 
 
@@ -1283,21 +1247,33 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 }
 
 
-- (NSData *)dataRepresentationOfType:(NSString *)aType
-{
-    // Insert code here to write your document from the given data.  You can also choose to override -fileWrapperRepresentationOfType: or -writeToFile:ofType: instead.
-	return [NSArchiver archivedDataWithRootObject:workset];
+- (NSData *)dataRepresentationOfType:(NSString *)aType {
+	NSMutableData *data = [[[NSMutableData alloc] init] autorelease];
+	NSKeyedArchiver *archiver = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+	[archiver setOutputFormat:NSPropertyListXMLFormat_v1_0];
+	[archiver encodeObject:workset forKey:@"workset"];
+	[archiver encodeInt:[processor processorType] forKey:@"processorType"];
+	[archiver finishEncoding];
+	return data;
 }
 
-- (BOOL)loadDataRepresentation:(NSData *)data ofType:(NSString *)aType
-{
-    // Insert code here to read your document from the given data.  You can also choose to override -loadFileWrapperRepresentation:ofType: or -readFromFile:ofType: instead.
 
-	[workset release];
-	workset = [[NSUnarchiver unarchiveObjectWithData:data] retain];
-	[self updateCompleteUI];
+- (BOOL)loadDataRepresentation:(NSData *)data ofType:(NSString *)aType {
 
-	return YES;
+	NSKeyedUnarchiver *unarchiver = [[[NSKeyedUnarchiver alloc] initForReadingWithData:data] autorelease];
+	
+	[self setValue:[unarchiver decodeObjectForKey:@"workset"] forKey:@"workset"];
+
+	int docProcessorType = [unarchiver decodeIntForKey:@"processorType"];
+
+	if (docProcessorType) {
+		[self setValue:[NSNumber numberWithInt:docProcessorType] forKey:@"processorType"];
+	}
+
+	[unarchiver finishDecoding];
+    return YES;
 }
+
+
 
 @end

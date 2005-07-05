@@ -8,12 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface ParameterSet : NSObject <NSCoding> {
-
 	NSMutableArray *parameters;
 	const char **cArray;
-
 }
 
 - (void)addParameter:(NSString *)name withValue:(NSString *)value;

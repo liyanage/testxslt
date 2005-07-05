@@ -37,7 +37,13 @@
 	if (resultstack)
 		free(resultstack);
 	[errorString release];
+	[tagStack release];
+	[super dealloc];
+
 }
+
+
+
 
 -(void)selectLineByNumber:(int)line {
 
@@ -173,13 +179,13 @@
 	
 }
 
--(NSString *)calculateTagStack {
 
-	return [self calculateTagStackAtLocation:[self selectedRange].location];
-	
+- (void)calculateTagStack {
+	[self calculateTagStackAtLocation:[self selectedRange].location];
 }
 
--(BOOL)checkWellFormed {
+
+- (BOOL)checkWellFormed {
 
 	int result;
 	NSData *data = [XMLUtils getDataWithEncodingFromString:[self string]];
@@ -195,7 +201,7 @@
 
 	if (!result) {
 		[self setError:[NSString stringWithFormat:@"%s, line %d, column %d", XML_ErrorString(XML_GetErrorCode(parser)), XML_GetCurrentLineNumber(parser), XML_GetCurrentColumnNumber(parser)] atLine:XML_GetCurrentLineNumber(parser) atColumn:XML_GetCurrentColumnNumber(parser)];
-	} else if (error) {
+	} else if (hasError) {
 		[self clearError];
 	}
 	
@@ -205,39 +211,25 @@
 }
 
 
-
--(void)clearError {
-	
+- (void)clearError {
 	errorLine = errorColumn = 0;
-	error = NO;
+	[self setValue:[NSNumber numberWithBool:NO] forKey:@"hasError"];
 	[errorString release];
 	errorString = @"";
-	
-}
-
--(BOOL)hasError {
-	
-	return error;
-	
-}
--(void)setError:(NSString *)errstring atLine:(int)line atColumn:(int)column {
-	
-	errorLine = line;
-	errorColumn = column;
-	error = YES;
-	[errstring retain];
-	[errorString release];
-	errorString = errstring;
-	
 }
 
 
 
+- (void)setError:(NSString *)errstring atLine:(int)line atColumn:(int)column {
+	[self setValue:[NSNumber numberWithInt:line] forKey:@"errorLine"];
+	[self setValue:[NSNumber numberWithInt:column] forKey:@"errorColumn"];
+	[self setValue:[NSNumber numberWithBool:YES] forKey:@"hasError"];
+	[self setValue:errstring forKey:@"errorString"];	
+}
 
 
 
-
--(NSString *)calculateTagStackAtLocation:(int)location {
+- (void)calculateTagStackAtLocation:(int)location {
 
 	const char *buffer;
 	int i;
@@ -245,7 +237,7 @@
 	NSMutableString *mystack;
 
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"enableSyntaxAnalysis"]) {
-		return @"";
+		return;
 	}
 	
 	buffer = [[self string] lossyCString];
@@ -297,8 +289,7 @@
 			break;
 	}
 	
-	
-	return mystack;
+	[self setValue:mystack forKey:@"tagStack"];
 	
 }
 

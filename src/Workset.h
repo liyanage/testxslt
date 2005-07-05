@@ -23,6 +23,7 @@
 	NSData *result;
 	ParameterSet *parameterSet;
 	NSStringEncoding resultEncoding;
+
 }
 
 
@@ -31,27 +32,13 @@
 
 - (NSString *)stringResult;
 
-- (NSString *)xmlCode;
-- (void)setXmlCode:(NSString *)s;
-- (NSString *)xsltCode;
-- (void)setXsltCode:(NSString *)s;
-- (NSData *)result;
-- (void)setResult:(NSData *)s;
-- (ParameterSet *)parameterSet;
-- (void)setParameterSet:(ParameterSet *)parameterSet;
-
-- (NSString *)xmlFilename;
-- (void)setXmlFilename:(NSString *)s;
 - (BOOL)hasXmlFilename;
-- (NSString *)xsltFilename;
-- (void)setXsltFilename:(NSString *)s;
 - (BOOL)hasXsltFilename;
-- (NSString *)resultFilename;
-- (void)setResultFilename:(NSString *)s;
 - (BOOL)hasResultFilename;
 
 - (BOOL)saveXml;
 - (BOOL)saveXslt;
+- (void)saveResult;
 - (void)updateXmlFileModificationDate;
 - (void)updateXsltFileModificationDate;
 - (void)reloadXmlFromFile;
@@ -59,10 +46,11 @@
 - (BOOL)xmlModifiedExternally;
 - (BOOL)xsltModifiedExternally;
 
-
 - (BOOL)hasXmlCode;
 - (BOOL)hasXsltCode;
 - (BOOL)hasResult;
 - (BOOL)hasParameters;
+
+- (NSArray *)coderKeys;
 
 @end

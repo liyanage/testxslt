@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <!-- $Id$ -->
 
@@ -35,10 +35,20 @@ Mac OS X 10.3. and Safari 1.0 must be installed on your system.
 <history>
 
 <entry>
+	<version>3.3</version>
+	<date>? ? ?</date>
+	<item>Now using Apple’s PDFKit to render XSL-FO PDF result documents.</item>
+</entry>
+
+<entry>
 	<version>3.2</version>
 	<date>24-FEB-2005</date>
+	<item>NOTE: The file format HAS CHANGED! You will NOT be able to read your old .work files saved with previous versions, therefore it is suggested that you save out your XML and XSLT code into separate files in an older version like 3.1 before using this version.
+	This should be the last time the file format changes. This one-time break will allow for much more robust file handling in the future (for the curious: the change is from NSArchiver to NSKeyedArchiver).</item>
+	<item>The new document file format now remembers the processor type selection.</item>
 	<item>Updated libxml2, libxslt, libexpat and Sablotron Libraries to the most recent versions.</item>
 	<item>Changed the way these libraries are included in the project, which removes tons of unused files from the distribution.</item>
+	<item>Improved the default XSLT code, the one in version 3.1 produced not output at all.</item>
 </entry>
 
 <entry>
@@ -73,7 +83,7 @@ Mac OS X 10.3. and Safari 1.0 must be installed on your system.
 	<item>The highlight of this release is a new tag scanner, resulting in much smarter tag completion, and a list of the currently open tags at the top of the editor window. Check it out...</item>
 	<item>Reworked the GUI update code, thus improving the general responsiveness and performance of the application.</item>
 	<item>Major internal cleanup regarding encodings. If a dropped/opened file has an XML declaration with encoding information, that will be used, both when reading and when saving out to the file again. Make sure you activate the corresponding option in BBEdit too. If no such declaration exists, the platform default will be used (i.e. Macintosh encoding). Also, the encoding of the result of the transformation is currently assumed to be what's declared in the declaration of the XSLT code. This means you cannot use a different encoding in the xsl:output element.</item>
-	<item>The fixed encoding issues also mean that xsl:include directives referring to file names with non-ascii characters work now, e.g. &lt;xsl:include href="g�hn.xsl"/&gt;.</item>
+	<item>The fixed encoding issues also mean that xsl:include directives referring to file names with non-ascii characters work now, e.g. &lt;xsl:include href="gähn.xsl"/&gt;.</item>
 	<item>Added a new XSLT example, the first one to produce XSL-FO. It converts the readme.xml file to XSL-FO / PDF, so there are now three output formats for the readme.xml file: HTML, XSL-FO / PDF and RTF. As always, this is intended to get you started with learning XSLT and in this case also XSL-FO. An excellent introduction to the FO part is available at <url>http://www.ibiblio.org/xml/books/bible2/chapters/ch18.html</url></item>
 	<item>Fixed a bug which would prevent XSL-FO / PDF rendering to hang the application if images were used in the document.</item>
 

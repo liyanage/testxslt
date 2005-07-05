@@ -4,6 +4,10 @@ todo testxslt
 - pdf view window vert. scrollbar start at top
 - if result was saved, use that dir or that path as base url for the WebKit call
 
+# http://www.entropy.ch/phpbb2/viewtopic.php?t=1144
+# http://www.entropy.ch/phpbb2/viewtopic.php?t=1808
+
+
 
 - line numbers
 
